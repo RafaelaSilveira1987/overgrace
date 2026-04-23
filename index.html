@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Over Grace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Topbar   -->
+    <div class="topbar">
+        Frete grátis acima de R$ 299 - Parcele em até 6x
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <nav class="header-left">
+                
+                <a href="#">Loja</a>
+                <a href="#">Coleções</a>
+                <a href="">Sobre</a>
+                
+            </nav>
+
+            <a href="#" class="logo">OverGrace</a>
+
+            <div class="header-right">
+                <a href="#">Entrar</a>
+                <button class="cart-btn" onclick="toggleCart()">Carrinho
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-text">
+            <p class="hero-eyebrow">NOVA COLEÇÃO</p>
+
+            <h1 class="hero-title">Descubra o 
+                <em>melhor</em> da moda Oversize</h1>
+            
+            <p class="hero-desc">Camisas masculinas e femininas que combinam estilo e conforto para todas as ocasiões.</p>
+            
+            <a href="#" class="btn-outline">Ver Coleção <span class="arrow">→</span></a>
+            
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1704271986500-86847b9a8e95?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Modelo oversize"/>
+       
+            <div class="hero-image-badge">
+                Coleção 2026
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-section" aria-hidden="true">
+        <div class="marquee-track">
+            <span class="marquee-item">Camisas</span>
+            <span class="marquee-item marquee-dot">✦</span>
+            <span class="marquee-item">Bonés</span>
+            <span class="marquee-item marquee-dot">✦</span>
+            <span class="marquee-item">Masculino</span>
+            <span class="marquee-item marquee-dot">✦</span>
+            <span class="marquee-item">Feminino</span>
+            <span class="marquee-item marquee-dot">✦</span>
+            <span class="marquee-item">Algodão Premium</span>
+            <span class="marquee-item marquee-dot">✦</span>
+            <span class="marquee-item">Edição Limitada</span>
+            <span class="marquee-item marquee-dot">✦</span>
+            <span class="marquee-item">Entrega Rápida</span>
+            <span class="marquee-item marquee-dot">✦</span>
+        </div>
+    </div>
+
+    <!-- Categorias -->
+
+    <section class="section" id="categorias">
+        <div class="section-header">
+            <h2 class="section-title">Categorias</h2>
+            <a href="#" class="section-link">Ver tudo ►</a>
+        </div>
+        <div class="categories-grid">
+            <a href="#" class="category-card">
+                <img src="https://plus.unsplash.com/premium_photo-1687294575545-44fcc8761b6b?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Camisas"/>
+
+                <div class="category-overlay">
+                    <p class="category-label">Explorar</p>
+                    <h3 class="category-name">Camisas Masculinas</h3>
+                </div>
+            </a>
+
+            <a href="#" class="category-card">
+                <img src="https://images.unsplash.com/photo-1622445275576-721325763afe?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Camisas"/>
+
+                <div class="category-overlay">
+                    <p class="category-label">Explorar</p>
+                    <h3 class="category-name">Bonés</h3>
+                </div>
+            </a>
+
+            <a href="#" class="category-card">
+                <img src="https://images.unsplash.com/photo-1623256756641-353a71c9ed88?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Camisas"/>
+
+                <div class="category-overlay">
+                    <p class="category-label">Explorar</p>
+                    <h3 class="category-name">Camisas Femininas</h3>
+                </div>
+            </a>
+
+            <a href="#" class="category-card">
+                <img src="https://images.unsplash.com/photo-1622470955441-63647da35fb3?q=80&w=361&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Camisas">
+
+                <div class="category-overlay">
+                    <p class="category-label">Explorar</p>
+                    <h3 class="category-name">Kits</h3>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    
+
+  </body>
+</html>
