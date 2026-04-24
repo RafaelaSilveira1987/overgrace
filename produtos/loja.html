@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produtos | OverGrace</title>
+
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="loja.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <nav class="header-left">
+          <a href="loja.html">Loja</a>
+          <a href="#">Coleções</a>
+          <a href="">Sobre</a>
+        </nav>
+
+        <a href="../index.html" class="logo">OverGrace</a>
+
+        <div class="header-right">
+          <a href="./login/login.html">Entrar</a>
+          <button class="cart-btn" onclick="toggleCart()">
+            Carrinho
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="products-page">
+      <div class="page-hero">
+        <h1>Nossos Produtos</h1>
+        <p>Explore nossa coleção completa</p>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filters">
+        <button class="filter-btn active" onclick="filtrar('todos', this)">
+          Todos
+        </button>
+        <button class="filter-btn" onclick="filtrar('camisas', this)">
+          Camisas
+        </button>
+        <button class="filter-btn" onclick="filtrar('bones', this)">
+          Bonés
+        </button>
+        <button class="filter-btn" onclick="filtrar('acessorios', this)">
+          Acessórios
+        </button>
+        <button class="filter-btn" onclick="filtrar('kits', this)">Kits</button>
+      </div>
+
+      <!-- GRID -->
+      <div class="products-grid">
+        <a
+          href="produto.html?id=1"
+          class="product-card"
+          data-category="camisas"
+        >
+          <div class="product-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=600"
+            />
+            <span class="product-badge">Novo</span>
+          </div>
+          <div class="product-info">
+            <p class="product-name">Camisa Linho Off-White</p>
+            <p class="product-price">R$189,00</p>
+          </div>
+        </a>
+
+        <a
+          href="produto.html?id=2"
+          class="product-card"
+          data-category="camisas"
+        >
+          <div class="product-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600"
+            />
+            <span class="product-badge">-20%</span>
+          </div>
+          <div class="product-info">
+            <p class="product-name">Camisa Oversized Cáqui</p>
+            <p class="product-price">
+              <span class="old-price">R$219,00</span>
+              R$175,00
+            </p>
+          </div>
+        </a>
+
+        <a href="produto.html?id=3" class="product-card" data-category="bones">
+          <div class="product-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600"
+            />
+          </div>
+          <div class="product-info">
+            <p class="product-name">Boné Street Preto</p>
+            <p class="product-price">R$79,00</p>
+          </div>
+        </a>
+
+        <a
+          href="produto.html?id=4"
+          class="product-card"
+          data-category="acessorios"
+        >
+          <div class="product-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1618886614638-80e3c103d31a?w=600"
+            />
+          </div>
+          <div class="product-info">
+            <p class="product-name">Pulseira Minimal</p>
+            <p class="product-price">R$49,00</p>
+          </div>
+        </a>
+
+        <a href="produto.html?id=5" class="product-card" data-category="kits">
+          <div class="product-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600"
+            />
+          </div>
+          <div class="product-info">
+            <p class="product-name">Kit Essencial</p>
+            <p class="product-price">R$299,00</p>
+          </div>
+        </a>
+
+        <a
+          href="produto.html?id=6"
+          class="product-card"
+          data-category="camisas"
+        >
+          <div class="product-img-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600"
+            />
+          </div>
+          <div class="product-info">
+            <p class="product-name">Camiseta Essential</p>
+            <p class="product-price">R$119,00</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <section class="section-block">
+      <h2>Novidades em breve</h2>
+
+      <div class="coming-grid">
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600"
+          />
+          <div class="card-content">
+            <p>Nova coleção inverno</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img
+            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600"
+          />
+          <div class="card-content">
+            <p>Novos acessórios</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function filtrar(cat, btn) {
+        const cards = document.querySelectorAll(".product-card");
+        const botoes = document.querySelectorAll(".filter-btn");
+
+        botoes.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        cards.forEach((card) => {
+          if (cat === "todos" || card.dataset.category === cat) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

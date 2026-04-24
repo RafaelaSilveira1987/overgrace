@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrinho — OverGrace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #f0ebe3;
+        --bg-dark: #e6e0d8;
+        --text: #1a1814;
+        --text-muted: #6b6560;
+        --border: rgba(26, 24, 20, 0.15);
+        --border-strong: rgba(26, 24, 20, 0.3);
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        min-height: 100vh;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        text-align: center;
+        padding: 9px 0;
+        background: var(--text);
+        color: var(--bg);
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* HEADER */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header-inner {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        padding: 0 60px;
+        height: 70px;
+      }
+
+      .header-left a {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+      }
+
+      .header-left a:hover {
+        color: var(--text);
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: 0.25em;
+        text-decoration: none;
+        color: var(--text);
+        text-transform: uppercase;
+      }
+
+      /* PAGE TITLE */
+      .page-hero {
+        border-bottom: 1px solid var(--border);
+        padding: 52px 60px 44px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+
+      .page-title {
+        font-family: "Playfair Display", serif;
+        font-size: 56px;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      .page-title em {
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      .page-subtitle {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 16px;
+        color: var(--text-muted);
+        padding-bottom: 6px;
+      }
+
+      /* LAYOUT PRINCIPAL */
+      .cart-layout {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        min-height: calc(100vh - 200px);
+      }
+
+      /* LISTA DE ITENS */
+      .cart-items {
+        padding: 0 60px 80px;
+        border-right: 1px solid var(--border);
+      }
+
+      .cart-header-row {
+        display: grid;
+        grid-template-columns: 1fr 120px 140px 48px;
+        gap: 20px;
+        padding: 24px 0 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .cart-item {
+        display: grid;
+        grid-template-columns: 1fr 120px 140px 48px;
+        gap: 20px;
+        align-items: center;
+        padding: 28px 0;
+        border-bottom: 1px solid var(--border);
+        animation: fadeIn 0.3s ease both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .item-product {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .item-thumb {
+        width: 88px;
+        height: 106px;
+        object-fit: cover;
+        flex-shrink: 0;
+        background: var(--bg-dark);
+        display: block;
+      }
+
+      .item-details {
+      }
+
+      .item-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 17px;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+
+      .item-meta {
+        font-size: 11px;
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+        line-height: 1.8;
+      }
+
+      .item-meta span {
+        display: block;
+      }
+
+      .item-remove {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        margin-top: 12px;
+        padding: 0;
+        transition: color 0.2s;
+        display: block;
+      }
+
+      .item-remove:hover {
+        color: var(--text);
+      }
+
+      .item-price {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 17px;
+        font-weight: 500;
+        text-align: right;
+      }
+
+      /* QUANTIDADE */
+      .qty-control {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--border-strong);
+        width: fit-content;
+      }
+
+      .qty-btn {
+        width: 36px;
+        height: 36px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+
+      .qty-btn:hover {
+        background: var(--bg-dark);
+      }
+
+      .qty-value {
+        width: 44px;
+        text-align: center;
+        font-size: 13px;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        height: 36px;
+        line-height: 36px;
+        letter-spacing: 0.08em;
+        user-select: none;
+      }
+
+      .item-subtotal {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 17px;
+        font-weight: 500;
+        text-align: right;
+      }
+
+      .item-delete {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+        padding: 0;
+      }
+
+      .item-delete:hover {
+        color: var(--text);
+      }
+
+      /* CUPOM */
+      .coupon-row {
+        display: flex;
+        gap: 0;
+        margin-top: 36px;
+        border: 1px solid var(--border-strong);
+        width: 360px;
+      }
+
+      .coupon-row input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 14px 18px;
+        font-family: "Jost", sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text);
+      }
+
+      .coupon-row input::placeholder {
+        color: var(--text-muted);
+        text-transform: none;
+        letter-spacing: 0.06em;
+      }
+
+      .coupon-row button {
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        padding: 14px 22px;
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+      }
+
+      .coupon-row button:hover {
+        opacity: 0.8;
+      }
+
+      .coupon-msg {
+        font-size: 12px;
+        margin-top: 10px;
+        color: #4a7c5a;
+        letter-spacing: 0.06em;
+        height: 18px;
+      }
+
+      /* RESUMO LATERAL */
+      .cart-summary {
+        padding: 40px 50px 60px;
+        position: sticky;
+        top: 70px;
+        align-self: start;
+      }
+
+      .summary-title {
+        font-family: "Playfair Display", serif;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 32px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 13px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px;
+      }
+
+      .summary-row .label {
+        color: var(--text-muted);
+        letter-spacing: 0.06em;
+      }
+
+      .summary-row .value {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 16px;
+      }
+
+      .summary-row.total {
+        border-bottom: none;
+        padding-top: 20px;
+        margin-top: 4px;
+      }
+
+      .summary-row.total .label {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      .summary-row.total .value {
+        font-family: "Playfair Display", serif;
+        font-size: 26px;
+        font-weight: 700;
+      }
+
+      .shipping-badge {
+        background: rgba(74, 124, 90, 0.12);
+        color: #3a6248;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        padding: 10px 14px;
+        margin: 20px 0 28px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .checkout-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        width: 100%;
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        padding: 20px;
+        font-family: "Jost", sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        transition: opacity 0.2s;
+        margin-bottom: 14px;
+      }
+
+      .checkout-btn:hover {
+        opacity: 0.85;
+      }
+
+      .checkout-btn .arrow {
+        transition: transform 0.2s;
+      }
+      .checkout-btn:hover .arrow {
+        transform: translateX(5px);
+      }
+
+      .continue-btn {
+        display: block;
+        text-align: center;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text-muted);
+        padding: 12px;
+        border: 1px solid var(--border);
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+
+      .continue-btn:hover {
+        color: var(--text);
+        border-color: var(--border-strong);
+      }
+
+      .payment-icons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .pay-badge {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        padding: 5px 10px;
+      }
+
+      /* ESTADO VAZIO */
+      .cart-empty {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 60px;
+        text-align: center;
+        gap: 20px;
+      }
+
+      .cart-empty-title {
+        font-family: "Playfair Display", serif;
+        font-size: 42px;
+        font-weight: 700;
+      }
+
+      .cart-empty-sub {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 18px;
+        color: var(--text-muted);
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text);
+        border: 1px solid var(--text);
+        padding: 16px 32px;
+        margin-top: 10px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .back-btn:hover {
+        background: var(--text);
+        color: var(--bg);
+      }
+
+      /* PRODUTOS SUGERIDOS */
+      .suggested {
+        border-top: 1px solid var(--border);
+        padding: 70px 60px 80px;
+      }
+
+      .suggested-title {
+        font-family: "Playfair Display", serif;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 40px;
+      }
+
+      .suggested-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+      }
+
+      .sug-card {
+        cursor: pointer;
+      }
+
+      .sug-img {
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: var(--bg-dark);
+        margin-bottom: 14px;
+      }
+
+      .sug-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s;
+      }
+
+      .sug-card:hover .sug-img img {
+        transform: scale(1.05);
+      }
+
+      .sug-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+
+      .sug-price {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      /* FOOTER MINI */
+      .footer-mini {
+        border-top: 1px solid var(--border);
+        padding: 24px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--text-muted);
+        letter-spacing: 0.08em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      Frete grátis acima de R$ 299 &nbsp;·&nbsp; Parcele em até 6x sem juros
+    </div>
+
+    <header>
+      <div class="header-inner">
+        <div class="header-left">
+          <a href="../index.html">← Continuar comprando</a>
+        </div>
+        <a href="../index.html" class="logo">Overgrace</a>
+        <div></div>
+      </div>
+    </header>
+
+    <!-- Título da página -->
+    <div class="page-hero">
+      <h1 class="page-title">Seu <em>carrinho</em></h1>
+      <p class="page-subtitle" id="itemCount">3 itens selecionados</p>
+    </div>
+
+    <!-- Layout principal -->
+    <div class="cart-layout" id="cartLayout">
+      <!-- Coluna de itens -->
+      <div class="cart-items">
+        <div class="cart-header-row">
+          <span>Produto</span>
+          <span style="text-align: center">Quantidade</span>
+          <span style="text-align: right">Subtotal</span>
+          <span></span>
+        </div>
+
+        <!-- Item 1 -->
+        <div class="cart-item" id="item1">
+          <div class="item-product">
+            <img
+              class="item-thumb"
+              src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=300&q=80"
+              alt="Camisa Linho Off-White"
+            />
+            <div class="item-details">
+              <p class="item-name">Camisa Linho Off-White</p>
+              <p class="item-meta">
+                <span>Tamanho: M</span>
+                <span>Cor: Off-White</span>
+              </p>
+              <button class="item-remove" onclick="removeItem('item1', 189)">
+                Remover
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty('item1', -1, 189)">
+                −
+              </button>
+              <span class="qty-value" id="qty-item1">1</span>
+              <button class="qty-btn" onclick="changeQty('item1', +1, 189)">
+                +
+              </button>
+            </div>
+          </div>
+          <div class="item-subtotal" id="sub-item1">R$ 189,00</div>
+          <button
+            class="item-delete"
+            onclick="removeItem('item1', 189)"
+            title="Remover"
+          >
+            ×
+          </button>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="cart-item" id="item2">
+          <div class="item-product">
+            <img
+              class="item-thumb"
+              src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=300&q=80"
+              alt="Boné Aba Curva Preto"
+            />
+            <div class="item-details">
+              <p class="item-name">Boné Aba Curva Preto</p>
+              <p class="item-meta">
+                <span>Tamanho: Único</span>
+                <span>Cor: Preto</span>
+              </p>
+              <button class="item-remove" onclick="removeItem('item2', 99)">
+                Remover
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty('item2', -1, 99)">
+                −
+              </button>
+              <span class="qty-value" id="qty-item2">1</span>
+              <button class="qty-btn" onclick="changeQty('item2', +1, 99)">
+                +
+              </button>
+            </div>
+          </div>
+          <div class="item-subtotal" id="sub-item2">R$ 99,00</div>
+          <button
+            class="item-delete"
+            onclick="removeItem('item2', 99)"
+            title="Remover"
+          >
+            ×
+          </button>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="cart-item" id="item3">
+          <div class="item-product">
+            <img
+              class="item-thumb"
+              src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300&q=80"
+              alt="Boné Estruturado Bege"
+            />
+            <div class="item-details">
+              <p class="item-name">Boné Estruturado Bege</p>
+              <p class="item-meta">
+                <span>Tamanho: Único</span>
+                <span>Cor: Bege</span>
+              </p>
+              <button class="item-remove" onclick="removeItem('item3', 119)">
+                Remover
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty('item3', -1, 119)">
+                −
+              </button>
+              <span class="qty-value" id="qty-item3">1</span>
+              <button class="qty-btn" onclick="changeQty('item3', +1, 119)">
+                +
+              </button>
+            </div>
+          </div>
+          <div class="item-subtotal" id="sub-item3">R$ 119,00</div>
+          <button
+            class="item-delete"
+            onclick="removeItem('item3', 119)"
+            title="Remover"
+          >
+            ×
+          </button>
+        </div>
+
+        <!-- Cupom -->
+        <div>
+          <div class="coupon-row">
+            <input
+              type="text"
+              id="couponInput"
+              placeholder="Código de cupom"
+              maxlength="20"
+            />
+            <button onclick="applyCoupon()">Aplicar</button>
+          </div>
+          <p class="coupon-msg" id="couponMsg"></p>
+        </div>
+      </div>
+
+      <!-- Resumo lateral -->
+      <div class="cart-summary">
+        <h2 class="summary-title">Resumo</h2>
+
+        <div class="summary-row">
+          <span class="label">Subtotal</span>
+          <span class="value" id="summarySubtotal">R$ 407,00</span>
+        </div>
+        <div class="summary-row" id="discountRow" style="display: none">
+          <span class="label">Desconto</span>
+          <span class="value" id="summaryDiscount" style="color: #3a6248"
+            >— R$ 0,00</span
+          >
+        </div>
+        <div class="summary-row">
+          <span class="label">Frete</span>
+          <span class="value" id="summaryShipping">Calcular no checkout</span>
+        </div>
+
+        <div class="shipping-badge" id="freeShippingBadge">
+          ✓ &nbsp;Pedido acima de R$ 299 — frete grátis!
+        </div>
+
+        <div class="summary-row total">
+          <span class="label">Total</span>
+          <span class="value" id="summaryTotal">R$ 407,00</span>
+        </div>
+
+        <a href="checkout.html" class="checkout-btn">
+          Fechar pedido <span class="arrow">→</span>
+        </a>
+
+        <a href="loja.html" class="continue-btn">← Continuar comprando</a>
+
+        <div class="payment-icons">
+          <span class="pay-badge">PIX</span>
+          <span class="pay-badge">Boleto</span>
+          <span class="pay-badge">Cartão</span>
+          <span class="pay-badge">6x sem juros</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Produtos sugeridos -->
+    <div class="suggested">
+      <h2 class="suggested-title">Você também pode gostar</h2>
+      <div class="suggested-grid">
+        <div class="sug-card">
+          <div class="sug-img">
+            <img
+              src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&q=80"
+              alt="Camisa Oversized"
+            />
+          </div>
+          <p class="sug-name">Camisa Oversized Cáqui</p>
+          <p class="sug-price">R$ 175,00</p>
+        </div>
+        <div class="sug-card">
+          <div class="sug-img">
+            <img
+              src="https://images.unsplash.com/photo-1622445275463-afa2ab738c34?w=400&q=80"
+              alt="Camisa Estampada"
+            />
+          </div>
+          <p class="sug-name">Camisa Listrada Navy</p>
+          <p class="sug-price">R$ 209,00</p>
+        </div>
+        <div class="sug-card">
+          <div class="sug-img">
+            <img
+              src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&q=80"
+              alt="Boné Bucket"
+            />
+          </div>
+          <p class="sug-name">Bucket Hat Natural</p>
+          <p class="sug-price">R$ 129,00</p>
+        </div>
+        <div class="sug-card">
+          <div class="sug-img">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&q=80"
+              alt="Kit Camisa + Boné"
+            />
+          </div>
+          <p class="sug-name">Kit Camisa + Boné</p>
+          <p class="sug-price">R$ 269,00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-mini">
+      <span>© 2025 Overgrace</span>
+      <span>Pagamento 100% seguro · Troca em até 30 dias</span>
+    </div>
+
+    <script>
+      const prices = { item1: 189, item2: 99, item3: 119 };
+      const qtys = { item1: 1, item2: 1, item3: 1 };
+      let discount = 0;
+
+      function fmt(v) {
+        return "R$ " + v.toFixed(2).replace(".", ",");
+      }
+
+      function recalc() {
+        let sub = 0;
+        let active = 0;
+        Object.keys(qtys).forEach((id) => {
+          if (document.getElementById(id)) {
+            sub += prices[id] * qtys[id];
+            active++;
+          }
+        });
+
+        document.getElementById("itemCount").textContent =
+          active + (active === 1 ? " item selecionado" : " itens selecionados");
+
+        document.getElementById("summarySubtotal").textContent = fmt(sub);
+
+        if (discount > 0) {
+          document.getElementById("discountRow").style.display = "flex";
+          document.getElementById("summaryDiscount").textContent =
+            "— " + fmt(discount);
+        }
+
+        const total = Math.max(0, sub - discount);
+        document.getElementById("summaryTotal").textContent = fmt(total);
+
+        const badge = document.getElementById("freeShippingBadge");
+        const shipRow = document.getElementById("summaryShipping");
+        if (total >= 299) {
+          badge.style.display = "flex";
+          shipRow.textContent = "Grátis ✓";
+          shipRow.style.color = "#3a6248";
+        } else {
+          badge.style.display = "none";
+          shipRow.textContent = "Calcular no checkout";
+          shipRow.style.color = "";
+        }
+      }
+
+      function changeQty(id, delta, price) {
+        qtys[id] = Math.max(1, (qtys[id] || 1) + delta);
+        document.getElementById("qty-" + id).textContent = qtys[id];
+        document.getElementById("sub-" + id).textContent = fmt(
+          price * qtys[id],
+        );
+        recalc();
+      }
+
+      function removeItem(id, price) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.opacity = "0";
+        el.style.transform = "translateX(-12px)";
+        el.style.transition = "opacity 0.25s, transform 0.25s";
+        setTimeout(() => {
+          el.remove();
+          delete qtys[id];
+          recalc();
+        }, 250);
+      }
+
+      function applyCoupon() {
+        const code = document
+          .getElementById("couponInput")
+          .value.trim()
+          .toUpperCase();
+        const msg = document.getElementById("couponMsg");
+        if (code === "Overgrace10") {
+          discount = 40.7;
+          msg.textContent = "✓ Cupom aplicado: 10% de desconto";
+          msg.style.color = "#3a6248";
+        } else if (code === "FRETE") {
+          msg.textContent = "✓ Frete grátis aplicado";
+          msg.style.color = "#3a6248";
+        } else {
+          discount = 0;
+          msg.textContent = "Cupom inválido ou expirado.";
+          msg.style.color = "#8b3a2a";
+          document.getElementById("discountRow").style.display = "none";
+        }
+        recalc();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,337 @@
+body {
+  background: var(--bg);
+  overflow-y: auto;
+}
+.page {
+  padding: 28px 28px 40px;
+}
+
+/* ── ALERTA DE ESTOQUE BAIXO ─────────────────────────────────── */
+.stock-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--amber);
+  margin-bottom: 20px;
+}
+.stock-alert svg {
+  flex-shrink: 0;
+}
+
+/* ── MINI STATS ──────────────────────────────────────────────── */
+.stats-mini {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat-mini {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.stat-mini-label {
+  font-size: 11px;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.stat-mini-val {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.stat-mini-sub {
+  font-size: 11px;
+  color: var(--ink-4);
+  margin-top: 2px;
+}
+
+/* ── BARRA DE STATUS DE ESTOQUE ──────────────────────────────── */
+.stock-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stock-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 28px;
+}
+.stock-num.ok {
+  color: var(--green);
+}
+.stock-num.low {
+  color: var(--amber);
+}
+.stock-num.out {
+  color: var(--red);
+}
+
+.stock-bar-wrap {
+  width: 72px;
+  height: 4px;
+  background: var(--bg);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.stock-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+.stock-bar-fill.ok {
+  background: var(--green);
+}
+.stock-bar-fill.low {
+  background: var(--amber);
+}
+.stock-bar-fill.out {
+  background: var(--red);
+}
+
+/* Linhas coloridas por situação */
+tr.row-low td {
+  background: #fffbeb;
+}
+tr.row-out td {
+  background: #fef2f2;
+}
+
+/* ── PILL DE SITUAÇÃO ────────────────────────────────────────── */
+.stock-pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.stock-pill.ok {
+  background: #dcfce7;
+  color: var(--green);
+}
+.stock-pill.low {
+  background: #fef9c3;
+  color: var(--amber);
+}
+.stock-pill.out {
+  background: #fee2e2;
+  color: var(--red);
+}
+
+/* ── MODAL REPOSIÇÃO ─────────────────────────────────────────── */
+.repor-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.repor-modal.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.repor-panel {
+  width: 460px;
+  max-width: 95vw;
+  height: 100%;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  box-shadow: var(--shadow-md);
+}
+.repor-modal.open .repor-panel {
+  transform: translateX(0);
+}
+
+.repor-section {
+  padding: 0 24px;
+  margin-bottom: 22px;
+}
+.repor-section h3 {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 12px;
+}
+
+.repor-produto-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0 8px;
+}
+.repor-produto-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 7px;
+  object-fit: cover;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.repor-produto-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.repor-produto-id {
+  font-size: 11px;
+  color: var(--ink-3);
+  font-family: var(--mono);
+  margin-top: 2px;
+}
+
+/* Linha de tamanho/qtd */
+.repor-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.repor-row:last-child {
+  border-bottom: none;
+}
+.repor-size-tag {
+  min-width: 36px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  padding: 2px 6px;
+  color: var(--ink-2);
+}
+.repor-current {
+  flex: 1;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.repor-arrow {
+  color: var(--ink-4);
+  font-size: 14px;
+}
+.repor-input {
+  width: 68px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  font-size: 13px;
+  font-family: var(--mono);
+  text-align: center;
+  color: var(--ink);
+  background: var(--surface);
+  outline: none;
+}
+.repor-input:focus {
+  border-color: var(--ink);
+}
+
+.repor-nota {
+  width: 100%;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  color: var(--ink);
+  background: var(--surface);
+  resize: vertical;
+  min-height: 68px;
+  outline: none;
+}
+.repor-nota:focus {
+  border-color: var(--ink);
+}
+
+.repor-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+.repor-info-row:last-child {
+  border-bottom: none;
+}
+.repor-info-label {
+  color: var(--ink-3);
+}
+
+/* ── HISTÓRICO DE MOVIMENTAÇÕES ──────────────────────────────── */
+.mov-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.mov-row:last-child {
+  border-bottom: none;
+}
+.mov-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.mov-icon.entrada {
+  background: #dcfce7;
+  color: var(--green);
+}
+.mov-icon.saida {
+  background: #fee2e2;
+  color: var(--red);
+}
+.mov-icon.ajuste {
+  background: #fef9c3;
+  color: var(--amber);
+}
+.mov-desc {
+  flex: 1;
+}
+.mov-title {
+  font-size: 13px;
+  color: var(--ink);
+}
+.mov-meta {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.mov-qty {
+  font-weight: 500;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.mov-qty.entrada {
+  color: var(--green);
+}
+.mov-qty.saida {
+  color: var(--red);
+}
