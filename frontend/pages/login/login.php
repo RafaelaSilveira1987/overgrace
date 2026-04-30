@@ -50,6 +50,12 @@
                 <div class="extra-links">
                     <p><a href="#">Esqueci minha senha</a></p>
                 </div>
+
+                <!-- Adicionando link para cadastro -->
+                <p class="cadastro-text">
+                    Não tem uma conta?
+                    <a class="btn-cadastro" href="cadastro.html">Cadastre-se aqui</a>
+                </p>
             </div>
         </form>
     </div>
