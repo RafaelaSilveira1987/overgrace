@@ -15,6 +15,7 @@ export const api = {
     },
 
     post: (url, body) => {
+        
         const isFormData = body instanceof FormData;
 
         return request(BASE_URL + url, {

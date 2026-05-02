@@ -2,15 +2,18 @@
 
 require_once 'Response.php';
 
-class Router {
+class Router
+{
     private $routes = [];
     private $basePath = '/overgrace/api'; // 👈 ajuste aqui
 
-    public function add($method, $route, $action) {
-        $this->routes[] = compact('method','route','action');
+    public function add($method, $route, $action)
+    {
+        $this->routes[] = compact('method', 'route', 'action');
     }
 
-    public function run() {
+    public function run()
+    {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
         // remove base path
@@ -23,7 +26,9 @@ class Router {
         $method = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $r) {
-            $pattern = "#^" . preg_replace('/\{id\}/', '(\d+)', $r['route']) . "$#";
+            $pattern = preg_replace('/\{[a-zA-Z_]+\}/', '([^\/]+)', $r['route']);
+            $pattern = "#^" . $pattern . "$#";
+
 
             if ($r['method'] === $method && preg_match($pattern, $uri, $matches)) {
                 array_shift($matches);
@@ -38,7 +43,6 @@ class Router {
             }
         }
 
-        Response::json(['error'=>'Rota não encontrada'],404);
+        Response::json(['error' => 'Rota não encontrada'], 404);
     }
 }
-

@@ -152,6 +152,18 @@ class ProductController
         Response::json($produto);
     }
 
+    // 🔹 DETALHE
+    public function getByUuid($id)
+    {
+        $produto = ProductService::findByUuid($id);
+
+        if (!$produto) {
+            Response::json(['error' => 'Produto não encontrado'], 404);
+        }
+
+        Response::json($produto);
+    }
+
     // 🔥 UPLOAD CENTRALIZADO
     private function processUpload()
     {

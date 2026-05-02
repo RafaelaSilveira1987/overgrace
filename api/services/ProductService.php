@@ -351,6 +351,55 @@ class ProductService
         return $produto;
     }
 
+    public static function findByUuid($uuid)
+    {
+        $pdo = Database::connect();
+
+        // 🔹 produto
+        $stmt = $pdo->prepare("
+        SELECT * FROM products WHERE uuid = ?
+    ");
+        $stmt->execute([$uuid]);
+
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$produto) return null;
+
+        // 👉 pega o ID real
+        $produtoId = $produto['id'];
+
+        // 🔹 imagens
+        $stmt = $pdo->prepare("
+        SELECT imagem AS nome, destaque 
+        FROM products_img 
+        WHERE produto_id = ?
+        ORDER BY destaque DESC
+    ");
+        $stmt->execute([$produtoId]);
+        $produto['imagens'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 🔹 tamanhos + estoque
+        $stmt = $pdo->prepare("
+        SELECT tamanho, estoque_inicial, minimo 
+        FROM products_stock 
+        WHERE produto_id = ?
+    ");
+        $stmt->execute([$produtoId]);
+        $produto['tamanhos'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 🔹 tags
+        $stmt = $pdo->prepare("
+        SELECT tag 
+        FROM products_tags 
+        WHERE produto_id = ?
+    ");
+        $stmt->execute([$produtoId]);
+        $produto['tags'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        return $produto;
+    }
+
+
     public static function getSizesByProducts($ids)
     {
         if (empty($ids)) return [];

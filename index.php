@@ -128,13 +128,18 @@ if (str_starts_with($uri, '/api')) {
     $router->add('POST', '/register', 'Auth/AuthController@register');
 
     $router->add('POST', '/cart', 'Cart/CartController@add');
-    $router->add('GET', '/cart', 'Cart/CartController@get');
+    $router->add('GET', '/cart/item', 'Cart/CartController@get');
+    $router->add('GET', '/cart/count', 'Cart/CartController@count');
+    $router->add('POST', '/cart/alter/{id}', 'Cart/CartController@update');
+    $router->add('DELETE', '/cart/{id}', 'Cart/CartController@delete');
+
 
     $router->add('POST', '/orders', 'Orders/OrderController@create');
 
 
     $router->add('POST', '/product', 'Products/ProductController@create');
     $router->add('GET', '/product', 'Products/ProductController@get');
+    $router->add('GET', '/product/uuid/{uuid}', 'Products/ProductController@getByUuid');
     $router->add('GET', '/product/{id}', 'Products/ProductController@getById');
     $router->add('POST', '/product/{id}', 'Products/ProductController@update');
     $router->add('DELETE', '/product/{id}', 'Products/ProductController@delete');

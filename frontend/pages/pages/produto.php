@@ -26,71 +26,59 @@
 
       <div class="header-right">
         <a href="login">Entrar</a>
-        <button class="cart-btn" onclick="toggleCart()">
-          Carrinho
-          <span class="cart-count" id="cartCount">0</span>
-        </button>
+        <a href="carrinho">
+          <button class="cart-btn">
+            Carrinho
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+        </a>
       </div>
     </div>
-  </header>
+  </header> 
 
   <div class="product-page">
     <div class="product-container">
       <!-- GALERIA -->
       <div class="product-gallery">
         <img
-          src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=900"
           class="main-image"
           id="mainProductImage" />
 
         <div class="thumb-list">
-          <img
-            src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=300"
-            onclick="trocarImagem(this)" />
-          <img
-            src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=300"
-            onclick="trocarImagem(this)" />
-          <img
-            src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=300"
-            onclick="trocarImagem(this)" />
+
         </div>
       </div>
 
       <!-- INFO -->
-      <div class="product-info">
-        <h1>Camisa Linho Off-White</h1>
+      <form id="formProd">
+        <div class="product-info">
+          <h1 id="f-name"></h1>
 
-        <p class="price">
-          <span class="old-price">R$219,00</span>
-          R$189,00
-        </p>
-
-        <p class="short-description">
-          Modelagem premium em linho leve, ideal para ocasiões casuais e
-          elegantes.
-        </p>
-
-        <h4>Tamanho</h4>
-        <div class="size-options">
-          <button class="size-btn">P</button>
-          <button class="size-btn">M</button>
-          <button class="size-btn">G</button>
-          <button class="size-btn">GG</button>
-        </div>
-
-        <div class="qty-cart">
-          <input type="number" value="1" min="1" />
-          <button class="buy-btn">Adicionar ao carrinho</button>
-        </div>
-
-        <div class="description-full">
-          <h4>Descrição</h4>
-          <p>
-            Produzida com tecido respirável de alta qualidade, acabamento
-            premium e costura reforçada.
+          <p class="price">
+            <span class="old-price" id="f-price-old">R$0,00</span>
+            R$<span id="f-price">0,00</span>
           </p>
+
+          <p class="short-description" >
+          </p>
+
+          <h4>Tamanho</h4>
+          <div class="size-options" id="sizes">
+          </div>
+
+          <div class="qty-cart">
+            <input type="hidden" id="f-id">
+            <input type="number" value="1" min="1" id="f-qtd" />
+            <button class="buy-btn">Adicionar ao carrinho</button>
+          </div>
+
+          <div class="description-full">
+            <h4>Descrição</h4>
+            <p id="f-desc">
+            </p>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
 
     <!-- RELACIONADOS -->
@@ -182,11 +170,10 @@
     </div>
   </footer>
 
-  <script>
-    function trocarImagem(el) {
-      document.getElementById("mainProductImage").src = el.src;
-    }
-  </script>
+  <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
+  <script type="module" src="frontend/js/modules/cart/formVitrine.js"></script>
+  <script src="frontend/js/modules/cart/utils.js"></script>
+
 </body>
 
 </html>

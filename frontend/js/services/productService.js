@@ -10,6 +10,10 @@ export const produtoService = {
         return api.get(`/product/${id}`);
     },
 
+    buscarUuid(id) {
+        return api.get(`/product/uuid/${id}`);
+    },
+
     criar(dados) {
         return api.post('/product', dados);
     },
@@ -17,7 +21,7 @@ export const produtoService = {
     atualizar(id, dados) {
         return api.post(`/product/${id}`, dados);
     },
-    
+
     deletar(id) {
         return api.delete(`/product/${id}`);
     }

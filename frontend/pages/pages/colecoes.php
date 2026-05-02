@@ -168,6 +168,8 @@
       </div>
     </div>
   </footer>
+  <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
+
 </body>
 
 </html>

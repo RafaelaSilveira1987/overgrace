@@ -16,7 +16,7 @@ class AuthMiddleware {
         $data = JWT::decode($token);
 
         if (!$data) {
-            Response::json(['error'=>'invalid token'],401);
+            Response::json(['error'=>'Token expirado'],401);
         }
 
         return $data;

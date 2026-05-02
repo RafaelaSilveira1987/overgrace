@@ -127,6 +127,8 @@
   </footer>
 
   <script type="module" src="frontend/js/modules/product/listaVitrine.js"></script>
+  <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
+
   <script>
     function filtrar(cat, btn) {
       const cards = document.querySelectorAll(".product-card");

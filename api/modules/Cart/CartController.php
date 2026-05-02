@@ -1,27 +1,92 @@
 <?php
 
-require_once 'core/Response.php';
-require_once 'middlewares/AuthMiddleware.php';
-require_once 'services/CartService.php';
+require_once 'api/core/Response.php';
+require_once 'api/middleware/AuthMiddleware.php';
+require_once 'api/services/CartService.php';
 
-class CartController {
+class CartController
+{
 
-    public function add() {
-        $user = AuthMiddleware::handle();
-
+    public function add()
+    {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        CartService::add($user['id'], $data['product_id'], $data['qty']);
+        $cartToken = $this->getCartToken();
 
-        Response::json(['success'=>true]);
+        CartService::add(
+            $cartToken,
+            $data['produto_id'],
+            $data['tamanho'],
+            $data['quantidade'] ?? 1
+        );
+
+        Response::json(['success' => true]);
     }
 
-    public function get() {
-        $user = AuthMiddleware::handle();
+    public function count()
+    {
+        $cartToken = $this->getCartToken();
 
-        $cart = CartService::get($user['id']);
+        $total = CartService::countItems($cartToken);
+
+        Response::json(['total' => $total]);
+    }
+
+    public function get()
+    {
+        $cartToken = $this->getCartToken();
+
+        $cart = CartService::getCart($cartToken);
 
         Response::json($cart);
     }
-}
 
+    public function update($id)
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $cartToken = $this->getCartToken();
+
+        CartService::update(
+            $cartToken,
+            $id,
+            $data['quantidade']
+        );
+
+        Response::json(['success' => true]);
+    }
+
+
+    public function delete($id)
+    {
+        $cart = CartService::delete($id);
+
+        if (!$id) {
+            Response::json(['error' => 'Item do carrinho não encontrado'], 404);
+        }
+
+        Response::json($cart);
+    }
+
+
+    private function getCartToken()
+    {
+        if (empty($_COOKIE['cart_token'])) {
+            $token = bin2hex(random_bytes(16));
+
+            setcookie(
+                'cart_token',
+                $token,
+                time() + (60 * 60 * 24 * 30),
+                '/',
+                '',
+                false,
+                true
+            );
+
+            $_COOKIE['cart_token'] = $token; // importante para uso imediato
+        }
+
+        return $_COOKIE['cart_token'];
+    }
+}

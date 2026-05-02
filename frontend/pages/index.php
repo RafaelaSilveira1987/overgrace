@@ -1,296 +1,288 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Over Grace</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
 
-    <link rel="stylesheet" href="frontend/pages/style.css" />
-  </head>
-  <body>
-    <!-- Topbar   -->
-    <div class="topbar">Frete grátis acima de R$ 299 - Parcele em até 6x</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Over Grace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+    rel="stylesheet" />
 
-    <!-- Header -->
-    <header>
-      <div class="header-inner">
-        <nav class="header-left">
-          <a href="lista">Loja</a>
-          <a href="colecoes">Coleções</a>
-          <a href="sobre">Sobre</a>
-        </nav>
+  <link rel="stylesheet" href="frontend/pages/style.css" />
+</head>
 
-        <a href="loja" class="logo">OverGrace</a>
+<body>
+  <!-- Topbar   -->
+  <div class="topbar">Frete grátis acima de R$ 299 - Parcele em até 6x</div>
 
-        <div class="header-right">
-          <a href="login">Entrar</a>
-          <a href="carrinho">
-            <button class="cart-btn">
-              Carrinho
-              <span class="cart-count" id="cartCount">0</span>
-            </button>
-          </a>
-        </div>
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <nav class="header-left">
+        <a href="lista">Loja</a>
+        <a href="colecoes">Coleções</a>
+        <a href="sobre">Sobre</a>
+      </nav>
+
+      <a href="loja" class="logo">OverGrace</a>
+
+      <div class="header-right">
+        <a href="login">Entrar</a>
+        <a href="carrinho">
+          <button class="cart-btn">
+            Carrinho
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
+        </a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-text">
-        <p class="hero-eyebrow">NOVA COLEÇÃO</p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">NOVA COLEÇÃO</p>
 
-        <h1 class="hero-title">Descubra o <em>melhor</em> da moda Oversize</h1>
+      <h1 class="hero-title">Descubra o <em>melhor</em> da moda Oversize</h1>
 
-        <p class="hero-desc">
-          Camisas masculinas e femininas que combinam estilo e conforto para
-          todas as ocasiões.
-        </p>
+      <p class="hero-desc">
+        Camisas masculinas e femininas que combinam estilo e conforto para
+        todas as ocasiões.
+      </p>
 
-        <a href="#" class="btn-outline"
-          >Ver Coleção <span class="arrow">→</span></a
-        >
-      </div>
-      <div class="hero-image">
+      <a href="#" class="btn-outline">Ver Coleção <span class="arrow">→</span></a>
+    </div>
+    <div class="hero-image">
+      <img
+        src="https://images.unsplash.com/photo-1704271986500-86847b9a8e95?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Modelo oversize" />
+
+      <div class="hero-image-badge">Coleção 2026</div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-section" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Camisas</span>
+      <span class="marquee-item marquee-dot">✦</span>
+      <span class="marquee-item">Bonés</span>
+      <span class="marquee-item marquee-dot">✦</span>
+      <span class="marquee-item">Masculino</span>
+      <span class="marquee-item marquee-dot">✦</span>
+      <span class="marquee-item">Feminino</span>
+      <span class="marquee-item marquee-dot">✦</span>
+      <span class="marquee-item">Algodão Premium</span>
+      <span class="marquee-item marquee-dot">✦</span>
+      <span class="marquee-item">Edição Limitada</span>
+      <span class="marquee-item marquee-dot">✦</span>
+      <span class="marquee-item">Entrega Rápida</span>
+      <span class="marquee-item marquee-dot">✦</span>
+    </div>
+  </div>
+
+  <!-- Categorias -->
+
+  <section class="section" id="categorias">
+    <div class="section-header">
+      <h2 class="section-title">Categorias</h2>
+      <a href="#" class="section-link">Ver tudo ►</a>
+    </div>
+    <div class="categories-grid">
+      <a href="#" class="category-card">
         <img
-          src="https://images.unsplash.com/photo-1704271986500-86847b9a8e95?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Modelo oversize"
-        />
+          src="https://plus.unsplash.com/premium_photo-1687294575545-44fcc8761b6b?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Camisas" />
 
-        <div class="hero-image-badge">Coleção 2026</div>
+        <div class="category-overlay">
+          <p class="category-label">Explorar</p>
+          <h3 class="category-name">Camisas</h3>
+        </div>
+      </a>
+
+      <a href="#" class="category-card">
+        <img
+          src="https://images.unsplash.com/photo-1622445275576-721325763afe?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Camisas" />
+
+        <div class="category-overlay">
+          <p class="category-label">Explorar</p>
+          <h3 class="category-name">Bonés</h3>
+        </div>
+      </a>
+
+      <a href="#" class="category-card">
+        <img
+          src="https://images.unsplash.com/photo-1623256756641-353a71c9ed88?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Camisas" />
+
+        <div class="category-overlay">
+          <p class="category-label">Explorar</p>
+          <h3 class="category-name">Cropped</h3>
+        </div>
+      </a>
+
+      <a href="#" class="category-card">
+        <img
+          src="https://images.unsplash.com/photo-1622470955441-63647da35fb3?q=80&w=361&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Camisas" />
+
+        <div class="category-overlay">
+          <p class="category-label">Explorar</p>
+          <h3 class="category-name">Kits</h3>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Produtos em destaque -->
+
+  <section class="products-section" id="produtos">
+    <div class="section-header">
+      <h2 class="section-title">Destaques</h2>
+      <a href="#" class="section-link">Ver tudo ►</a>
+    </div>
+
+    <div class="products-grid" id="featureGrid">
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=600&q=80"
+            alt="Camisa Linho Off-White" />
+          <span class="product-badge">Novo</span>
+        </div>
+
+        <button class="product-quick-add">+ Adicionar ao carrinho</button>
+
+        <div class="product-info">
+          <p class="product-name">Camisa Linho Off-White</p>
+          <p class="product-variant">P · M · G · GG</p>
+          <p class="product-price">R$ 189,00</p>
+        </div>
       </div>
-    </section>
 
-    <!-- Marquee -->
-    <div class="marquee-section" aria-hidden="true">
-      <div class="marquee-track">
-        <span class="marquee-item">Camisas</span>
-        <span class="marquee-item marquee-dot">✦</span>
-        <span class="marquee-item">Bonés</span>
-        <span class="marquee-item marquee-dot">✦</span>
-        <span class="marquee-item">Masculino</span>
-        <span class="marquee-item marquee-dot">✦</span>
-        <span class="marquee-item">Feminino</span>
-        <span class="marquee-item marquee-dot">✦</span>
-        <span class="marquee-item">Algodão Premium</span>
-        <span class="marquee-item marquee-dot">✦</span>
-        <span class="marquee-item">Edição Limitada</span>
-        <span class="marquee-item marquee-dot">✦</span>
-        <span class="marquee-item">Entrega Rápida</span>
-        <span class="marquee-item marquee-dot">✦</span>
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80"
+            alt="Camisa Oversized Cáqui" />
+          <span class="product-badge">-20%</span>
+        </div>
+
+        <button class="product-quick-add">+ Adicionar ao carrinho</button>
+
+        <div class="product-info">
+          <p class="product-name">Camisa Oversized Cáqui</p>
+          <p class="product-variant">P · M · G · GG</p>
+          <p class="product-price">
+            <span class="old">R$ 219,00</span>
+            <span class="sale">R$ 175,00</span>
+          </p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=600&q=80
+              alt=" Camisa Oversized Cáqui" />
+          <span class="product-badge">-20%</span>
+        </div>
+
+        <button class="product-quick-add">+ Adicionar ao carrinho</button>
+
+        <div class="product-info">
+          <p class="product-name">Boné Aba Curva Preto</p>
+          <!-- <p class="product-variant">P · M · G · GG</p> -->
+          <p class="product-price">
+            <!-- <span class="old">R$ 99,00</span> -->
+            <span class="sale">R$ 79,00</span>
+          </p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&q=80"
+            alt="Camisa Oversized Cáqui" />
+          <span class="product-badge">Lançamento</span>
+        </div>
+
+        <button class="product-quick-add">+ Adicionar ao carrinho</button>
+
+        <div class="product-info">
+          <p class="product-name">Boné Estruturado Bege</p>
+          <!-- <p class="product-variant">P · M · G · GG · GGG</p> -->
+          <p class="product-price">
+            <span class="old">R$ 159,00</span>
+            <span class="sale">R$ 119,00</span>
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- Categorias -->
+  </section>
 
-    <section class="section" id="categorias">
-      <div class="section-header">
-        <h2 class="section-title">Categorias</h2>
-        <a href="#" class="section-link">Ver tudo ►</a>
+  <!-- Banner -->
+
+  <div class="editorial-banner">
+    <div class="editorial-content">
+      <p class="editorial-sub">Coleção Especial</p>
+      <h2 class="editorial-title">Feito <br>para <br><em>durar</em></h2>
+      <p class="editorial-body">Sobre a Graça. <br> Cobertos por Ele, vivemos para anunciar!</p>
+      <a href="#" class="editorial-cta">Conheça a coleção</a>
+    </div>
+    <div class="editorial-image">
+      <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1000&q=85" alt="Coleção Especial">
+    </div>
+  </div>
+
+  <!-- Footer -->
+
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">OverGrace</div>
+        <p class="footer-tagline">
+          Camisas e bonés para quem importa com o que veste - sem abrir mão do conforto e estilo.
+        </p>
       </div>
-      <div class="categories-grid">
-        <a href="#" class="category-card">
-          <img
-            src="https://plus.unsplash.com/premium_photo-1687294575545-44fcc8761b6b?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Camisas"
-          />
-
-          <div class="category-overlay">
-            <p class="category-label">Explorar</p>
-            <h3 class="category-name">Camisas</h3>
-          </div>
-        </a>
-
-        <a href="#" class="category-card">
-          <img
-            src="https://images.unsplash.com/photo-1622445275576-721325763afe?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Camisas"
-          />
-
-          <div class="category-overlay">
-            <p class="category-label">Explorar</p>
-            <h3 class="category-name">Bonés</h3>
-          </div>
-        </a>
-
-        <a href="#" class="category-card">
-          <img
-            src="https://images.unsplash.com/photo-1623256756641-353a71c9ed88?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Camisas"
-          />
-
-          <div class="category-overlay">
-            <p class="category-label">Explorar</p>
-            <h3 class="category-name">Cropped</h3>
-          </div>
-        </a>
-
-        <a href="#" class="category-card">
-          <img
-            src="https://images.unsplash.com/photo-1622470955441-63647da35fb3?q=80&w=361&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Camisas"
-          />
-
-          <div class="category-overlay">
-            <p class="category-label">Explorar</p>
-            <h3 class="category-name">Kits</h3>
-          </div>
-        </a>
+      <div class="footer-col">
+        <h4>Loja</h4>
+        <a href="camisas">Camisas</a>
+        <a href="bonés">Bonés</a>
+        <a href="cropped">Cropped</a>
+        <a href="camisas">Kits</a>
       </div>
-    </section>
-
-    <!-- Produtos em destaque -->
-
-    <section class="products-section" id="produtos">
-      <div class="section-header">
-        <h2 class="section-title">Destaques</h2>
-        <a href="#" class="section-link">Ver tudo ►</a>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="camisas">Sobre nós</a>
+        <a href="bonés">Contato</a>
+        <a href="cropped">Instagram</a>
+        <a href="camisas">Seja Parceiro</a>
       </div>
-
-      <div class="products-grid" id="featureGrid">
-        <div class="product-card">
-          <div class="product-img-wrap">
-            <img
-              src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=600&q=80"
-              alt="Camisa Linho Off-White"
-            />
-            <span class="product-badge">Novo</span>
-          </div>
-
-          <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-          <div class="product-info">
-            <p class="product-name">Camisa Linho Off-White</p>
-            <p class="product-variant">P · M · G · GG</p>
-            <p class="product-price">R$ 189,00</p>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-img-wrap">
-            <img
-              src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80"
-              alt="Camisa Oversized Cáqui"
-            />
-            <span class="product-badge">-20%</span>
-          </div>
-
-          <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-          <div class="product-info">
-            <p class="product-name">Camisa Oversized Cáqui</p>
-            <p class="product-variant">P · M · G · GG</p>
-            <p class="product-price">
-              <span class="old">R$ 219,00</span>
-              <span class="sale">R$ 175,00</span>
-            </p>
-          </div>
-        </div>
-         <div class="product-card">
-          <div class="product-img-wrap">
-            <img
-              src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=600&q=80
-              alt="Camisa Oversized Cáqui"
-            />
-            <span class="product-badge">-20%</span>
-          </div>
-
-          <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-          <div class="product-info">
-            <p class="product-name">Boné Aba Curva Preto</p>
-            <!-- <p class="product-variant">P · M · G · GG</p> -->
-            <p class="product-price">
-              <!-- <span class="old">R$ 99,00</span> -->
-              <span class="sale">R$ 79,00</span>
-            </p>
-          </div>
-        </div>
-         <div class="product-card">
-          <div class="product-img-wrap">
-            <img
-              src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&q=80"
-              alt="Camisa Oversized Cáqui"
-            />
-            <span class="product-badge">Lançamento</span>
-          </div>
-
-          <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-          <div class="product-info">
-            <p class="product-name">Boné Estruturado Bege</p>
-            <!-- <p class="product-variant">P · M · G · GG · GGG</p> -->
-            <p class="product-price">
-              <span class="old">R$ 159,00</span>
-              <span class="sale">R$ 119,00</span>
-            </p>
-          </div>
-        </div>
+      <div class="footer-col">
+        <h4>Ajuda</h4>
+        <a href="camisas">trocas e Devoluções</a>
+        <a href="bonés">Rastrear Pedido
+        </a>
+        <a href="cropped">Tamanhos</a>
+        <a href="camisas">FAQ</a>
       </div>
-
-    </section>
-
-    <!-- Banner -->
-
-    <div class="editorial-banner">
-        <div class="editorial-content">
-            <p class="editorial-sub">Coleção Especial</p>
-            <h2 class="editorial-title">Feito <br>para <br><em>durar</em></h2>
-            <p class="editorial-body">Sobre a Graça. <br> Cobertos por Ele, vivemos para anunciar!</p>
-            <a href="#" class="editorial-cta">Conheça a coleção</a>
-        </div>
-        <div class="editorial-image">
-            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1000&q=85" alt="Coleção Especial">
-        </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 OverGrace. Todos os direitos reservados.</span>
+      <div class="footer-socials">
+        <a href="#" target="_blank">Instagram</a>
+        <a href="#" target="_blank">Whatsapp</a>
+      </div>
     </div>
 
-    <!-- Footer -->
-    
-    <footer>
-        <div class="footer-top">
-            <div>
-                <div class="footer-logo">OverGrace</div>
-                <p class="footer-tagline">
-                    Camisas e bonés para quem importa com o que veste - sem abrir mão do conforto e estilo.
-                </p>
-            </div>
-            <div class="footer-col">
-                <h4>Loja</h4>
-                <a href="camisas">Camisas</a>
-                <a href="bonés">Bonés</a>
-                <a href="cropped">Cropped</a>
-                <a href="camisas">Kits</a>
-            </div>
-            <div class="footer-col">
-                <h4>Empresa</h4>
-                <a href="camisas">Sobre nós</a>
-                <a href="bonés">Contato</a>
-                <a href="cropped">Instagram</a>
-                <a href="camisas">Seja Parceiro</a>
-            </div>
-            <div class="footer-col">
-                <h4>Ajuda</h4>
-                <a href="camisas">trocas e Devoluções</a>
-                <a href="bonés">Rastrear Pedido
-                </a>
-                <a href="cropped">Tamanhos</a>
-                <a href="camisas">FAQ</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>&copy; 2025 OverGrace. Todos os direitos reservados.</span>
-            <div class="footer-socials">
-                <a href="#" target="_blank">Instagram</a>
-                <a href="#" target="_blank">Whatsapp</a>
-            </div>
-        </div>
-    
-    </footer>
+  </footer>
+  <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
 
-  </body>
+</body>
+
 </html>

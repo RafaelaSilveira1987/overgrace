@@ -3,21 +3,26 @@ import { api } from '../core/api.js';
 export const carrinhoService = {
 
     get() {
-        return api.get('/carrinho');
+        return api.get('/cart/item');
     },
 
-    adicionar(produto_id, quantidade = 1) {
-        return api.post('/carrinho', {
+    contaItensCarrinho() {
+        return api.get('/cart/count');
+    },
+
+    adicionar(produto_id, tamanho, quantidade = 1) {
+        return api.post('/cart', {
             produto_id,
+            tamanho,
             quantidade
         });
     },
 
-    atualizar(item_id, quantidade) {
-        return api.put(`/carrinho/${item_id}`, { quantidade });
+    atualizar(id, quantidade) {
+        return api.post(`/cart/alter/${id}`, {quantidade: quantidade});
     },
 
     remover(item_id) {
-        return api.delete(`/carrinho/${item_id}`);
+        return api.delete(`/cart/${item_id}`);
     }
 };

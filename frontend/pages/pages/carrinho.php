@@ -10,11 +10,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="../pages-css/carrinho.css" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/carrinho.css" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
-
-
 
 
 </head>
@@ -37,188 +34,83 @@
   <!-- Título da página -->
   <div class="page-hero">
     <h1 class="page-title">Seu <em>carrinho</em></h1>
-    <p class="page-subtitle" id="itemCount">3 itens selecionados</p>
+    <p class="page-subtitle" id="itemCount">0 itens selecionados</p>
   </div>
 
   <!-- Layout principal -->
-  <div class="cart-layout" id="cartLayout">
-    <!-- Coluna de itens -->
-    <div class="cart-items">
-      <div class="cart-header-row">
-        <span>Produto</span>
-        <span style="text-align: center">Quantidade</span>
-        <span style="text-align: right">Subtotal</span>
-        <span></span>
-      </div>
-
-      <!-- Item 1 -->
-      <div class="cart-item" id="item1">
-        <div class="item-product">
-          <img
-            class="item-thumb"
-            src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=300&q=80"
-            alt="Camisa Linho Off-White" />
-          <div class="item-details">
-            <p class="item-name">Camisa Linho Off-White</p>
-            <p class="item-meta">
-              <span>Tamanho: M</span>
-              <span>Cor: Off-White</span>
-            </p>
-            <button class="item-remove" onclick="removeItem('item1', 189)">
-              Remover
-            </button>
-          </div>
+  <form id="formCart">
+    <div class="cart-layout" id="cartLayout">
+      <!-- Coluna de itens -->
+      <div class="cart-items">
+        <div class="cart-header-row">
+          <span>Produto</span>
+          <span style="text-align: center">Quantidade</span>
+          <span style="text-align: right">Subtotal</span>
+          <span></span>
         </div>
+
+        <!-- Item 1 -->
+        <div id="list-items">
+          <div class="cart-item">
+            <h4>Nenhum item adicionado ao carrinho</h4>
+          </div>  
+        </div>
+
+        <!-- Cupom -->
         <div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('item1', -1, 189)">
-              −
-            </button>
-            <span class="qty-value" id="qty-item1">1</span>
-            <button class="qty-btn" onclick="changeQty('item1', +1, 189)">
-              +
-            </button>
+          <div class="coupon-row">
+            <input
+              type="text"
+              id="couponInput"
+              placeholder="Código de cupom"
+              maxlength="20" />
+            <button onclick="applyCoupon()">Aplicar</button>
           </div>
+          <p class="coupon-msg" id="couponMsg"></p>
         </div>
-        <div class="item-subtotal" id="sub-item1">R$ 189,00</div>
-        <button
-          class="item-delete"
-          onclick="removeItem('item1', 189)"
-          title="Remover">
-          ×
-        </button>
       </div>
 
-      <!-- Item 2 -->
-      <div class="cart-item" id="item2">
-        <div class="item-product">
-          <img
-            class="item-thumb"
-            src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=300&q=80"
-            alt="Boné Aba Curva Preto" />
-          <div class="item-details">
-            <p class="item-name">Boné Aba Curva Preto</p>
-            <p class="item-meta">
-              <span>Tamanho: Único</span>
-              <span>Cor: Preto</span>
-            </p>
-            <button class="item-remove" onclick="removeItem('item2', 99)">
-              Remover
-            </button>
-          </div>
-        </div>
-        <div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('item2', -1, 99)">
-              −
-            </button>
-            <span class="qty-value" id="qty-item2">1</span>
-            <button class="qty-btn" onclick="changeQty('item2', +1, 99)">
-              +
-            </button>
-          </div>
-        </div>
-        <div class="item-subtotal" id="sub-item2">R$ 99,00</div>
-        <button
-          class="item-delete"
-          onclick="removeItem('item2', 99)"
-          title="Remover">
-          ×
-        </button>
-      </div>
+      <!-- Resumo lateral -->
+      <div class="cart-summary">
+        <h2 class="summary-title">Resumo</h2>
 
-      <!-- Item 3 -->
-      <div class="cart-item" id="item3">
-        <div class="item-product">
-          <img
-            class="item-thumb"
-            src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300&q=80"
-            alt="Boné Estruturado Bege" />
-          <div class="item-details">
-            <p class="item-name">Boné Estruturado Bege</p>
-            <p class="item-meta">
-              <span>Tamanho: Único</span>
-              <span>Cor: Bege</span>
-            </p>
-            <button class="item-remove" onclick="removeItem('item3', 119)">
-              Remover
-            </button>
-          </div>
+        <div class="summary-row">
+          <span class="label">Subtotal</span>
+          <span class="value" id="sub-total-items">R$ 0,00</span>
         </div>
-        <div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('item3', -1, 119)">
-              −
-            </button>
-            <span class="qty-value" id="qty-item3">1</span>
-            <button class="qty-btn" onclick="changeQty('item3', +1, 119)">
-              +
-            </button>
-          </div>
+        <div class="summary-row" id="discountRow" style="display: none">
+          <span class="label">Desconto</span>
+          <span class="value" id="summaryDiscount" style="color: #3a6248">— R$ 0,00</span>
         </div>
-        <div class="item-subtotal" id="sub-item3">R$ 119,00</div>
-        <button
-          class="item-delete"
-          onclick="removeItem('item3', 119)"
-          title="Remover">
-          ×
-        </button>
-      </div>
+        <div class="summary-row">
+          <span class="label">Frete</span>
+          <span class="value" id="summaryShipping">Calcular no checkout</span>
+        </div>
 
-      <!-- Cupom -->
-      <div>
-        <div class="coupon-row">
-          <input
-            type="text"
-            id="couponInput"
-            placeholder="Código de cupom"
-            maxlength="20" />
-          <button onclick="applyCoupon()">Aplicar</button>
+        <div class="shipping-badge" id="freeShippingBadge">
+          ✓ &nbsp;Pedido acima de R$ 299 — frete grátis!
         </div>
-        <p class="coupon-msg" id="couponMsg"></p>
+
+        <div class="summary-row total">
+          <span class="label">Total</span>
+          <span class="value" id="total-items">R$ 407,00</span>
+        </div>
+
+        <a href="checkout" class="checkout-btn">
+          Fechar pedido <span class="arrow">→</span>
+        </a>
+
+        <a href="lista" class="continue-btn">← Continuar comprando</a>
+
+        <div class="payment-icons">
+          <span class="pay-badge">PIX</span>
+          <span class="pay-badge">Boleto</span>
+          <span class="pay-badge">Cartão</span>
+          <span class="pay-badge">6x sem juros</span>
+        </div>
       </div>
     </div>
-
-    <!-- Resumo lateral -->
-    <div class="cart-summary">
-      <h2 class="summary-title">Resumo</h2>
-
-      <div class="summary-row">
-        <span class="label">Subtotal</span>
-        <span class="value" id="summarySubtotal">R$ 407,00</span>
-      </div>
-      <div class="summary-row" id="discountRow" style="display: none">
-        <span class="label">Desconto</span>
-        <span class="value" id="summaryDiscount" style="color: #3a6248">— R$ 0,00</span>
-      </div>
-      <div class="summary-row">
-        <span class="label">Frete</span>
-        <span class="value" id="summaryShipping">Calcular no checkout</span>
-      </div>
-
-      <div class="shipping-badge" id="freeShippingBadge">
-        ✓ &nbsp;Pedido acima de R$ 299 — frete grátis!
-      </div>
-
-      <div class="summary-row total">
-        <span class="label">Total</span>
-        <span class="value" id="summaryTotal">R$ 407,00</span>
-      </div>
-
-      <a href="checkout" class="checkout-btn">
-        Fechar pedido <span class="arrow">→</span>
-      </a>
-
-      <a href="loja.html" class="continue-btn">← Continuar comprando</a>
-
-      <div class="payment-icons">
-        <span class="pay-badge">PIX</span>
-        <span class="pay-badge">Boleto</span>
-        <span class="pay-badge">Cartão</span>
-        <span class="pay-badge">6x sem juros</span>
-      </div>
-    </div>
-  </div>
+  </form>
 
   <!-- Produtos sugeridos -->
   <div class="suggested">
@@ -303,6 +195,8 @@
     </div>
 
   </footer>
+
+  <script type="module" src="frontend/js/modules/cart/cart.js"></script>
 
   <script>
     const prices = {
