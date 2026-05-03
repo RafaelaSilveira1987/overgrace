@@ -75,7 +75,7 @@ INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `pr
 -- Estrutura para tabela `clients`
 --
 
-CREATE or alter TABLE `clients` (
+CREATE TABLE `clients` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
