@@ -6,23 +6,108 @@ require_once 'api/services/AuthService.php';
 class AuthController {
 
     public function login() {
-        $data = json_decode(file_get_contents("php://input"), true);
+        $data = $this->getRequestData();
 
-        $token = AuthService::login($data['email'], $data['password']);
+        if (empty($data['email']) || empty($data['password'])) {
+            Response::json(['message'=>'Informe e-mail e senha'], 422);
+        }
 
-        if (!$token) {
+        $auth = AuthService::login($data['email'], $data['password']);
+
+        if (!$auth) {
             Response::json(['message'=>'Credenciais Inválidas'],401);
         }
 
-        Response::json(['token'=>$token]);
+        Response::json($auth);
+    }
+
+    public function loginClient() {
+        $data = $this->getRequestData();
+
+        if (empty($data['email']) || empty($data['password'])) {
+            Response::json(['message'=>'Informe e-mail e senha'], 422);
+        }
+
+        $auth = AuthService::loginClient($data['email'], $data['password']);
+
+        if (!$auth) {
+            Response::json(['message'=>'Credenciais Inválidas'],401);
+        }
+
+        Response::json($auth);
+    }
+
+    public function loginAdmin() {
+        $data = $this->getRequestData();
+
+        if (empty($data['email']) || empty($data['password'])) {
+            Response::json(['message'=>'Informe e-mail e senha'], 422);
+        }
+
+        $auth = AuthService::loginAdmin($data['email'], $data['password']);
+
+        if (!$auth) {
+            Response::json(['message'=>'Credenciais Inválidas'],401);
+        }
+
+        Response::json($auth);
     }
 
     public function register() {
+        $data = $this->getRequestData();
+
+        if (!$data) {
+            Response::json(['message'=>'Dados invalidos'], 422);
+        }
+
+        if (empty($data['password']) && !empty($data['senha'])) {
+            $data['password'] = $data['senha'];
+        }
+
+        $required = ['nome', 'sobrenome', 'email', 'password', 'cpf', 'telefone'];
+
+        foreach ($required as $field) {
+            if (empty(trim($data[$field] ?? ''))) {
+                Response::json(['message'=>'Preencha todos os campos obrigatorios'], 422);
+            }
+        }
+
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            Response::json(['message'=>'E-mail invalido'], 422);
+        }
+
+        if (strlen($data['password']) < 6) {
+            Response::json(['message'=>'A senha deve ter pelo menos 6 caracteres'], 422);
+        }
+
+        $cpf = preg_replace('/\D/', '', $data['cpf']);
+        $telefone = preg_replace('/\D/', '', $data['telefone']);
+
+        if (strlen($cpf) !== 11) {
+            Response::json(['message'=>'CPF invalido'], 422);
+        }
+
+        if (strlen($telefone) < 10 || strlen($telefone) > 11) {
+            Response::json(['message'=>'Telefone invalido'], 422);
+        }
+
+        try {
+            $id = AuthService::register($data);
+        } catch (InvalidArgumentException $e) {
+            Response::json(['message'=>$e->getMessage()], 422);
+        }
+
+        Response::json(['client_id'=>$id], 201);
+    }
+
+    private function getRequestData() {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        $id = AuthService::register($data['email'], $data['password']);
+        if (is_array($data)) {
+            return $data;
+        }
 
-        Response::json(['user_id'=>$id]);
+        return $_POST ?: [];
     }
 }
 

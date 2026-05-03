@@ -125,6 +125,8 @@ if (str_starts_with($uri, '/api')) {
     $router = new Router();
 
     $router->add('POST', '/login', 'Auth/AuthController@login');
+    $router->add('POST', '/client-login', 'Auth/AuthController@loginClient');
+    $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
     $router->add('POST', '/register', 'Auth/AuthController@register');
 
     $router->add('POST', '/cart', 'Cart/CartController@add');
@@ -177,6 +179,8 @@ $routes = [
     '/'          => 'frontend/pages/index.php',
     '/exit'      => 'frontend/pages/index.php',
     '/login'     => 'frontend/pages/login/login.php',
+    '/admin-login' => 'frontend/pages/login/login.php',
+    '/cadastro'  => 'frontend/pages/login/cadastro.php',
 
     //loja
     '/loja'      => 'frontend/pages/index.php',
