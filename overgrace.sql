@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28/04/2026 às 03:04
+-- Tempo de geração: 02/05/2026 às 22:14
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -20,6 +20,162 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `overgrace`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `session_token` varchar(100) NOT NULL,
+  `status` enum('active','converted','abandoned') DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `carts`
+--
+
+INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`) VALUES
+(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-02 16:04:40');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cart_items`
+--
+
+CREATE TABLE `cart_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `cart_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `size` varchar(20) DEFAULT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `price` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `cart_items`
+--
+
+INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
+(5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-02 20:11:19'),
+(8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
+(9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` bigint(20) UNSIGNED NOT NULL,
+  `status` enum('pending','paid','canceled','refunded') DEFAULT 'pending',
+  `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `size` varchar(20) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `order_status_history`
+--
+
+CREATE TABLE `order_status_history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `method` enum('pix','credit_card') NOT NULL,
+  `status` enum('pending','paid','failed','refunded') DEFAULT 'pending',
+  `amount` decimal(10,2) NOT NULL,
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `payment_credit_card`
+--
+
+CREATE TABLE `payment_credit_card` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_id` bigint(20) UNSIGNED NOT NULL,
+  `brand` varchar(50) DEFAULT NULL,
+  `last4` varchar(4) DEFAULT NULL,
+  `installments` int(11) DEFAULT NULL,
+  `gateway_transaction_id` varchar(255) DEFAULT NULL,
+  `paid_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `payment_pix`
+--
+
+CREATE TABLE `payment_pix` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_id` bigint(20) UNSIGNED NOT NULL,
+  `pix_code` text DEFAULT NULL,
+  `qr_code` text DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `paid_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -258,6 +414,70 @@ INSERT INTO `users` (`id`, `email`, `password`) VALUES
 --
 
 --
+-- Índices de tabela `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_session` (`session_token`),
+  ADD KEY `idx_client` (`client_id`);
+
+--
+-- Índices de tabela `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_item` (`cart_id`,`product_id`,`size`);
+
+--
+-- Índices de tabela `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Índices de tabela `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_order_client` (`client_id`);
+
+--
+-- Índices de tabela `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_order_items_order` (`order_id`);
+
+--
+-- Índices de tabela `order_status_history`
+--
+ALTER TABLE `order_status_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_history_order` (`order_id`);
+
+--
+-- Índices de tabela `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_payment_order` (`order_id`);
+
+--
+-- Índices de tabela `payment_credit_card`
+--
+ALTER TABLE `payment_credit_card`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_card_payment` (`payment_id`);
+
+--
+-- Índices de tabela `payment_pix`
+--
+ALTER TABLE `payment_pix`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pix_payment` (`payment_id`);
+
+--
 -- Índices de tabela `products`
 --
 ALTER TABLE `products`
@@ -310,6 +530,60 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de tabela `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `cart_items`
+--
+ALTER TABLE `cart_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de tabela `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `order_status_history`
+--
+ALTER TABLE `order_status_history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `payment_credit_card`
+--
+ALTER TABLE `payment_credit_card`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `payment_pix`
+--
+ALTER TABLE `payment_pix`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `products`
 --
 ALTER TABLE `products`
@@ -348,6 +622,54 @@ ALTER TABLE `users`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `fk_cart_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE SET NULL;
+
+--
+-- Restrições para tabelas `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD CONSTRAINT `fk_cart_items_cart` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_order_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`);
+
+--
+-- Restrições para tabelas `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_order_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `order_status_history`
+--
+ALTER TABLE `order_status_history`
+  ADD CONSTRAINT `fk_history_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_payment_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `payment_credit_card`
+--
+ALTER TABLE `payment_credit_card`
+  ADD CONSTRAINT `fk_card_payment` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `payment_pix`
+--
+ALTER TABLE `payment_pix`
+  ADD CONSTRAINT `fk_pix_payment` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `products_img`

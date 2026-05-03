@@ -144,6 +144,11 @@ if (str_starts_with($uri, '/api')) {
     $router->add('POST', '/product/{id}', 'Products/ProductController@update');
     $router->add('DELETE', '/product/{id}', 'Products/ProductController@delete');
 
+    $router->add('POST', '/coupon', 'Coupon/CouponController@create');
+    $router->add('GET', '/coupon', 'Coupon/CouponController@get');
+
+
+
     $router->add('POST', '/stock', 'Stock/StockController@create');
     $router->add('GET', '/stock', 'Stock/StockController@get');
     $router->add('GET', '/stock/{id}', 'Stock/StockController@getById');

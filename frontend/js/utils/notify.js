@@ -11,7 +11,7 @@ function injectStyles() {
         position: fixed;
         bottom: 24px;
         right: 24px;
-        z-index: 9000;
+        z-index: 9999999;
         display: flex;
         flex-direction: column;
         gap: 10px;

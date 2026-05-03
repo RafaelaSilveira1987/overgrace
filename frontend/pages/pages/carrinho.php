@@ -10,6 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
     rel="stylesheet" />
+  <link rel="stylesheet" href="/overgrace/frontend/css/spinner.css">
   <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/carrinho.css" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
 

@@ -31,3 +31,4 @@
 [2026-05-02 15:52:02][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
 [2026-05-02 15:53:03][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
 [2026-05-02 16:44:37][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.cart' doesn't exist
+[2026-05-03 01:14:17][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'valor_fixo' in 'field list'

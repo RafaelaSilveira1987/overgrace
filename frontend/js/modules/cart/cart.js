@@ -3,6 +3,7 @@ import { notify } from '../../utils/notify.js';
 import { marcarErro } from '../../utils/validateUI.js';
 import { alertConfirm } from '../../utils/alerts.js';
 import { dataUtil, valorUtil } from '../../utils/normalize.js';
+import { setLoading } from '../../utils/spinner.js';
 
 
 let produtoEditandoId = null;
@@ -48,14 +49,18 @@ export async function carregarCarrinho() {
         const cart = await carrinhoService.get();
 
         // 🔹 preencher campos
-        document.getElementById('sub-total-items').textContent = 'R$ ' + cart.total;
-        document.getElementById('total-items').textContent = 'R$ ' + cart.total;
+        document.getElementById('sub-total-items').textContent = 'R$ ' + formatar(cart.total);
+        document.getElementById('total-items').textContent = 'R$ ' + formatar(cart.total);
         const BASE_IMG = '/overgrace/frontend/uploads/products/';
 
         if (cart.items.length > 0) {
             const items = cart.items.map(t => {
                 return `
-                            <div class="cart-item" id="item-${t.id}">
+                            <div class="cart-item ui-loading-container" id="item-${t.id}">
+
+                                <div class="ui-loading-overlay hidden" id="loading-${t.id}">
+                                    <div class="ui-spinner"></div>
+                                </div>
                             <div class="item-product">
                                 <img
                                 class="item-thumb"
@@ -119,9 +124,12 @@ export async function removerItemCarrinho(id) {
         notify.error('Algo deu errado na exclusão do item no carrinho!');
     }
 }
-
+ 
 export async function atualizaItemCarrinho(id, quantity) {
+    const el = document.getElementById(`item-${id}`);
+
     try {
+        setLoading(el, true, { delay: 1500 });
 
         await carrinhoService.atualizar(id, quantity);
 
