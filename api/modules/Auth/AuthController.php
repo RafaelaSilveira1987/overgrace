@@ -2,6 +2,7 @@
 
 require_once 'api/core/Response.php';
 require_once 'api/services/AuthService.php';
+require_once 'api/middleware/AuthMiddleware.php';
 
 class AuthController {
 
@@ -51,6 +52,17 @@ class AuthController {
         }
 
         Response::json($auth);
+    }
+
+    public function me() {
+        $payload = AuthMiddleware::handle();
+        $user = AuthService::me($payload);
+
+        if (!$user) {
+            Response::json(['message'=>'Conta nao encontrada'], 404);
+        }
+
+        Response::json($user);
     }
 
     public function register() {

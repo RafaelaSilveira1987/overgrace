@@ -45,6 +45,6 @@ export const authService = {
     },
 
     getUser() {
-        return api.get('/auth/me');
+        return api.get('/me');
     }
 };

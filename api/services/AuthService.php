@@ -23,6 +23,30 @@ class AuthService {
         return self::loginAdmin($email, $password);
     }
 
+    public static function me($payload) {
+        $role = $payload['role'] ?? null;
+        $table = $role === 'admin' ? 'users' : 'clients';
+
+        $db = Database::connect();
+        $stmt = $db->prepare("SELECT * FROM {$table} WHERE id=?");
+        $stmt->execute([$payload['id']]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return false;
+        }
+
+        return [
+            'id' => $user['id'],
+            'name' => $user['name'] ?? null,
+            'email' => $user['email'],
+            'cpf' => $user['cpf'] ?? null,
+            'telefone' => $user['telefone'] ?? null,
+            'role' => $role
+        ];
+    }
+
     private static function loginByTable($table, $email, $password, $role) {
         $db = Database::connect();
 

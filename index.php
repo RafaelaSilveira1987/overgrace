@@ -122,12 +122,22 @@ if (str_starts_with($uri, '/api')) {
 
     RateLimit::handle();
 
+    //     <<<<<<< Updated upstream
+    //     $router = new Router();
+
+    //     $router->add('POST', '/login', 'Auth/AuthController@login');
+    //     $router->add('POST', '/client-login', 'Auth/AuthController@loginClient');
+    //     $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
+    //     $router->add('POST', '/register', 'Auth/AuthController@register');
+    // =======
+
     $router = new Router();
 
     $router->add('POST', '/login', 'Auth/AuthController@login');
     $router->add('POST', '/client-login', 'Auth/AuthController@loginClient');
     $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
     $router->add('POST', '/register', 'Auth/AuthController@register');
+    $router->add('GET', '/me', 'Auth/AuthController@me');
 
     $router->add('POST', '/cart', 'Cart/CartController@add');
     $router->add('GET', '/cart/item', 'Cart/CartController@get');
@@ -175,12 +185,21 @@ if (str_starts_with($uri, '/api')) {
 header('Content-Type: text/html; charset=utf-8');
 
 $routes = [
-    //rotas padrão
+    //      //rotas padrão
+    // <<<<<<< Updated upstream
+    //     '/'          => 'frontend/pages/index.php',
+    //     '/exit'      => 'frontend/pages/index.php',
+    //     '/login'     => 'frontend/pages/login/login.php',
+    //     '/admin-login' => 'frontend/pages/login/login.php',
+    //     '/cadastro'  => 'frontend/pages/login/cadastro.php',
+    // =======
     '/'          => 'frontend/pages/index.php',
     '/exit'      => 'frontend/pages/index.php',
     '/login'     => 'frontend/pages/login/login.php',
     '/admin-login' => 'frontend/pages/login/login.php',
     '/cadastro'  => 'frontend/pages/login/cadastro.php',
+    '/minha-conta' => 'frontend/pages/pages/conta.php',
+    '/conta' => 'frontend/pages/pages/conta.php',
 
     //loja
     '/loja'      => 'frontend/pages/index.php',
