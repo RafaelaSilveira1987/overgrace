@@ -163,8 +163,7 @@ class CouponService
             UPDATE coupons SET
                 cupom = ?,
                 tipo = ?,
-                percentual = ?,
-                valor_fixo = ?,
+                valor = ?,
                 minimo = ?,
                 limite = ?,
                 validade = ?,
@@ -175,8 +174,7 @@ class CouponService
         $stmt->execute([
             $data['cupom'],
             $data['tipo'],
-            $data['percentual'] ?? null,
-            $data['valor_fixo'] ?? null,
+            $data['valor'] ?? null,
             $data['minimo'] ?? 0,
             $data['limite'] ?? null,
             $data['validade'] ?? null,

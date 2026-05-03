@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/checkout.css" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
 
+
 </head>
 
 <body>
@@ -48,203 +49,212 @@
       <div class="panel active" id="panel1">
         <h2 class="panel-title">Identificação</h2>
 
-        <div class="form-row single">
-          <div class="field">
-            <label>E-mail</label>
-            <input type="email" id="email" placeholder="seu@email.com" />
+        <form id="formRegister">
+          <div class="form-row">
+            <div class="field">
+              <label>E-mail</label>
+              <input type="email" id="email" placeholder="seu@email.com" />
+            </div>
+            <div class="field">
+              <label>Senha</label>
+              <input type="password" id="password" placeholder="*****" />
+            </div>
           </div>
-        </div>
 
-        <div class="form-row">
-          <div class="field">
-            <label>Nome</label>
-            <input type="text" id="nome" placeholder="Nome" />
+          <div class="form-row">
+            <div class="field">
+              <label>Nome</label>
+              <input type="text" id="nome" placeholder="Nome" />
+            </div>
+            <div class="field">
+              <label>Sobrenome</label>
+              <input type="text" id="sobrenome" placeholder="Sobrenome" />
+            </div>
           </div>
-          <div class="field">
-            <label>Sobrenome</label>
-            <input type="text" id="sobrenome" placeholder="Sobrenome" />
-          </div>
-        </div>
 
-        <div class="form-row">
-          <div class="field">
-            <label>CPF</label>
-            <input
-              type="text"
-              id="cpf"
-              placeholder="000.000.000-00"
-              maxlength="14"
-              oninput="maskCPF(this)" />
+          <div class="form-row">
+            <div class="field">
+              <label>CPF</label>
+              <input
+                type="text"
+                id="cpf"
+                placeholder="000.000.000-00"
+                maxlength="14"
+                oninput="maskCPF(this)" />
+            </div>
+            <div class="field">
+              <label>Telefone</label>
+              <input
+                type="text"
+                id="tel"
+                placeholder="(00) 00000-0000"
+                maxlength="15"
+                oninput="maskPhone(this)" />
+            </div>
           </div>
-          <div class="field">
-            <label>Telefone</label>
-            <input
-              type="text"
-              id="tel"
-              placeholder="(00) 00000-0000"
-              maxlength="15"
-              oninput="maskPhone(this)" />
-          </div>
-        </div>
 
-        <p class="field-hint">
-          Usaremos esses dados apenas para comunicação sobre o seu pedido.
-        </p>
+          <p class="field-hint">
+            Usaremos esses dados apenas para comunicação sobre o seu pedido.
+          </p>
 
-        <button class="submit-btn" onclick="goToStep(2)">
-          Continuar para entrega <span class="arrow">→</span>
-        </button>
+          <button class="submit-btn">
+            Continuar para entrega <span class="arrow">→</span>
+          </button>
+        </form>
+
       </div>
 
       <!-- STEP 2: Entrega -->
       <div class="panel" id="panel2">
         <h2 class="panel-title">Endereço de entrega</h2>
 
-        <div class="form-row">
-          <div class="field">
-            <label>CEP</label>
-            <input
-              type="text"
-              id="cep"
-              placeholder="00000-000"
-              maxlength="9"
-              oninput="maskCEP(this)"
-              onblur="fetchCEP(this.value)" />
-          </div>
-          <div class="field" style="justify-content: flex-end">
-            <a
-              href="https://buscacepinter.correios.com.br"
-              target="_blank"
-              style="
-                  font-size: 11px;
-                  color: var(--text-muted);
-                  text-decoration: underline;
-                  text-underline-offset: 3px;
-                  padding-bottom: 16px;
-                ">Não sei meu CEP</a>
-          </div>
-        </div>
-
-        <div class="form-row single">
-          <div class="field">
-            <label>Endereço</label>
-            <input type="text" id="endereco" placeholder="Rua, Avenida..." />
-          </div>
-        </div>
-
-        <div class="form-row thirds">
-          <div class="field">
-            <label>Número</label>
-            <input type="text" id="numero" placeholder="123" />
-          </div>
-          <div class="field">
-            <label>Complemento</label>
-            <input type="text" id="comp" placeholder="Apto, Bloco..." />
-          </div>
-          <div class="field">
-            <label>Bairro</label>
-            <input type="text" id="bairro" placeholder="Bairro" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="field">
-            <label>Cidade</label>
-            <input type="text" id="cidade" placeholder="Cidade" />
-          </div>
-          <div class="field">
-            <label>Estado</label>
-            <select id="estado">
-              <option value="">Selecione</option>
-              <option>AC</option>
-              <option>AL</option>
-              <option>AP</option>
-              <option>AM</option>
-              <option>BA</option>
-              <option>CE</option>
-              <option>DF</option>
-              <option>ES</option>
-              <option>GO</option>
-              <option>MA</option>
-              <option>MT</option>
-              <option>MS</option>
-              <option>MG</option>
-              <option>PA</option>
-              <option>PB</option>
-              <option>PR</option>
-              <option>PE</option>
-              <option>PI</option>
-              <option>RJ</option>
-              <option>RN</option>
-              <option>RS</option>
-              <option>RO</option>
-              <option>RR</option>
-              <option>SC</option>
-              <option selected>SP</option>
-              <option>SE</option>
-              <option>TO</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Opções de frete -->
-        <h3
-          style="
-              font-size: 20px;
-              font-weight: 700;
-              margin: 36px 0 20px;
-            ">
-          Forma de entrega
-        </h3>
-
-        <div class="shipping-options">
-          <label
-            class="ship-option selected"
-            onclick="selectShip(this, 0, 'Frete Grátis')">
-            <input type="radio" name="ship" value="gratis" checked />
-            <div class="ship-radio"></div>
-            <div class="ship-info">
-              <div>
-                <p class="ship-label">PAC — Entrega Econômica</p>
-                <p class="ship-eta">Entrega em 5 a 8 dias úteis</p>
-              </div>
+        <form action="formAddress">
+          <div class="form-row">
+            <div class="field">
+              <label>CEP</label>
+              <input
+                type="text"
+                id="cep"
+                placeholder="00000-000"
+                maxlength="9"
+                oninput="maskCEP(this)"
+                onblur="fetchCEP(this.value)" />
             </div>
-            <span class="ship-price free">Grátis</span>
-          </label>
-
-          <label
-            class="ship-option"
-            onclick="selectShip(this, 18.9, 'Sedex')">
-            <input type="radio" name="ship" value="sedex" />
-            <div class="ship-radio"></div>
-            <div class="ship-info">
-              <div>
-                <p class="ship-label">SEDEX — Entrega Expressa</p>
-                <p class="ship-eta">Entrega em 1 a 3 dias úteis</p>
-              </div>
+            <div class="field" style="justify-content: flex-end">
+              <a
+                href="https://buscacepinter.correios.com.br"
+                target="_blank"
+                style="
+                    font-size: 11px;
+                    color: var(--text-muted);
+                    text-decoration: underline;
+                    text-underline-offset: 3px;
+                    padding-bottom: 16px;
+                  ">Não sei meu CEP</a>
             </div>
-            <span class="ship-price">R$ 18,90</span>
-          </label>
-
-          <label
-            class="ship-option"
-            onclick="selectShip(this, 12.5, 'Retirada')">
-            <input type="radio" name="ship" value="retirada" />
-            <div class="ship-radio"></div>
-            <div class="ship-info">
-              <div>
-                <p class="ship-label">Retirada no Ponto de Coleta</p>
-                <p class="ship-eta">Disponível em até 2 dias úteis</p>
-              </div>
+          </div>
+  
+          <div class="form-row single">
+            <div class="field">
+              <label>Endereço</label>
+              <input type="text" id="endereco" placeholder="Rua, Avenida..." />
             </div>
-            <span class="ship-price">R$ 12,50</span>
-          </label>
-        </div>
-
-        <button class="submit-btn" onclick="goToStep(3)">
-          Continuar para pagamento <span class="arrow">→</span>
-        </button>
-        <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
+          </div>
+  
+          <div class="form-row thirds">
+            <div class="field">
+              <label>Número</label>
+              <input type="text" id="numero" placeholder="123" />
+            </div>
+            <div class="field">
+              <label>Complemento</label>
+              <input type="text" id="comp" placeholder="Apto, Bloco..." />
+            </div>
+            <div class="field">
+              <label>Bairro</label>
+              <input type="text" id="bairro" placeholder="Bairro" />
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="field">
+              <label>Cidade</label>
+              <input type="text" id="cidade" placeholder="Cidade" />
+            </div>
+            <div class="field">
+              <label>Estado</label>
+              <select id="estado">
+                <option value="">Selecione</option>
+                <option>AC</option>
+                <option>AL</option>
+                <option>AP</option>
+                <option>AM</option>
+                <option>BA</option>
+                <option>CE</option>
+                <option>DF</option>
+                <option>ES</option>
+                <option>GO</option>
+                <option>MA</option>
+                <option>MT</option>
+                <option>MS</option>
+                <option selected>MG</option>
+                <option>PA</option>
+                <option>PB</option>
+                <option>PR</option>
+                <option>PE</option>
+                <option>PI</option>
+                <option>RJ</option>
+                <option>RN</option>
+                <option>RS</option>
+                <option>RO</option>
+                <option>RR</option>
+                <option>SC</option>
+                <option>SP</option>
+                <option>SE</option>
+                <option>TO</option>
+              </select>
+            </div>
+          </div>
+  
+          <!-- Opções de frete -->
+          <h3
+            style="
+                font-size: 20px;
+                font-weight: 700;
+                margin: 36px 0 20px;
+              ">
+            Forma de entrega
+          </h3>
+  
+          <div class="shipping-options">
+            <label
+              class="ship-option selected"
+              onclick="selectShip(this, 0, 'Frete Grátis')">
+              <input type="radio" name="ship" value="gratis" checked />
+              <div class="ship-radio"></div>
+              <div class="ship-info">
+                <div>
+                  <p class="ship-label">PAC — Entrega Econômica</p>
+                  <p class="ship-eta">Entrega em 5 a 8 dias úteis</p>
+                </div>
+              </div>
+              <span class="ship-price free">Grátis</span>
+            </label>
+  
+            <label
+              class="ship-option"
+              onclick="selectShip(this, 18.9, 'Sedex')">
+              <input type="radio" name="ship" value="sedex" />
+              <div class="ship-radio"></div>
+              <div class="ship-info">
+                <div>
+                  <p class="ship-label">SEDEX — Entrega Expressa</p>
+                  <p class="ship-eta">Entrega em 1 a 3 dias úteis</p>
+                </div>
+              </div>
+              <span class="ship-price">R$ 18,90</span>
+            </label>
+  
+            <label
+              class="ship-option"
+              onclick="selectShip(this, 12.5, 'Retirada')">
+              <input type="radio" name="ship" value="retirada" />
+              <div class="ship-radio"></div>
+              <div class="ship-info">
+                <div>
+                  <p class="ship-label">Retirada no Ponto de Coleta</p>
+                  <p class="ship-eta">Disponível em até 2 dias úteis</p>
+                </div>
+              </div>
+              <span class="ship-price">R$ 12,50</span>
+            </label>
+          </div>
+  
+          <button class="submit-btn" onclick="goToStep(3)">
+            Continuar para pagamento <span class="arrow">→</span>
+          </button>
+          <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
+        </form>
       </div>
 
       <!-- STEP 3: Pagamento -->
@@ -597,158 +607,11 @@
 
   </footer>
 
+  <script type="module" src="frontend/js/modules/client/register.js"></script>
+  <script src="frontend/js/modules/client/utils.js"></script>
+
   <script>
-    let currentStep = 1;
-    let shippingCost = 0;
-    let shippingLabel = "Grátis";
 
-    /* ——— NAVEGAÇÃO DE STEPS ——— */
-    function goToStep(n) {
-      if (n > currentStep + 1) return;
-      document
-        .querySelectorAll(".panel")
-        .forEach((p) => p.classList.remove("active"));
-      document.getElementById("panel" + n).classList.add("active");
-
-      document.querySelectorAll(".step-item").forEach((el, i) => {
-        el.classList.remove("active", "done");
-        if (i + 1 < n) el.classList.add("done");
-        if (i + 1 === n) el.classList.add("active");
-      });
-
-      currentStep = n;
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-
-    /* ——— FRETE ——— */
-    function selectShip(label, cost, name) {
-      document
-        .querySelectorAll(".ship-option")
-        .forEach((o) => o.classList.remove("selected"));
-      label.classList.add("selected");
-      shippingCost = cost;
-      shippingLabel = name;
-      const total = 407 + cost;
-      document.getElementById("shipLabel").textContent =
-        cost === 0 ? "Grátis" : "R$ " + cost.toFixed(2).replace(".", ",");
-      document.getElementById("shipLabel").style.color =
-        cost === 0 ? "var(--success)" : "";
-      document.getElementById("totalFinal").textContent =
-        "R$ " + total.toFixed(2).replace(".", ",");
-    }
-
-    /* ——— ABAS DE PAGAMENTO ——— */
-    function selectPayTab(id, btn) {
-      document
-        .querySelectorAll(".pay-tab")
-        .forEach((t) => t.classList.remove("active"));
-      document
-        .querySelectorAll(".pay-panel")
-        .forEach((p) => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("pay-" + id).classList.add("active");
-    }
-
-    /* ——— CONFIRMAÇÃO ——— */
-    function confirmarPedido() {
-      document.getElementById("checkoutLayout").style.display = "none";
-      document.getElementById("stepsBar").style.display = "none";
-      const num =
-        "FOR-" + String(Math.floor(Math.random() * 99999)).padStart(5, "0");
-      document.getElementById("confirmOrderNum").textContent = "#" + num;
-      document.getElementById("confirmScreen").classList.add("active");
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-
-    /* ——— MÁSCARAS ——— */
-    function maskCPF(el) {
-      let v = el.value.replace(/\D/g, "").slice(0, 11);
-      if (v.length > 9)
-        v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
-      else if (v.length > 6)
-        v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
-      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
-      el.value = v;
-    }
-
-    function maskPhone(el) {
-      let v = el.value.replace(/\D/g, "").slice(0, 11);
-      if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
-      else if (v.length > 6)
-        v = v.replace(/(\d{2})(\d{4,5})(\d{0,4})/, "($1) $2-$3");
-      else if (v.length > 2) v = v.replace(/(\d{2})(\d+)/, "($1) $2");
-      el.value = v;
-    }
-
-    function maskCEP(el) {
-      let v = el.value.replace(/\D/g, "").slice(0, 8);
-      if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, "$1-$2");
-      el.value = v;
-    }
-
-    async function fetchCEP(cep) {
-      const c = cep.replace(/\D/g, "");
-      if (c.length !== 8) return;
-      try {
-        const r = await fetch("https://viacep.com.br/ws/" + c + "/json/");
-        const d = await r.json();
-        if (!d.erro) {
-          document.getElementById("endereco").value = d.logradouro || "";
-          document.getElementById("bairro").value = d.bairro || "";
-          document.getElementById("cidade").value = d.localidade || "";
-          document.getElementById("estado").value = d.uf || "";
-        }
-      } catch (e) {}
-    }
-
-    function maskCard(el) {
-      let v = el.value.replace(/\D/g, "").slice(0, 16);
-      v = v.replace(/(\d{4})(?=\d)/g, "$1 ");
-      el.value = v;
-      const brand = v.startsWith("4") ?
-        "VISA" :
-        v.startsWith("5") ?
-        "MASTERCARD" :
-        v.startsWith("3") ?
-        "AMEX" :
-        "••••";
-      document.getElementById("cardBrand").textContent = brand;
-      document.getElementById("cardNumPreview").textContent =
-        v || "•••• &nbsp;•••• &nbsp;•••• &nbsp;••••";
-    }
-
-    function maskExp(el) {
-      let v = el.value.replace(/\D/g, "").slice(0, 4);
-      if (v.length > 2) v = v.replace(/(\d{2})(\d{1,2})/, "$1/$2");
-      el.value = v;
-      document.getElementById("cardExpPreview").textContent = v || "MM/AA";
-    }
-
-    function copyPix() {
-      const code = document.getElementById("pixCode").textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        const btn = event.target;
-        btn.textContent = "✓ Copiado!";
-        setTimeout(() => (btn.textContent = "Copiar código"), 2000);
-      });
-    }
-
-    /* Gera barras de código de barras simulado */
-    const bc = document.getElementById("barcodeSvg");
-    if (bc) {
-      for (let i = 0; i < 80; i++) {
-        const bar = document.createElement("span");
-        bar.style.width = (Math.random() > 0.5 ? 2 : 1) + "px";
-        bar.style.background = "#1a1814";
-        bc.appendChild(bar);
-      }
-    }
   </script>
 </body>
 

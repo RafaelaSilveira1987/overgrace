@@ -46,13 +46,20 @@ document.getElementById('formCart').addEventListener('submit', async (e) => {
 
 export async function carregarCarrinho() {
     try {
+        // chama endpoint da api para carregar os dados com base nos cookies
         const cart = await carrinhoService.get();
 
-        // 🔹 preencher campos
-        document.getElementById('sub-total-items').textContent = 'R$ ' + formatar(cart.total);
-        document.getElementById('total-items').textContent = 'R$ ' + formatar(cart.total);
+        // base imagem
         const BASE_IMG = '/overgrace/frontend/uploads/products/';
 
+
+        // preencher campos
+        document.getElementById('sub-total-items').textContent = 'R$ ' + formatar(cart.total);
+        document.getElementById('cupom-val').textContent = 'R$ ' + formatar(cart.coupon);
+        document.getElementById('couponDesc').textContent = cart.coupon_description;
+        document.getElementById('total-items').textContent = 'R$ ' + formatar(cart.sub_total);
+
+        //preenche itens do carrinho
         if (cart.items.length > 0) {
             const items = cart.items.map(t => {
                 return `
@@ -103,8 +110,9 @@ export async function carregarCarrinho() {
             document.getElementById('list-items').innerHTML = items;
         }
 
+        // contagem de itens topo tela
         document.getElementById('itemCount').textContent = cart.items.length + ' itens selecionados';
-
+ 
     } catch (e) {
         notify.error('Erro ao carregar produto');
         console.error(e);
@@ -124,7 +132,7 @@ export async function removerItemCarrinho(id) {
         notify.error('Algo deu errado na exclusão do item no carrinho!');
     }
 }
- 
+
 export async function atualizaItemCarrinho(id, quantity) {
     const el = document.getElementById(`item-${id}`);
 
@@ -142,6 +150,47 @@ export async function atualizaItemCarrinho(id, quantity) {
         notify.error('Algo deu errado!');
     }
 }
+
+export async function aplicarCupom(code) {
+    if (!code || !code.trim()) {
+        const msg = document.getElementById("couponMsg");
+        msg.textContent = "Informe um cupom.";
+        msg.style.color = "#8b3a2a";
+
+        notify.warning('Digite um cupom antes de aplicar');
+        return; // 🔥 corta execução aqui
+    }
+
+    try {
+        const coupon = await carrinhoService.aplicarCupom(code);
+
+        const msg = document.getElementById("couponMsg");
+        console.log(msg);
+
+        if (coupon.success) {
+            msg.textContent = `✓ Cupom aplicado: R$${formatar(coupon.desconto)} de desconto`;
+            msg.style.color = "#3a6248";
+        } else {
+            msg.textContent = "Cupom inválido ou expirado.";
+            msg.style.color = "#8b3a2a";
+            document.getElementById("discountRow").style.display = "none";
+
+            notify.error(coupon.mensagem);
+            return
+
+
+        }
+
+        notify.success(coupon.mensagem);
+
+        carregarCarrinho();
+
+    } catch (e) {
+        notify.error('Algo deu errado!');
+    }
+}
+
+
 
 document.addEventListener('click', function (e) {
     if (e.target.matches('.btn-deletar') || e.target.closest('.btn-deletar')) {
@@ -184,6 +233,20 @@ document.addEventListener('click', function (e) {
     console.log('Nova quantidade:', currentQty);
 
     atualizaItemCarrinho(id, currentQty);
+});
+
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-apply-coupon');
+    if (!btn) return;
+
+    const code = document
+        .getElementById("couponInput")
+        .value.trim()
+        .toUpperCase();
+
+    console.log(code);
+
+    aplicarCupom(code);
 });
 
 

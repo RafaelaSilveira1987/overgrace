@@ -1,21 +1,21 @@
 import { couponService } from '../../services/couponService.js';
 import { debounce } from '../../utils/debounce.js';
-import { removerCupom } from './form.js';
+import { removerCupom, editarCupom } from './form.js';
 import { dataUtil, valorUtil } from '../../utils/normalize.js';
- 
+
 let currentPage = 1;
 const limit = 10;
 
 function formatar(valor) {
-    if (!valor) return '';
+  if (!valor) return '';
 
-    const num = Number(valor);
-    if (isNaN(num)) return '';
+  const num = Number(valor);
+  if (isNaN(num)) return '';
 
-    return num.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
+  return num.toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
 export async function carregarCupons() {
@@ -52,7 +52,12 @@ export async function carregarCupons() {
       `;
       return;
     }
- 
+
+    document.querySelector('.table-footer span').innerText =
+      `Mostrando ${res.data.length} de ${res.pagination.total} produtos`;
+    
+    document.querySelector('#countCoupons').innerText = res.totals.total ?? 0;
+
     res.data.forEach(c => {
 
       html += `
@@ -63,7 +68,7 @@ export async function carregarCupons() {
           <td>${formatar(c.minimo) ?? '-'}</td>
           <td>${dataUtil(c.validade, 'format', 'd/m/Y')}</td>
           <td><span class="coupon-tag ${STATUS[c.status]}">${c.status}</span></td>
-          <td><button class="detail-btn" onclick="openCoupon('edit')">Editar</button></td>
+          <td><button class="detail-btn btn-editar" data-id="${c.id}">Editar</button></td>
         </tr>
       `;
     });
@@ -71,6 +76,8 @@ export async function carregarCupons() {
     container.innerHTML = html;
 
     renderPagination(res.pagination);
+
+
 
   } catch (e) {
     console.error(e);

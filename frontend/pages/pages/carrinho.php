@@ -64,8 +64,8 @@
               type="text"
               id="couponInput"
               placeholder="Código de cupom"
-              maxlength="20" />
-            <button onclick="applyCoupon()">Aplicar</button>
+              maxlength="50" />
+            <button type="button" class="btn-apply-coupon">Aplicar</button>
           </div>
           <p class="coupon-msg" id="couponMsg"></p>
         </div>
@@ -79,9 +79,9 @@
           <span class="label">Subtotal</span>
           <span class="value" id="sub-total-items">R$ 0,00</span>
         </div>
-        <div class="summary-row" id="discountRow" style="display: none">
-          <span class="label">Desconto</span>
-          <span class="value" id="summaryDiscount" style="color: #3a6248">— R$ 0,00</span>
+        <div class="summary-row" id="discountRow">
+          <span class="label">Cupom: <small id="couponDesc"></small></span>
+          <span class="value" id="cupom-val" style="color: #3a6248">— R$ 0,00</span>
         </div>
         <div class="summary-row">
           <span class="label">Frete</span>
@@ -198,105 +198,6 @@
   </footer>
 
   <script type="module" src="frontend/js/modules/cart/cart.js"></script>
-
-  <script>
-    const prices = {
-      item1: 189,
-      item2: 99,
-      item3: 119
-    };
-    const qtys = {
-      item1: 1,
-      item2: 1,
-      item3: 1
-    };
-    let discount = 0;
-
-    function fmt(v) {
-      return "R$ " + v.toFixed(2).replace(".", ",");
-    }
-
-    function recalc() {
-      let sub = 0;
-      let active = 0;
-      Object.keys(qtys).forEach((id) => {
-        if (document.getElementById(id)) {
-          sub += prices[id] * qtys[id];
-          active++;
-        }
-      });
-
-      document.getElementById("itemCount").textContent =
-        active + (active === 1 ? " item selecionado" : " itens selecionados");
-
-      document.getElementById("summarySubtotal").textContent = fmt(sub);
-
-      if (discount > 0) {
-        document.getElementById("discountRow").style.display = "flex";
-        document.getElementById("summaryDiscount").textContent =
-          "— " + fmt(discount);
-      }
-
-      const total = Math.max(0, sub - discount);
-      document.getElementById("summaryTotal").textContent = fmt(total);
-
-      const badge = document.getElementById("freeShippingBadge");
-      const shipRow = document.getElementById("summaryShipping");
-      if (total >= 299) {
-        badge.style.display = "flex";
-        shipRow.textContent = "Grátis ✓";
-        shipRow.style.color = "#3a6248";
-      } else {
-        badge.style.display = "none";
-        shipRow.textContent = "Calcular no checkout";
-        shipRow.style.color = "";
-      }
-    }
-
-    function changeQty(id, delta, price) {
-      qtys[id] = Math.max(1, (qtys[id] || 1) + delta);
-      document.getElementById("qty-" + id).textContent = qtys[id];
-      document.getElementById("sub-" + id).textContent = fmt(
-        price * qtys[id],
-      );
-      recalc();
-    }
-
-    function removeItem(id, price) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.opacity = "0";
-      el.style.transform = "translateX(-12px)";
-      el.style.transition = "opacity 0.25s, transform 0.25s";
-      setTimeout(() => {
-        el.remove();
-        delete qtys[id];
-        recalc();
-      }, 250);
-    }
-
-    function applyCoupon() {
-      const code = document
-        .getElementById("couponInput")
-        .value.trim()
-        .toUpperCase();
-      const msg = document.getElementById("couponMsg");
-      if (code === "Overgrace10") {
-        discount = 40.7;
-        msg.textContent = "✓ Cupom aplicado: 10% de desconto";
-        msg.style.color = "#3a6248";
-      } else if (code === "FRETE") {
-        msg.textContent = "✓ Frete grátis aplicado";
-        msg.style.color = "#3a6248";
-      } else {
-        discount = 0;
-        msg.textContent = "Cupom inválido ou expirado.";
-        msg.style.color = "#8b3a2a";
-        document.getElementById("discountRow").style.display = "none";
-      }
-      recalc();
-    }
-  </script>
 </body>
 
 </html>

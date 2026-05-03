@@ -15,7 +15,7 @@ export const couponService = {
     },
 
     atualizar(id, dados) {
-        return api.put(`/coupon/${id}`, dados);
+        return api.post(`/coupon/${id}`, dados);
     },
 
     deletar(id) {

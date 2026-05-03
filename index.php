@@ -131,11 +131,11 @@ if (str_starts_with($uri, '/api')) {
     $router->add('GET', '/cart/item', 'Cart/CartController@get');
     $router->add('GET', '/cart/count', 'Cart/CartController@count');
     $router->add('POST', '/cart/alter/{id}', 'Cart/CartController@update');
+    $router->add('POST', '/cart/coupon', 'Cart/CartController@applyCoupon');
     $router->add('DELETE', '/cart/{id}', 'Cart/CartController@delete');
 
 
     $router->add('POST', '/orders', 'Orders/OrderController@create');
-
 
     $router->add('POST', '/product', 'Products/ProductController@create');
     $router->add('GET', '/product', 'Products/ProductController@get');
@@ -146,8 +146,13 @@ if (str_starts_with($uri, '/api')) {
 
     $router->add('POST', '/coupon', 'Coupon/CouponController@create');
     $router->add('GET', '/coupon', 'Coupon/CouponController@get');
+    $router->add('GET', '/coupon/{id}', 'Coupon/CouponController@getById');
+    $router->add('POST', '/coupon/{id}', 'Coupon/CouponController@update');
 
-
+    $router->add('POST', '/clients', 'Client/ClientController@register');
+    $router->add('GET', '/clients', 'Client/ClientController@get');
+    $router->add('GET', '/clients/{id}', 'Client/ClientController@getById');
+    $router->add('POST', '/clients/{id}', 'Client/ClientController@update');
 
     $router->add('POST', '/stock', 'Stock/StockController@create');
     $router->add('GET', '/stock', 'Stock/StockController@get');

@@ -105,6 +105,8 @@ export async function carregarProdutos() {
     document.querySelector('.table-footer span').innerText =
       `Mostrando ${res.data.length} de ${res.pagination.total} produtos`;
 
+    
+
     if (!res.data || res.data.length === 0) {
       container.innerHTML = `
         <tr>

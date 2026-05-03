@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/05/2026 às 22:14
+-- Tempo de geração: 03/05/2026 às 22:20
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -33,15 +33,18 @@ CREATE TABLE `carts` (
   `session_token` varchar(100) NOT NULL,
   `status` enum('active','converted','abandoned') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `coupon_id` int(11) DEFAULT NULL,
+  `coupon_valor` float DEFAULT NULL,
+  `coupon_tipo` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `carts`
 --
 
-INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`) VALUES
-(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-02 16:04:40');
+INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`, `coupon_id`, `coupon_valor`, `coupon_tipo`) VALUES
+(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-03 19:11:16', 7, 45, 'fixo');
 
 -- --------------------------------------------------------
 
@@ -65,7 +68,7 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-02 20:11:19'),
+(5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-03 19:05:24'),
 (8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
 (9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33');
 
@@ -77,12 +80,66 @@ INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `pr
 
 CREATE TABLE `clients` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(150) NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `nome` varchar(150) NOT NULL,
+  `sobrenome` varchar(150) DEFAULT NULL,
   `email` varchar(150) NOT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
+  `telefone` varchar(100) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `google_id` varchar(100) DEFAULT NULL,
+  `status` enum('ativo','inativo','','') DEFAULT 'ativo',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cep` varchar(10) DEFAULT NULL,
+  `endereco` varchar(255) DEFAULT NULL,
+  `numero` varchar(20) DEFAULT NULL,
+  `bairro` varchar(100) DEFAULT NULL,
+  `complemento` varchar(150) DEFAULT NULL,
+  `cidade` varchar(100) DEFAULT NULL,
+  `estado` varchar(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `clients`
+--
+
+INSERT INTO `clients` (`id`, `uuid`, `nome`, `sobrenome`, `email`, `cpf`, `telefone`, `password`, `google_id`, `status`, `created_at`, `updated_at`, `cep`, `endereco`, `numero`, `bairro`, `complemento`, `cidade`, `estado`) VALUES
+(4, 'e41745dd-472c-11f1-bd1a-f4b5204d1e7e', 'marcos', 'leandro', 'marcosadmleandro@gmail.com', '022.904.366-66', '(32) 99837-3640', '$2y$10$3QosFHKm0s.DgihnBPinquGCqn8jfpIGb39BStyAIPTsqS8JWn5RC', NULL, 'ativo', '2026-05-03 20:15:57', '2026-05-03 20:15:57', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` char(36) NOT NULL,
+  `cupom` varchar(100) NOT NULL,
+  `tipo` enum('percentual','fixo','frete') NOT NULL DEFAULT 'percentual',
+  `percentual` decimal(5,2) DEFAULT NULL,
+  `valor` decimal(10,2) DEFAULT NULL,
+  `minimo` decimal(10,2) DEFAULT 0.00,
+  `limite` int(11) DEFAULT NULL,
+  `validade` datetime DEFAULT NULL,
+  `status` enum('ativo','pausado','expirado') DEFAULT 'ativo',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `uuid`, `cupom`, `tipo`, `percentual`, `valor`, `minimo`, `limite`, `validade`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'db781bd8-46a6-11f1-bd1a-f4b5204d1e7e', 'CUPOMTESTE10', 'percentual', 10.00, 10.00, 150.00, 2500, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:16:29', '2026-05-03 04:19:34'),
+(3, 'f25d574c-46a6-11f1-bd1a-f4b5204d1e7e', 'NOVO20', 'percentual', 20.00, 20.00, 0.00, NULL, '2027-01-01 00:00:00', 'pausado', '2026-05-03 04:17:08', '2026-05-03 04:19:31'),
+(4, 'fec3c930-46a6-11f1-bd1a-f4b5204d1e7e', 'CUPOMEXPIRADO', 'percentual', 5.00, 5.00, 0.00, NULL, '2027-01-01 00:00:00', 'expirado', '2026-05-03 04:17:28', '2026-05-03 04:19:29'),
+(5, '20d06e73-46a7-11f1-bd1a-f4b5204d1e7e', 'TESTE', 'percentual', NULL, 10.00, 500.00, 5000, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:18:26', '2026-05-03 04:19:27'),
+(6, '3e955d6a-46a7-11f1-bd1a-f4b5204d1e7e', 'BONES15', 'percentual', NULL, 15.00, 500.00, 5000, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:19:15', '2026-05-03 15:25:53'),
+(7, 'a25c4f37-4704-11f1-bd1a-f4b5204d1e7e', 'CAMISETAS45', 'fixo', NULL, 45.00, 200.00, 5000, '2026-10-01 00:00:00', 'ativo', '2026-05-03 15:27:46', '2026-05-03 15:27:46'),
+(8, 'b722eeed-4704-11f1-bd1a-f4b5204d1e7e', 'FRETEGRATISVOVER', 'frete', NULL, 15.00, 0.00, NULL, '2026-06-01 00:00:00', 'ativo', '2026-05-03 15:28:21', '2026-05-03 15:28:31');
 
 -- --------------------------------------------------------
 
@@ -225,7 +282,7 @@ INSERT INTO `products` (`id`, `uuid`, `descricao`, `desc_slug`, `categoria`, `pr
 (13, '2db7e6be-4196-11f1-9a4a-f4b5204d1e7e', 'Camisa gola povo alpha co', 'camisa-gola-povo-alpha-co', 'camisas', 155.00, 189.90, '-20%', 1, '2026-04-26 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-26 17:34:29', '2026-04-28 00:36:17', 0, NULL),
 (14, '1c642e87-4197-11f1-9a4a-f4b5204d1e7e', 'teste tag teste', 'teste-tag-teste', 'camisas', 15.00, 0.00, '', 0, '2026-04-26 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-26 17:41:09', '2026-04-28 00:36:17', 0, NULL),
 (15, '2b850b23-4197-11f1-9a4a-f4b5204d1e7e', 'Camisa gola povo alpha co amarela', 'camisa-gola-povo-alpha-co-amarela', 'camisas', 50.00, 0.00, '', 0, '2026-04-26 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 35, 1, 1, 0, '2026-04-26 17:41:35', '2026-04-28 00:36:17', 0, NULL),
-(16, 'eeaa495d-41a3-11f1-9a4a-f4b5204d1e7e', 'produto novo', 'produto-novo', 'camisas', 5.25, 10.25, 'Novo', 1, '2026-04-26 00:00:00', '0000-00-00 00:00:00', NULL, 'dsfsdfdsf\r\n\r\nsdfsdfdsfsdfsd\r\n\r\nsdfsdfdsfsdfdsfdsfdsf', 0.000, NULL, 12, 1, 1, 0, '2026-04-26 19:12:56', '2026-04-28 00:36:17', 0, NULL),
+(16, 'eeaa495d-41a3-11f1-9a4a-f4b5204d1e7e', 'produto novo', 'produto-novo', 'bones', 5.25, 10.25, 'Novo', 1, '2026-04-26 00:00:00', '0000-00-00 00:00:00', NULL, 'dsfsdfdsf\r\n\r\nsdfsdfdsfsdfsd\r\n\r\nsdfsdfdsfsdfdsfdsfdsf', 0.000, NULL, 12, 1, 1, 0, '2026-04-26 19:12:56', '2026-05-03 02:48:13', 0, NULL),
 (17, 'fc2bdc75-4223-11f1-b1c7-d09466a5d484', 'Novo produto', 'novo-produto', 'camisas', 55.25, 79.90, '-20%', 0, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-27 10:29:34', '2026-04-28 00:36:17', 0, NULL),
 (20, '2629adeb-4296-11f1-a581-f4b5204d1e7e', 'Tenis DC classic', 'tenis-dc-classic', 'kits', 325.50, 510.00, '-20%', 0, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-28 00:06:47', '2026-04-28 00:36:17', 0, NULL),
 (22, 'debdc512-4296-11f1-a581-f4b5204d1e7e', 'Tenis DC classic 2', 'tenis-dc-classic-2', 'camisas', 325.11, 450.00, '-20%', 0, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-28 00:11:57', '2026-04-28 00:36:17', 0, NULL),
@@ -256,15 +313,15 @@ INSERT INTO `products_img` (`id`, `produto_id`, `imagem`, `ordem`, `destaque`, `
 (37, 8, '6e7022bbf0d5502fe3536fe50775d5aa.png', 0, 1, '2026-04-26 17:19:14'),
 (39, 11, '660937a56430678879817edbf696de7b.jpg', 0, 1, '2026-04-26 17:24:43'),
 (42, 13, 'ae73960d398c8d20755d4e9d6df79202.png', 0, 1, '2026-04-26 17:40:45'),
-(66, 16, 'b2be3cf56e8351c963daed1c2c66adf4.jpg', 0, 1, '2026-04-26 19:58:21'),
-(67, 16, '6125146c42ad1e1a138bde465bdebb19.png', 0, 0, '2026-04-26 19:58:21'),
 (79, 14, 'c770da862af2f797cfe43b23df2d078d.jpg', 0, 1, '2026-04-26 21:31:14'),
 (81, 4, 'afff147a83eb9fce3a02d64dbb0fac2f.jpg', 0, 1, '2026-04-26 21:34:18'),
 (82, 15, 'c3823569f4a398191673da8c4be9f25a.jpg', 0, 1, '2026-04-27 10:24:49'),
 (86, 17, 'e6aae2578932beda01a175b9fe7c585b.jpeg', 0, 1, '2026-04-27 18:38:32'),
 (89, 20, '1c68c006f0b219c4fd29613e2427c37d.png', 0, 1, '2026-04-28 00:06:47'),
-(99, 23, '9022e86fa69a0d542937139a591e3713.png', 0, 1, '2026-04-28 00:32:06'),
-(100, 22, '80672028ce4312ba7b23a0924b597015.png', 0, 1, '2026-04-28 00:57:53');
+(100, 22, '80672028ce4312ba7b23a0924b597015.png', 0, 1, '2026-04-28 00:57:53'),
+(101, 16, 'b2be3cf56e8351c963daed1c2c66adf4.jpg', 0, 1, '2026-05-03 02:48:13'),
+(102, 16, '6125146c42ad1e1a138bde465bdebb19.png', 0, 0, '2026-05-03 02:48:13'),
+(104, 23, '9022e86fa69a0d542937139a591e3713.png', 0, 1, '2026-05-03 04:12:30');
 
 -- --------------------------------------------------------
 
@@ -309,7 +366,7 @@ INSERT INTO `products_stock` (`id`, `produto_id`, `tamanho`, `estoque`, `estoque
 (125, 13, 'M', 0, 0, 0, 0, 1, '2026-04-26 17:40:45', '2026-04-26 17:40:45'),
 (126, 13, 'G', 0, 0, 0, 0, 1, '2026-04-26 17:40:45', '2026-04-26 17:40:45'),
 (127, 13, 'GG', 0, 0, 0, 0, 1, '2026-04-26 17:40:45', '2026-04-26 17:40:45'),
-(161, 16, 'Único', 12, 0, 0, 0, 1, '2026-04-26 19:58:21', '2026-04-26 19:58:21'),
+(161, 16, 'Único', 0, 0, 0, 0, 1, '2026-04-26 19:58:21', '2026-05-03 02:48:13'),
 (191, 14, 'Único', 0, 0, 25, 25, 1, '2026-04-26 21:31:14', '2026-04-26 21:31:14'),
 (195, 4, 'GG', 0, 0, 0, 0, 1, '2026-04-26 21:34:18', '2026-04-26 21:34:18'),
 (196, 15, 'P', 10, 0, 35, 15, 1, '2026-04-27 10:24:49', '2026-04-27 23:38:54'),
@@ -357,7 +414,8 @@ INSERT INTO `products_stock_movements` (`id`, `produto_id`, `tamanho`, `tipo_mov
 (20, 23, 'Único', 'saldo_inicial', 10, NULL, NULL, NULL, '2026-04-27 00:00:00', NULL, 'Estoque inicial do produto', '2026-04-27 21:15:20'),
 (22, 23, 'Único', 'entrada', 50, NULL, '', '', '2026-04-28 00:00:00', 0.00, '', '2026-04-27 21:31:10'),
 (23, 23, 'Único', 'entrada', 30, NULL, 'DC Calçados', '123', '2026-04-28 00:00:00', 25.00, '', '2026-04-27 21:32:52'),
-(24, 17, 'M', 'entrada', 70, NULL, '', '', '2026-04-28 00:00:00', 0.00, '', '2026-04-27 21:57:34');
+(24, 17, 'M', 'entrada', 70, NULL, '', '', '2026-04-28 00:00:00', 0.00, '', '2026-04-27 21:57:34'),
+(25, 16, 'Único', '', 0, NULL, NULL, NULL, '2026-05-02 00:00:00', NULL, 'Estoque inicial (edição)', '2026-05-02 23:48:13');
 
 -- --------------------------------------------------------
 
@@ -382,13 +440,13 @@ INSERT INTO `products_tags` (`id`, `produto_id`, `tag`) VALUES
 (76, 13, 'M'),
 (77, 13, 'G'),
 (78, 13, 'GG'),
-(112, 16, 'Único'),
 (140, 14, 'Único'),
 (144, 15, 'GG'),
 (145, 15, 'GGG'),
 (146, 15, 'Único'),
 (153, 17, 'Array'),
-(154, 17, 'Array');
+(154, 17, 'Array'),
+(155, 16, 'Único');
 
 -- --------------------------------------------------------
 
@@ -434,6 +492,18 @@ ALTER TABLE `cart_items`
 ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Índices de tabela `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `cupom` (`cupom`),
+  ADD KEY `idx_cupom` (`cupom`),
+  ADD KEY `idx_uuid` (`uuid`),
+  ADD KEY `idx_validade` (`validade`),
+  ADD KEY `idx_status` (`status`);
 
 --
 -- Índices de tabela `orders`
@@ -545,7 +615,13 @@ ALTER TABLE `cart_items`
 -- AUTO_INCREMENT de tabela `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de tabela `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `orders`
@@ -593,25 +669,25 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT de tabela `products_img`
 --
 ALTER TABLE `products_img`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT de tabela `products_stock`
 --
 ALTER TABLE `products_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
 
 --
 -- AUTO_INCREMENT de tabela `products_stock_movements`
 --
 ALTER TABLE `products_stock_movements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de tabela `products_tags`
 --
 ALTER TABLE `products_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
 -- AUTO_INCREMENT de tabela `users`

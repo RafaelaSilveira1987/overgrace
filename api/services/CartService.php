@@ -69,12 +69,17 @@ class CartService
 
         // 1. Buscar carrinho
         $stmt = $db->prepare("
-        SELECT id
-        FROM carts
-        WHERE session_token = ?
-        AND status = 'active'
+        SELECT 
+            c.id, 
+            c.coupon_valor, 
+            c.coupon_id, 
+            cp.cupom as coupon_desc
+        FROM carts c
+        LEFT JOIN coupons cp on cp.id = c.coupon_id 
+        WHERE c.session_token = ?
+        AND c.status = 'active'
         LIMIT 1
-    ");
+        ");
         $stmt->execute([$cartToken]);
         $cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -87,7 +92,7 @@ class CartService
 
         $cartId = $cart['id'];
 
-        // 2. Buscar itens + imagem principal
+        // 3. Buscar itens + imagem principal
         $stmt = $db->prepare("
         SELECT 
             ci.id,
@@ -110,7 +115,7 @@ class CartService
         FROM cart_items ci
         JOIN products p ON p.id = ci.product_id
         WHERE ci.cart_id = ?
-    ");
+        ");
 
         $stmt->execute([$cartId]);
 
@@ -129,7 +134,10 @@ class CartService
 
         return [
             'items' => $items,
-            'total' => $total
+            'total' => $total,
+            'coupon' => $cart['coupon_valor'],
+            'coupon_description' => $cart['coupon_desc'],
+            'sub_total' => (float) $total - (float) $cart['coupon_valor']
         ];
     }
 
@@ -215,5 +223,132 @@ class CartService
         WHERE id = ?
         ");
         $stmt->execute([$quantity, $itemId]);
+    }
+
+    public static function apply($cartToken, $code)
+    {
+        $db = Database::connect();
+
+        if (!$code || trim($code) === '') {
+            throw new Exception('Cupom não informado');
+        }
+
+        // 1. Buscar carrinho ativo
+        $stmt = $db->prepare("
+        SELECT id 
+        FROM carts 
+        WHERE session_token = ? 
+        AND status = 'active'
+        LIMIT 1
+        ");
+
+        $stmt->execute([$cartToken]);
+        $cart = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$cart) {
+            throw new Exception('Carrinho não encontrado');
+        }
+
+        $cartId = $cart['id'];
+
+        // 2. Buscar cupom
+        $stmt = $db->prepare("
+        SELECT *
+        FROM coupons
+        WHERE cupom = ?
+        LIMIT 1
+        ");
+
+        $stmt->execute([$code]);
+        $coupon = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$coupon) {
+            throw new Exception('Cupom inválido');
+        }
+
+        // 3. Validações básicas
+        if ($coupon['status'] !== 'ativo') {
+            throw new Exception('Cupom inativo');
+        }
+
+        if ($coupon['validade'] && strtotime($coupon['validade']) < time()) {
+            throw new Exception('Cupom expirado');
+        }
+
+        // 4. Calcular subtotal do carrinho
+        $stmt = $db->prepare("
+        SELECT SUM(price * quantity) as subtotal
+        FROM cart_items
+        WHERE cart_id = ?
+        ");
+
+        $stmt->execute([$cartId]);
+        $subtotal = (float) $stmt->fetchColumn();
+
+        if ($subtotal <= 0) {
+            throw new Exception('Carrinho vazio');
+        }
+
+        // 5. Validar valor mínimo
+        if (!empty($coupon['minimo']) && $subtotal < $coupon['minimo']) {
+            throw new Exception('Valor mínimo para uso do cupom não atingido');
+        }
+
+        // 6. Validar limite de uso
+        if (!empty($coupon['limite_uso'])) {
+            $stmt = $db->prepare("
+            SELECT COUNT(*) 
+            FROM orders 
+            WHERE coupon_id = ?
+        ");
+
+            $stmt->execute([$coupon['id']]);
+            $usos = (int) $stmt->fetchColumn();
+
+            if ($usos >= $coupon['limite_uso']) {
+                throw new Exception('Cupom atingiu limite de uso');
+            }
+        }
+
+        // 7. Calcular desconto
+        $desconto = 0;
+
+        if ($coupon['tipo'] === 'percentual') {
+            $desconto = ($subtotal * $coupon['valor']) / 100;
+        } elseif ($coupon['tipo'] === 'fixo') {
+            $desconto = $coupon['valor'];
+        } elseif ($coupon['tipo'] === 'frete') {
+            // não aplica desconto direto
+            $desconto = 0;
+        }
+
+        // 🔒 segurança: nunca deixar negativo
+        if ($desconto > $subtotal) {
+            $desconto = $subtotal;
+        }
+
+        // 8. Salvar no carrinho (snapshot)
+        $stmt = $db->prepare("
+        UPDATE carts
+        SET 
+            coupon_id = ?,
+            coupon_valor = ?,
+            coupon_tipo = ?,
+            updated_at = NOW()
+        WHERE id = ?
+    ");
+        $stmt->execute([
+            $coupon['id'],
+            $desconto,
+            $coupon['tipo'],
+            $cartId
+        ]);
+
+        return [
+            'success' => true,
+            'desconto' => $desconto,
+            'tipo' => $coupon['tipo'],
+            'mensagem' => 'Cupom aplicado com sucesso'
+        ];
     }
 }

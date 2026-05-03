@@ -3,7 +3,7 @@ import { notify } from '../../utils/notify.js';
 import { alertConfirm } from '../../utils/alerts.js';
 import { marcarErro } from '../../utils/validateUI.js';
 import { dataUtil, valorUtil } from '../../utils/normalize.js';
-//import { carregarCupons } from './lista.js';
+import { carregarCupons } from './lista.js';
 
 let cupomEditandoId = null;
 
@@ -70,7 +70,7 @@ document.getElementById('formCoupon').addEventListener('submit', async (e) => {
         document.getElementById('formCoupon').reset();
         cupomEditandoId = null;
 
-        //carregarCupons();
+        carregarCupons();
         closeCoupon();
 
     } catch (e) {
@@ -87,16 +87,15 @@ export async function editarCupom(id) {
 
         cupomEditandoId = id;
 
-        document.getElementById('f-cupom').value = c.cupom;
-        document.getElementById('f-tipo').value = c.tipo;
-        document.getElementById('f-percentual').value = c.percentual || '';
-        document.getElementById('f-valor').value = c.valor || '';
-        document.getElementById('f-minimo').value = c.minimo || '';
-        document.getElementById('f-limite').value = c.limite || '';
-        document.getElementById('f-validade').value = c.validade || '';
-        document.getElementById('f-status').value = c.status;
+        document.getElementById('couponCode').value = c.cupom
+        document.getElementById('couponType').value = c.tipo;
+        document.getElementById('couponValue').value = c.valor || '';
+        document.getElementById('couponMin').value = c.minimo || '';
+        document.getElementById('couponLimit').value = c.limite || '';
+        document.getElementById('couponDate').value = dataUtil(c.validade, 'format', 'Y-m-d') || '';
+        document.getElementById('couponStatus').value = c.status;
 
-        openModal();
+        openCoupon();
 
     } catch (e) {
         notify.error('Erro ao carregar cupom');

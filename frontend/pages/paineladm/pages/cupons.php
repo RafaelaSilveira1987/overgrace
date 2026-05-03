@@ -33,12 +33,12 @@
     <div class="main">
 
       <?php include 'frontend/pages/paineladm/navbar.php' ?>
-
+ 
       <div class="page-content">
         <div class="page-header">
           <div class="page-header-left">
             <h1>Cupons</h1>
-            <p>12 cupons cadastrados</p>
+            <p><span id="countCoupons">0</span> cupons cadastrados</p>
           </div>
           <div class="page-header-actions">
             <button class="btn btn-outline">Exportar lista</button>

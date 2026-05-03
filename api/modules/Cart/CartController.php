@@ -56,6 +56,26 @@ class CartController
         Response::json(['success' => true]);
     }
 
+    public function applyCoupon()
+    {
+        try {
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            $cartToken = $this->getCartToken();
+            $code = $data['cupom'] ?? null;
+
+            $result = CartService::apply($cartToken, $code);
+
+            Response::json($result);
+        } catch (Exception $e) {
+
+            Response::json([
+                'success' => false,
+                'mensagem' => $e->getMessage()
+            ], 200); // importante: não usar 500 aqui
+        }
+    }
+
 
     public function delete($id)
     {
@@ -67,7 +87,6 @@ class CartController
 
         Response::json($cart);
     }
-
 
     private function getCartToken()
     {

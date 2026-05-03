@@ -1,34 +1,44 @@
-[2026-05-02 11:46:34][ERROR] SQLSTATE[HY000]: General error: 2006 MySQL server has gone away
-[2026-05-02 11:47:35][ERROR] SQLSTATE[HY000] [2002] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente
-[2026-05-02 11:49:19][ERROR] SQLSTATE[HY000] [2002] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente
-[2026-05-02 11:49:21][ERROR] SQLSTATE[HY000] [2002] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente
-[2026-05-02 11:49:28][ERROR] SQLSTATE[HY000] [2002] Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente
-[2026-05-02 12:16:23][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:3
-[2026-05-02 12:16:23][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
-[2026-05-02 12:18:52][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:3
-[2026-05-02 12:18:52][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
-[2026-05-02 12:20:30][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:3
-[2026-05-02 12:20:30][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
-[2026-05-02 12:21:24][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:3
-[2026-05-02 12:21:24][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
-[2026-05-02 12:22:01][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:3
-[2026-05-02 12:22:01][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
-[2026-05-02 12:23:03][ERROR] [2] require_once(config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\services\CartService.php:3
-[2026-05-02 12:23:03][ERROR] Failed opening required 'config/database.php' (include_path='C:\xampp\php\PEAR')
-[2026-05-02 12:24:01][ERROR] [2] Undefined array key "product_id" in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:16
-[2026-05-02 12:24:01][ERROR] [2] Undefined array key "qty" in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:16
-[2026-05-02 12:24:01][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.cart' doesn't exist
-[2026-05-02 12:57:15][ERROR] [2] Undefined variable $user in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:14
-[2026-05-02 12:57:15][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:14
-[2026-05-02 12:57:15][ERROR] [2] Undefined array key "product_id" in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:14
-[2026-05-02 12:57:15][ERROR] [2] Undefined array key "qty" in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:14
-[2026-05-02 12:57:15][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.cart' doesn't exist
-[2026-05-02 13:03:33][ERROR] [2] Undefined array key "product_id" in C:\xampp\htdocs\overgrace\api\modules\Cart\CartController.php:18
-[2026-05-02 13:03:33][ERROR] SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'product_id' cannot be null
-[2026-05-02 15:37:21][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
-[2026-05-02 15:50:01][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
-[2026-05-02 15:50:50][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
-[2026-05-02 15:52:02][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
-[2026-05-02 15:53:03][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.name' in 'field list'
-[2026-05-02 16:44:37][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.cart' doesn't exist
-[2026-05-03 01:14:17][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'valor_fixo' in 'field list'
+[2026-05-03 13:21:00][ERROR] Cupom inválido
+[2026-05-03 13:29:51][ERROR] [2] Undefined array key "coupon_valor" in C:\xampp\htdocs\overgrace\api\services\CartService.php:133
+[2026-05-03 16:03:58][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.coupon' doesn't exist
+[2026-05-03 16:03:59][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.coupon' doesn't exist
+[2026-05-03 16:04:52][ERROR] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'overgrace.coupon' doesn't exist
+[2026-05-03 16:45:45][ERROR] [2] require_once(api/services/CustomerService.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Client\ClientController.php:4
+[2026-05-03 16:45:45][ERROR] Failed opening required 'api/services/CustomerService.php' (include_path='C:\xampp\php\PEAR')
+[2026-05-03 16:46:16][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:46:16][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:46:23][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:46:23][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:46:36][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:46:36][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:47:01][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:47:01][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:49:13][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:49:13][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:50:32][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:50:32][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:50:44][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:50:44][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:51:04][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:51:04][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:51:18][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:51:18][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:52:35][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:52:35][ERROR] [8192] strlen(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:126
+[2026-05-03 16:53:00][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:53:00][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 16:53:00][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 16:53:01][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:53:01][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 16:53:01][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 16:53:44][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 16:53:44][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 16:53:44][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 17:03:39][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:28
+[2026-05-03 17:03:39][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 17:03:39][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:32
+[2026-05-03 17:12:54][ERROR] call_user_func_array(): Argument #1 ($callback) must be a valid callback, class ClientController does not have a method "create"
+[2026-05-03 17:14:06][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:30
+[2026-05-03 17:14:06][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:30
+[2026-05-03 17:15:57][ERROR] [2] Undefined array key "password" in C:\xampp\htdocs\overgrace\api\services\ClientService.php:30
+[2026-05-03 17:15:57][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:30

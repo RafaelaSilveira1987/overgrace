@@ -19,7 +19,11 @@ export const carrinhoService = {
     },
 
     atualizar(id, quantidade) {
-        return api.post(`/cart/alter/${id}`, {quantidade: quantidade});
+        return api.post(`/cart/alter/${id}`, { quantidade: quantidade });
+    },
+
+    aplicarCupom(code) {
+        return api.post(`/cart/coupon`, { cupom: code });
     },
 
     remover(item_id) {

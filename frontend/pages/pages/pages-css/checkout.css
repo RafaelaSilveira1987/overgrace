@@ -949,3 +949,7 @@ header {
 .footer-socials a:hover {
   color: var(--text);
 }
+
+.input-error {
+  border: 2px solid #dc3545 !important; /* vermelho bootstrap */
+}
