@@ -43,6 +43,38 @@ class ClientService
         ]);
     }
 
+    // 🔹 UPDATE
+    public static function updateAddress($clientId, $data)
+    {
+
+        $db = Database::connect();
+
+        $stmt = $db->prepare("
+        UPDATE clients SET
+            cep = ?,
+            endereco = ?,
+            numero = ?,
+            complemento = ?,
+            bairro = ?,
+            cidade = ?,
+            estado = ?
+        WHERE id = ?
+        ");
+
+        $stmt->execute([
+            $data['cep'],
+            $data['endereco'],
+            $data['numero'],
+            $data['complemento'],
+            $data['bairro'],
+            $data['cidade'],
+            $data['estado'],
+            $clientId
+        ]);
+
+        return true;
+    }
+
     // 🔹 LOGIN
     public static function login($email, $senha)
     {

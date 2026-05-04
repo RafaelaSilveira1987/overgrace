@@ -7,131 +7,129 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
 
     try {
 
-        const camposObrigatorios = [
-            'nome',
-            'sobrenome',
-            'email',
-            'password',
-            'cpf',
-            'tel'
-        ];
+        const campos = ['nome', 'sobrenome', 'email', 'password', 'cpf', 'tel'];
 
         let erro = false;
 
-        camposObrigatorios.forEach(id => {
+        campos.forEach(id => {
             const el = document.getElementById(id);
-
             if (!el.value.trim()) {
                 marcarErro(el);
                 erro = true;
             }
         });
 
-        const senha = document.getElementById('password').value;
-
-        // 🔐 validação básica frontend
-        if (senha.length < 8) {
-            marcarErro(document.getElementById('password'));
-            throw new Error('Senha deve ter no mínimo 8 caracteres');
-        }
+        if (erro) throw new Error('Preencha os campos obrigatórios');
 
         const dados = {
-            nome: document.getElementById('nome').value,
-            sobrenome: document.getElementById('sobrenome').value,
-            email: document.getElementById('email').value,
-            senha: senha,
-            cpf: document.getElementById('cpf').value || null,
-            telefone: document.getElementById('tel').value || null
+            nome: nome.value,
+            sobrenome: sobrenome.value,
+            email: email.value,
+            password: password.value,
+            cpf: cpf.value,
+            telefone: tel.value
         };
 
-        if (erro) {
-            throw new Error('Preencha os campos obrigatórios');
+        let auth;
+
+        // 🔥 1. tenta login primeiro
+        try {
+            auth = await api.post('/auth/loginClient', {
+                email: dados.email,
+                password: dados.password
+            });
+        } catch (e) {
+
+            // 🔥 2. se não logou → tenta cadastrar
+            await api.post('/auth/register', dados);
+
+            // 🔥 3. depois loga
+            auth = await api.post('/auth/loginClient', {
+                email: dados.email,
+                password: dados.password
+            });
         }
 
-        const submit = await clientService.criar(dados);
+        // 🔐 salva token
+        localStorage.setItem('token_client', auth.token);
 
-        if (submit.token) {
+        notify.success('Continuando...');
 
-            localStorage.setItem('token_client', submit.token);
-
-            console.log(localStorage.getItem('token_client'));
-
-            notify.success('Cadastro realizado com sucesso!');
-            goToStep(2);
-
-        } else {
-            notify.error('Erro ao cadastrar');
-        }
-
-
-        document.getElementById('formRegister').reset();
+        goToStep(2);
 
     } catch (e) {
-        console.error(e);
-        notify.error(e.message || e.error || 'Erro ao cadastrar');
+        notify.error(e.message || 'Erro ao continuar');
     }
 });
 
 
-document.getElementById('formAddress').addEventListener('submit', async (e) => {
+document.querySelector('#panel2 form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     try {
 
-        const camposObrigatorios = [
-            'cep',
-            'endereco',
-            'numero',
-            'comp',
-            'bairro',
-            'cidade',
-            'estado',
-        ];
+        const campos = ['cep', 'endereco', 'numero', 'bairro', 'cidade', 'estado'];
 
         let erro = false;
 
-        camposObrigatorios.forEach(id => {
+        campos.forEach(id => {
             const el = document.getElementById(id);
-
             if (!el.value.trim()) {
                 marcarErro(el);
                 erro = true;
             }
         });
 
-        const senha = document.getElementById('password').value;
-
-        // 🔐 validação básica frontend
-        if (senha.length < 8) {
-            marcarErro(document.getElementById('password'));
-            throw new Error('Senha deve ter no mínimo 8 caracteres');
-        }
+        if (erro) throw new Error('Preencha o endereço');
 
         const dados = {
-            nome: document.getElementById('nome').value,
-            sobrenome: document.getElementById('sobrenome').value,
-            email: document.getElementById('email').value,
-            senha: senha,
-            cpf: document.getElementById('cpf').value || null,
-            telefone: document.getElementById('tel').value || null
+            cep: cep.value,
+            endereco: endereco.value,
+            numero: numero.value,
+            complemento: comp.value || null,
+            bairro: bairro.value,
+            cidade: cidade.value,
+            estado: estado.value
         };
 
-        if (erro) {
-            throw new Error('Preencha os campos obrigatórios');
-        }
+        await api.post('/client/address', dados);
 
-        const submit = await clientService.criar(dados);
-        if (submit.success) {
-            notify.success('Cadastro realizado com sucesso!');
-            goToStep(2);
-        } else {
-            notify.error(e.message || e.error || e.mensagem || 'Erro ao cadastrar');
-        }
+        notify.success('Endereço salvo');
 
-        document.getElementById('formRegister').reset();
+        goToStep(3);
 
     } catch (e) {
-        console.error(e);
-        notify.error(e.message || e.error || 'Erro ao cadastrar');
+        notify.error(e.message);
     }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token_client');
+
+    console.log(token);
+
+
+    if (!token) return;
+
+    try {
+
+        const client = await api.get('/auth/me');
+
+
+        // já logado → pula cadastro
+        goToStep(2);
+
+        // se tiver endereço salvo → pula direto
+        if (client.cep && client.endereco && client.numero) {
+            goToStep(3);
+        }
+
+    } catch (e) {
+        localStorage.removeItem('token_client');
+    }
+});
+
+
+

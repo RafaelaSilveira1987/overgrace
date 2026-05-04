@@ -108,7 +108,7 @@
       <div class="panel" id="panel2">
         <h2 class="panel-title">Endereço de entrega</h2>
 
-        <form action="formAddress">
+        <form id="formAddress">
           <div class="form-row">
             <div class="field">
               <label>CEP</label>

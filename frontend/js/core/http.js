@@ -6,7 +6,7 @@ export async function request(url, options = {}) {
 
     const headers = isFormData
         ? {
-            ...getHeaders(true) // 🔥 AGORA SIM SEM Content-Type
+            ...getHeaders(true) 
         }
         : {
             ...getHeaders(),

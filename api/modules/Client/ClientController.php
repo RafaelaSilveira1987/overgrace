@@ -6,13 +6,14 @@ require_once 'api/services/ClientService.php';
 
 class ClientController
 {
-    public function login() {
+    public function login()
+    {
         $data = json_decode(file_get_contents("php://input"), true);
 
         try {
 
             $token = ClientService::login(
-                $data['email'], 
+                $data['email'],
                 $data['senha']
             );
 
@@ -21,13 +22,13 @@ class ClientController
             }
 
             Response::json(['token' => $token]);
-
         } catch (Exception $e) {
             Response::json(['error' => $e->getMessage()], 400);
         }
     }
 
-    public function register() {
+    public function register()
+    {
         $data = json_decode(file_get_contents("php://input"), true);
 
         try {
@@ -38,7 +39,19 @@ class ClientController
                 'success' => true,
                 'token' => $token
             ]);
+        } catch (Exception $e) {
+            Response::json(['error' => $e->getMessage()], 400);
+        }
+    }
 
+    public function updateAddress()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+        //$user = Auth::getUser(); // via JWT
+
+        try {
+            //ClientService::updateAddress($user->id, $data);
+            Response::json(['success' => true]);
         } catch (Exception $e) {
             Response::json(['error' => $e->getMessage()], 400);
         }

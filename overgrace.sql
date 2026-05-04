@@ -78,7 +78,7 @@ INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `pr
 -- Estrutura para tabela `clients`
 --
 
-CREATE or alter TABLE `clients` (
+CREATE TABLE `clients` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `uuid` char(36) NOT NULL,
   `nome` varchar(150) NOT NULL,
@@ -88,7 +88,7 @@ CREATE or alter TABLE `clients` (
   `telefone` varchar(100) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `google_id` varchar(100) DEFAULT NULL,
-  `status` enum('ativo','inativo','','') DEFAULT 'ativo',
+  `status` enum('ativo','inativo') DEFAULT 'ativo',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `cep` varchar(10) DEFAULT NULL,

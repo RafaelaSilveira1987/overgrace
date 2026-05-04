@@ -22,7 +22,7 @@ export const api = {
             method: 'POST',
             body: isFormData ? body : JSON.stringify(body),
             headers: isFormData
-                ? {} // 🔥 deixa o browser setar multipart automaticamente
+                ? {} // verificar multipart
                 : { 'Content-Type': 'application/json' }
         });
     },
