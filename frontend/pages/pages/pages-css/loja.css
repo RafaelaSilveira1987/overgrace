@@ -47,39 +47,53 @@
   border-color: #111;
 }
 
-.products-grid {
+.grid-products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  justify-content: center;
   gap: 25px;
 }
 
 .product-card {
+  max-width: 320px;
+  margin: 0 auto;
   background: #fff;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
   text-decoration: none;
   color: inherit;
-  transition: 0.2s;
+  transition: 0.2s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
-.product-img-wrap {
-  position: relative;
-  aspect-ratio: 4/5;
-  overflow: hidden;
+#lista-produtos .product-img-wrap {
+  padding: 10px;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.product-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#lista-produtos .product-img-wrap img {
+  width: 92%;
+  height: 92%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 6px;
+  object-fit: contain;
 }
 
-.product-badge {
+#lista-produtos .product-card:hover img {
+  transform: scale(1.05);
+  transition: 0.3s ease;
+}
+
+#lista-produtos .product-badge {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -90,25 +104,47 @@
   font-size: 12px;
 }
 
-.product-info {
-  padding: 16px;
+#lista-produtos .product-info {
+  padding: 18px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid #222;
 }
 
-.product-name {
-  font-size: 18px;
+#lista-produtos .product-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222;
+  line-height: 1.4;
   margin-bottom: 8px;
+  min-height: 44px;
 }
 
-.product-price {
-  font-size: 18px;
+#lista-produtos .product-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
   font-weight: bold;
+  font-style: italic;
 }
 
-.old-price {
-  color: #999;
+#lista-produtos .old-price {
+  color: #aaa;
   text-decoration: line-through;
   font-size: 14px;
-  margin-right: 6px;
+}
+
+#lista-produtos .product-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #fd950c;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 10px;
 }
 
 .section-block {

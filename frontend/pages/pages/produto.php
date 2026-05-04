@@ -25,6 +25,10 @@
             <a href="loja" class="logo">OverGrace</a>
 
             <div class="header-right">
+                <div class="customer-summary" id="customerSummary" hidden>
+                    <span id="customerName">Ola</span>
+                    <!-- <small id="customerEmail"></small> -->
+                </div>
                 <a href="login">Entrar</a>
                 <a href="carrinho">
                     <button class="cart-btn">
