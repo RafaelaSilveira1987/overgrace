@@ -1,0 +1,24 @@
+# Node
+node_modules/
+npm-debug.log
+
+# PHP
+/vendor/
+
+# Ambiente
+.env
+
+# Logs
+*.log
+
+# Cache
+.cache/
+.tmp/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db

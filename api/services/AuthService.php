@@ -39,7 +39,7 @@ class AuthService {
 
         return [
             'id' => $user['id'],
-            'name' => $user['name'] ?? null,
+            'nome' => $user['nome'] ?? null,
             'email' => $user['email'],
             'cpf' => $user['cpf'] ?? null,
             'telefone' => $user['telefone'] ?? null,

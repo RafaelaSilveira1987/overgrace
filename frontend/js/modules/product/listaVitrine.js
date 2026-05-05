@@ -25,7 +25,7 @@ export async function carregarVitrine() {
                 data-category="${produto.categoria}">
                 <div class="product-img-wrap">
                 <img src="${img}" class="product-img"/>
-                <span class="product-badge">Novo</span>
+                ${produto.badge ? `<span class="product-badge">${produto.badge}</span>` : ''}
                 </div>
                 <div class="product-info">
                 <p class="product-name">${produto.descricao}</p>
