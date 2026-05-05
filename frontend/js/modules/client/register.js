@@ -42,7 +42,7 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
         let auth;
 
         // 🔥 1. tenta login primeiro
-        try { 
+        try {
             auth = await clientService.login({
                 email: dados.email,
                 password: dados.password
@@ -57,6 +57,9 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
                 email: dados.email,
                 password: dados.password
             });
+
+            notify.error(e.error || e.message);
+
         }
 
         // 🔐 salva token
