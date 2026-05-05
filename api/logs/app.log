@@ -49,3 +49,4 @@
 [2026-05-04 13:40:09][ERROR] [8192] password_hash(): Passing null to parameter #1 ($password) of type string is deprecated in C:\xampp\htdocs\overgrace\api\services\ClientService.php:30
 [2026-05-04 20:52:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
 [2026-05-04 20:52:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
+[2026-05-05 15:44:46][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\middleware\RateLimit.php:33

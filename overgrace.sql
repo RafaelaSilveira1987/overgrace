@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/05/2026 às 22:20
+-- Tempo de geração: 05/05/2026 às 22:37
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -44,7 +44,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`, `coupon_id`, `coupon_valor`, `coupon_tipo`) VALUES
-(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-03 19:11:16', 7, 45, 'fixo');
+(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-03 19:11:16', 7, 45, 'fixo'),
+(3, NULL, '14ec39cc1af42c19cd4739ce8d22937d', 'active', '2026-05-04 10:41:00', '2026-05-04 10:41:27', 5, 80.1, 'percentual');
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,9 @@ CREATE TABLE `cart_items` (
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
 (5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-03 19:05:24'),
 (8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
-(9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33');
+(9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33'),
+(10, 3, 23, 'Único', 2, 325.50, '2026-05-04 10:41:00', '2026-05-04 10:41:04'),
+(11, 3, 15, 'M', 3, 50.00, '2026-05-04 10:41:17', '2026-05-04 10:41:17');
 
 -- --------------------------------------------------------
 
@@ -90,10 +93,29 @@ CREATE TABLE `clients` (
   `google_id` varchar(100) DEFAULT NULL,
   `status` enum('ativo','inativo') DEFAULT 'ativo',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `clients`
+--
+
+INSERT INTO `clients` (`id`, `uuid`, `nome`, `sobrenome`, `email`, `cpf`, `telefone`, `password`, `google_id`, `status`, `created_at`, `updated_at`) VALUES
+(8, 'bb410dc0-48c1-11f1-80b7-d09466a5d484', 'Marcos Leandro', 'Silva', 'marcosadmleandro@gmail.com', '022.904.366-66', '(32) 99837-3640', '$2y$10$wsUyz7uTPIE12tI2mnlkLecsDP5uuiP2LL24OvFIVEa2/Gs76rKkS', NULL, 'ativo', '2026-05-05 20:33:53', '2026-05-05 20:33:53');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `clients_address`
+--
+
+CREATE TABLE `clients_address` (
+  `id` int(11) NOT NULL,
+  `client_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `tipo` enum('entrega','comercial') NOT NULL DEFAULT 'entrega',
   `cep` varchar(10) DEFAULT NULL,
   `endereco` varchar(255) DEFAULT NULL,
-  `numero` varchar(20) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
   `bairro` varchar(100) DEFAULT NULL,
   `complemento` varchar(150) DEFAULT NULL,
   `cidade` varchar(100) DEFAULT NULL,
@@ -101,11 +123,11 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `clients`
+-- Despejando dados para a tabela `clients_address`
 --
 
-INSERT INTO `clients` (`id`, `uuid`, `nome`, `sobrenome`, `email`, `cpf`, `telefone`, `password`, `google_id`, `status`, `created_at`, `updated_at`, `cep`, `endereco`, `numero`, `bairro`, `complemento`, `cidade`, `estado`) VALUES
-(4, 'e41745dd-472c-11f1-bd1a-f4b5204d1e7e', 'marcos', 'leandro', 'marcosadmleandro@gmail.com', '022.904.366-66', '(32) 99837-3640', '$2y$10$3QosFHKm0s.DgihnBPinquGCqn8jfpIGb39BStyAIPTsqS8JWn5RC', NULL, 'ativo', '2026-05-03 20:15:57', '2026-05-03 20:15:57', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `clients_address` (`id`, `client_id`, `tipo`, `cep`, `endereco`, `numero`, `bairro`, `complemento`, `cidade`, `estado`) VALUES
+(2, 8, 'entrega', '36884-081', 'Rua Rui Barbosa', '123', 'Barra', 'Cardoso de Melo', 'Muriaé', 'MG');
 
 -- --------------------------------------------------------
 
@@ -374,7 +396,7 @@ INSERT INTO `products_stock` (`id`, `produto_id`, `tamanho`, `estoque`, `estoque
 (198, 15, 'G', 72, 0, 10, 15, 1, '2026-04-27 10:24:49', '2026-04-27 23:33:41'),
 (205, 17, 'M', 100, 0, 15, 20, 1, '2026-04-27 18:38:32', '2026-04-28 00:57:34'),
 (206, 17, 'G', 30, 0, 15, 20, 1, '2026-04-27 18:38:32', '2026-04-27 18:40:04'),
-(207, 20, 'Único', 0, 0, 10, 10, 1, '2026-04-28 00:06:47', '2026-04-28 00:06:47'),
+(207, 20, 'Único', 25, 0, 10, 10, 1, '2026-04-28 00:06:47', '2026-05-04 10:40:38'),
 (208, 22, 'Único', 15, 0, 10, 15, 1, '2026-04-28 00:11:57', '2026-04-28 00:57:53'),
 (209, 23, 'Único', 90, 0, 10, 10, 1, '2026-04-28 00:15:20', '2026-04-28 00:32:52');
 
@@ -415,7 +437,8 @@ INSERT INTO `products_stock_movements` (`id`, `produto_id`, `tamanho`, `tipo_mov
 (22, 23, 'Único', 'entrada', 50, NULL, '', '', '2026-04-28 00:00:00', 0.00, '', '2026-04-27 21:31:10'),
 (23, 23, 'Único', 'entrada', 30, NULL, 'DC Calçados', '123', '2026-04-28 00:00:00', 25.00, '', '2026-04-27 21:32:52'),
 (24, 17, 'M', 'entrada', 70, NULL, '', '', '2026-04-28 00:00:00', 0.00, '', '2026-04-27 21:57:34'),
-(25, 16, 'Único', '', 0, NULL, NULL, NULL, '2026-05-02 00:00:00', NULL, 'Estoque inicial (edição)', '2026-05-02 23:48:13');
+(25, 16, 'Único', '', 0, NULL, NULL, NULL, '2026-05-02 00:00:00', NULL, 'Estoque inicial (edição)', '2026-05-02 23:48:13'),
+(26, 20, 'Único', 'entrada', 25, NULL, '', '', '2026-05-04 00:00:00', 0.00, '', '2026-05-04 07:40:38');
 
 -- --------------------------------------------------------
 
@@ -492,6 +515,13 @@ ALTER TABLE `cart_items`
 ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Índices de tabela `clients_address`
+--
+ALTER TABLE `clients_address`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_adress_client` (`client_id`);
 
 --
 -- Índices de tabela `coupons`
@@ -603,19 +633,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `clients_address`
+--
+ALTER TABLE `clients_address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `coupons`
@@ -681,7 +717,7 @@ ALTER TABLE `products_stock`
 -- AUTO_INCREMENT de tabela `products_stock_movements`
 --
 ALTER TABLE `products_stock_movements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `products_tags`
@@ -710,6 +746,12 @@ ALTER TABLE `carts`
 --
 ALTER TABLE `cart_items`
   ADD CONSTRAINT `fk_cart_items_cart` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `clients_address`
+--
+ALTER TABLE `clients_address`
+  ADD CONSTRAINT `fk_adress_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `orders`

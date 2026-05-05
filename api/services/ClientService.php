@@ -10,37 +10,64 @@ class ClientService
     {
         $db = Database::connect();
 
-        // verifica email
-        $stmt = $db->prepare("SELECT id FROM clients WHERE email=?");
-        $stmt->execute([$data['email']]);
+        try {
+            $db->beginTransaction();
 
-        if ($stmt->fetch()) {
-            throw new Exception("Email já cadastrado");
-        }
+            // verifica email
+            $stmt = $db->prepare("SELECT id FROM clients WHERE email=?");
+            $stmt->execute([$data['email']]);
 
-        $stmt = $db->prepare("
+            if ($stmt->fetch()) {
+                throw new Exception("Email já cadastrado");
+            }
+
+            $stmt = $db->prepare("
             INSERT INTO clients 
             (uuid, email, password, nome, sobrenome, cpf, telefone)
             VALUES 
             (UUID(), ?, ?, ?, ?, ?, ?)
         ");
 
-        $stmt->execute([
-            $data['email'],
-            password_hash($data['password'], PASSWORD_DEFAULT),
-            $data['nome'],
-            $data['sobrenome'] ?? '',
-            $data['cpf'] ?? null,
-            $data['telefone'] ?? null
-        ]);
+            $stmt->execute([
+                $data['email'],
+                password_hash($data['password'], PASSWORD_DEFAULT),
+                $data['nome'],
+                $data['sobrenome'] ?? '',
+                $data['cpf'] ?? null,
+                $data['telefone'] ?? null
+            ]);
 
-        $id = $db->lastInsertId();
+            $id = $db->lastInsertId();
 
-        return JWT::encode([
-            'id' => $id,
-            'email' => $data['email'],
-            'type' => 'client'
-        ]);
+            $stmt = $db->prepare("
+            INSERT INTO clients_address 
+            (client_id, tipo, cep, endereco, numero, bairro, complemento, cidade, estado)
+            VALUES 
+            (?, 'entrega', ?, ?, ?, ?, ?, ?, ?)
+            ");
+
+            $stmt->execute([
+                $id,
+                $data['cep'],
+                $data['endereco'],
+                $data['numero'],
+                $data['bairro'],
+                $data['complemento'] ?? null,
+                $data['cidade'],
+                $data['estado'],
+            ]);
+
+            $db->commit();
+
+            return JWT::encode([
+                'id' => $id,
+                'email' => $data['email'],
+                'type' => 'client'
+            ]);
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw $e;
+        }
     }
 
     // 🔹 UPDATE

@@ -93,22 +93,8 @@
             </div>
           </div>
 
-          <p class="field-hint">
-            Usaremos esses dados apenas para comunicação sobre o seu pedido.
-          </p>
+          <h2 class="panel-title">Endereço de entrega</h2>
 
-          <button class="submit-btn">
-            Continuar para entrega <span class="arrow">→</span>
-          </button>
-        </form>
-
-      </div>
-
-      <!-- STEP 2: Entrega -->
-      <div class="panel" id="panel2">
-        <h2 class="panel-title">Endereço de entrega</h2>
-
-        <form id="formAddress">
           <div class="form-row">
             <div class="field">
               <label>CEP</label>
@@ -133,14 +119,14 @@
                   ">Não sei meu CEP</a>
             </div>
           </div>
-  
+
           <div class="form-row single">
             <div class="field">
               <label>Endereço</label>
               <input type="text" id="endereco" placeholder="Rua, Avenida..." />
             </div>
           </div>
-  
+
           <div class="form-row thirds">
             <div class="field">
               <label>Número</label>
@@ -155,7 +141,7 @@
               <input type="text" id="bairro" placeholder="Bairro" />
             </div>
           </div>
-  
+
           <div class="form-row">
             <div class="field">
               <label>Cidade</label>
@@ -195,7 +181,20 @@
               </select>
             </div>
           </div>
-  
+
+          <p class="field-hint">
+            Usaremos esses dados apenas para comunicação sobre o seu pedido.
+          </p>
+
+          <button class="submit-btn">
+            Continuar para entrega <span class="arrow">→</span>
+          </button>
+        </form>
+
+      </div>
+
+      <!-- STEP 2: Entrega -->
+      <div class="panel" id="panel2">
           <!-- Opções de frete -->
           <h3
             style="
@@ -205,7 +204,7 @@
               ">
             Forma de entrega
           </h3>
-  
+
           <div class="shipping-options">
             <label
               class="ship-option selected"
@@ -220,7 +219,7 @@
               </div>
               <span class="ship-price free">Grátis</span>
             </label>
-  
+
             <label
               class="ship-option"
               onclick="selectShip(this, 18.9, 'Sedex')">
@@ -234,7 +233,7 @@
               </div>
               <span class="ship-price">R$ 18,90</span>
             </label>
-  
+
             <label
               class="ship-option"
               onclick="selectShip(this, 12.5, 'Retirada')">
@@ -249,12 +248,11 @@
               <span class="ship-price">R$ 12,50</span>
             </label>
           </div>
-  
+
           <button class="submit-btn" onclick="goToStep(3)">
             Continuar para pagamento <span class="arrow">→</span>
           </button>
           <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
-        </form>
       </div>
 
       <!-- STEP 3: Pagamento -->
