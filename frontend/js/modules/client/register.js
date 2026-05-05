@@ -1,6 +1,6 @@
 import { clientService } from '../../services/clientService.js';
 import { notify } from '../../utils/notify.js';
-import { marcarErro } from '../../utils/validateUI.js';
+import { marcarErro } from '../../utils/validateUI.js'; 
 
 document.getElementById('formRegister').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
         try {
             auth = await api.post('/auth/loginClient', {
                 email: dados.email,
-                password: dados.password
+                password: dados.password 
             });
         } catch (e) {
 

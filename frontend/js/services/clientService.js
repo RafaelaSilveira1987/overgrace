@@ -11,7 +11,7 @@ export const clientService = {
     },
 
     login(email, senha) {
-        return api.post('/clients/login', { email, senha });
+        return api.post('/auth/loginClient', { email, senha });
     },
 
     loginGoogle(token) {
