@@ -51,3 +51,4 @@
 [2026-05-04 20:52:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
 [2026-05-05 15:44:46][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\middleware\RateLimit.php:33
 [2026-05-05 20:46:04][ERROR] SQLSTATE[HY000] [1049] Unknown database 'overgrace'
+[2026-05-06 13:35:53][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
