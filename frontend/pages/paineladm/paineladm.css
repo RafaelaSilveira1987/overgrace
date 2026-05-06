@@ -293,7 +293,7 @@ body {
   padding: 28px 28px 40px;
 }
 
-.page-content{
+.page-content {
   padding: 15px;
   overflow: auto;
 }
@@ -838,21 +838,38 @@ tr:hover td {
   font-weight: 500;
   border-radius: 4px;
   padding: 2px 7px;
-  letter-spacing: 0.02em;
 }
 
-.badge-novo {
+/* Tipos */
+.badge-lancamento {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-promo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-em-alta {
   background: #dcfce7;
   color: #15803d;
 }
-.badge-sale {
-  background: #fef9c3;
-  color: #a16207;
+
+.badge-limitada {
+  background: #fef3c7;
+  color: #92400e;
 }
-.badge-kit {
+
+.badge-esgotando {
   background: #ede9fe;
-  color: #6d28d9;
-}
+  color: #5b21b6;
+} /* roxo */
+
+.badge-default {
+  background: #f3f4f6;
+  color: #374151;
+} /* cinza neutro */
 
 /* ── STATUS PILLS ───────────────────────────────────────────── */
 .status-pill {
@@ -1332,7 +1349,6 @@ tr.stock-out td {
   align-items: center;
   flex-shrink: 0;
 }
-
 
 /* ── IFRAME (usado no shell principal) ──────────────────────── */
 .content-frame {

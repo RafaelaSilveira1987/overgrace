@@ -1,19 +1,18 @@
-import { produtoService } from '../../services/productService.js';
-import { debounce } from '../../utils/debounce.js';
-import { dataUtil, valorUtil } from '../../utils/normalize.js';
-import { removerProduto } from '../../modules/product/form.js';
+import { produtoService } from "../../services/productService.js";
+import { debounce } from "../../utils/debounce.js";
+import { dataUtil, valorUtil } from "../../utils/normalize.js";
+import { removerProduto } from "../../modules/product/form.js";
 
 let currentPage = 1;
 const limit = 10;
-
 
 export async function carregarProdutos() {
   try {
     const descricao = document.getElementById("filter-descricao").value;
     const ativo = document.getElementById("filter-ativo").value;
     const categoria = document.getElementById("filter-categoria").value;
-    const order = document.getElementById('filter-order').value;
-    const [order_by, order_dir] = order.split(':');
+    const order = document.getElementById("filter-order").value;
+    const [order_by, order_dir] = order.split(":");
 
     const res = await produtoService.listar({
       descricao: descricao,
@@ -22,33 +21,30 @@ export async function carregarProdutos() {
       order_by: order_by,
       order_dir: order_dir,
       page: currentPage,
-      limit: limit
+      limit: limit,
     });
 
-    const container = document.getElementById('lista-produtos');
-    container.innerHTML = '';
-    let html = '';
+    const container = document.getElementById("lista-produtos");
+    container.innerHTML = "";
+    let html = "";
 
-    res.data.forEach(produto => {
-
+    res.data.forEach((produto) => {
       let totalEstoque = 0;
 
       const tamanhosHtml = produto.tamanhos?.length
         ? produto.tamanhos
-          .map(t => {
-            totalEstoque += Number(t.estoque) || 0;
-            return `<span class="size-tag">${t.tamanho}</span>`;
-          })
-          .join('')
+            .map((t) => {
+              totalEstoque += Number(t.estoque) || 0;
+              return `<span class="size-tag">${t.tamanho}</span>`;
+            })
+            .join("")
         : `<span style="font-size:12px;color:#999">—</span>`;
 
-
-      const BASE_IMG = '/overgrace/frontend/uploads/products/';
+      const BASE_IMG = "/overgrace/frontend/uploads/products/";
 
       const imgSrc = produto.imagem_principal
         ? BASE_IMG + produto.imagem_principal
-        : '';
-
+        : "";
 
       html += `
                 <tr>
@@ -72,16 +68,16 @@ export async function carregarProdutos() {
                   </div>
                 </td>
                 <td>${produto.categoria}</td>
-                <td><span class="badge badge-novo">${produto.badge || ''}</span></td>
+                <td>${produto.badge ? `<span class="badge ${getBadgeClass(produto.badge)}">${produto.badge}</span>` : ""}</td>
                 <td>
                   <div class="sizes-cell">
                     ${tamanhosHtml}
                   </div>
                 </td>
                 <td class="price-cell">R$ ${produto.preco_atual}</td>
-                <td style="font-size: 12px; color: var(--ink-3)">${dataUtil(produto.inicio_exibicao, 'format', 'd/m/Y')}</td>
+                <td style="font-size: 12px; color: var(--ink-3)">${dataUtil(produto.inicio_exibicao, "format", "d/m/Y")}</td>
                 <td style="font-size: 13px">${totalEstoque}</td> 
-                <td><span class="ativo-dot ${produto.ativo == "1" ? 'ativo-sim' : 'ativo-nao'}"></span>${produto.ativo == "1" ? 'Ativo' : 'Inativo'}</td>
+                <td><span class="ativo-dot ${produto.ativo == "1" ? "ativo-sim" : "ativo-nao"}"></span>${produto.ativo == "1" ? "Ativo" : "Inativo"}</td>
                 <td class="actions-cell">
                   <button class="row-btn btn-editar" data-id="${produto.id}">
                     <svg fill="none" viewBox="0 0 12 12" stroke="currentColor" stroke-width="1.5">
@@ -100,12 +96,22 @@ export async function carregarProdutos() {
     });
 
     container.innerHTML = html;
+
+    function getBadgeClass(badge) {
+      const mapa = {
+        "Em alta": "badge-em-alta",
+        Novo: "badge-novo",
+        "Edição Limitada": "badge-limitada",
+        Promoção: "badge-promo",
+        Esgotando: "badge-esgotando",
+      };
+      return mapa[badge] || "badge-default";
+    }
+
     renderPagination(res.pagination);
 
-    document.querySelector('.table-footer span').innerText =
+    document.querySelector(".table-footer span").innerText =
       `Mostrando ${res.data.length} de ${res.pagination.total} produtos`;
-
-    
 
     if (!res.data || res.data.length === 0) {
       container.innerHTML = `
@@ -118,22 +124,19 @@ export async function carregarProdutos() {
       return;
     }
 
-
-
     //totais
-    document.getElementById('qt_products').innerText = res.totals.qt_products || 0;
-    document.getElementById('active').innerText = res.totals.active || 0;
-    document.getElementById('inactive').innerText = res.totals.inactive || 0;
-    document.getElementById('min_price').innerText = res.totals.min_price || 0;
-    document.getElementById('max_price').innerText = res.totals.max_price || 0;
-    document.getElementById('med_price').innerText = parseFloat(res.totals.med_price).toFixed(2) || 0;
-
-
-
+    document.getElementById("qt_products").innerText =
+      res.totals.qt_products || 0;
+    document.getElementById("active").innerText = res.totals.active || 0;
+    document.getElementById("inactive").innerText = res.totals.inactive || 0;
+    document.getElementById("min_price").innerText = res.totals.min_price || 0;
+    document.getElementById("max_price").innerText = res.totals.max_price || 0;
+    document.getElementById("med_price").innerText =
+      parseFloat(res.totals.med_price).toFixed(2) || 0;
   } catch (e) {
     console.error(e);
 
-    const container = document.getElementById('lista-produtos');
+    const container = document.getElementById("lista-produtos");
 
     container.innerHTML = `
     <tr>
@@ -146,11 +149,11 @@ export async function carregarProdutos() {
 }
 
 function renderPagination(pagination) {
-  const wrapper = document.querySelector('.pagination');
+  const wrapper = document.querySelector(".pagination");
 
   const { page, pages } = pagination;
 
-  let html = '';
+  let html = "";
 
   // botão anterior
   if (page > 1) {
@@ -159,7 +162,7 @@ function renderPagination(pagination) {
 
   for (let i = 1; i <= pages; i++) {
     html += `
-      <button class="page-btn ${i === page ? 'active' : ''}" data-page="${i}">
+      <button class="page-btn ${i === page ? "active" : ""}" data-page="${i}">
         ${i}
       </button>
     `;
@@ -173,23 +176,22 @@ function renderPagination(pagination) {
   wrapper.innerHTML = html;
 }
 
-
 const inputDescricao = document.getElementById("filter-descricao");
 const inputAtivo = document.getElementById("filter-ativo");
 const inputCategoria = document.getElementById("filter-categoria");
-const order = document.getElementById('filter-order');
+const order = document.getElementById("filter-order");
 const carregarComDebounce = debounce(() => {
   currentPage = 1;
   carregarProdutos();
 }, 500);
 
-inputDescricao.addEventListener('input', carregarComDebounce);
-inputAtivo.addEventListener('change', carregarComDebounce);
-inputCategoria.addEventListener('change', carregarComDebounce);
-order.addEventListener('change', carregarComDebounce);
+inputDescricao.addEventListener("input", carregarComDebounce);
+inputAtivo.addEventListener("change", carregarComDebounce);
+inputCategoria.addEventListener("change", carregarComDebounce);
+order.addEventListener("change", carregarComDebounce);
 
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.btn-deletar');
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-deletar");
 
   if (btn) {
     const id = btn.dataset.id;
@@ -197,17 +199,15 @@ document.addEventListener('click', (e) => {
   }
 });
 
-
-
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('add-carrinho')) {
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("add-carrinho")) {
     const id = e.target.dataset.id;
     adicionarAoCarrinho(id);
   }
 });
 
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('page-btn')) {
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("page-btn")) {
     const page = parseInt(e.target.dataset.page);
 
     if (!isNaN(page)) {
@@ -216,6 +216,5 @@ document.addEventListener('click', (e) => {
     }
   }
 });
-
 
 carregarProdutos();

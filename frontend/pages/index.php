@@ -62,8 +62,7 @@
             <a href="colecoes" class="btn-outline">Ver Coleção <span class="arrow">→</span></a>
         </div>
         <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1704271986500-86847b9a8e95?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Modelo oversize" />
+            <img src="frontend/pages/assets/img6.png" alt="Modelo oversize" />
 
             <div class="hero-image-badge">Coleção 2026</div>
         </div>
@@ -98,8 +97,7 @@
         </div>
         <div class="categories-grid">
             <a href="lista?categoria=camisas" class="category-card">
-                <img src="https://plus.unsplash.com/premium_photo-1687294575545-44fcc8761b6b?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Camisas" />
+                <img src="frontend/pages/assets/img1.png" alt="Camisas" />
 
                 <div class="category-overlay">
                     <p class="category-label">Explorar</p>
@@ -108,8 +106,7 @@
             </a>
 
             <a href="lista?categoria=bonés" class="category-card">
-                <img src="https://images.unsplash.com/photo-1622445275576-721325763afe?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Camisas" />
+                <img src="frontend/pages/assets/bn1.png" alt="Bonés" />
 
                 <div class="category-overlay">
                     <p class="category-label">Explorar</p>
@@ -118,8 +115,7 @@
             </a>
 
             <a href="lista?categoria=cropped" class="category-card">
-                <img src="https://images.unsplash.com/photo-1623256756641-353a71c9ed88?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Camisas" />
+                <img src="frontend/pages/assets/img5.png" alt="Cropped" />
 
                 <div class="category-overlay">
                     <p class="category-label">Explorar</p>
@@ -128,8 +124,7 @@
             </a>
 
             <a href="lista?categoria=kits" class="category-card">
-                <img src="https://images.unsplash.com/photo-1622470955441-63647da35fb3?q=80&w=361&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Camisas" />
+                <img src="frontend/pages/assets/img2.png" alt="Kits" />
 
                 <div class="category-overlay">
                     <p class="category-label">Explorar</p>
@@ -150,8 +145,7 @@
         <div class="products-grid" id="featureGrid">
             <div class="product-card">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=600&q=80"
-                        alt="Camisa Linho Off-White" />
+                    <img src="frontend/pages/assets/img1.png" alt=" Camisa Linho Off-White" />
                     <span class="product-badge">Novo</span>
                 </div>
 
@@ -167,8 +161,7 @@
 
             <div class="product-card">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80"
-                        alt="Camisa Oversized Cáqui" />
+                    <img src="frontend/pages/assets/img2.png" alt="Camisa Oversized Cáqui" />
                     <span class="product-badge">-20%</span>
                 </div>
 
@@ -185,8 +178,7 @@
             </div>
             <div class="product-card">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=600&q=80
-              alt=" Camisa Oversized Cáqui" />
+                    <img src="frontend/pages/assets/bn1.png" alt=" Boné Aba Curva Preto" />
                     <span class="product-badge">-20%</span>
                 </div>
 
@@ -203,8 +195,7 @@
             </div>
             <div class="product-card">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&q=80"
-                        alt="Camisa Oversized Cáqui" />
+                    <img src="frontend/pages/assets/img6.png" alt="Camisa Oversized Cáqui" />
                     <span class="product-badge">Lançamento</span>
                 </div>
 
@@ -233,7 +224,7 @@
             <a href="colecao" class="editorial-cta">Conheça a coleção</a>
         </div>
         <div class="editorial-image">
-            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1000&q=85" alt="Coleção Especial">
+            <img src="frontend/pages/assets/img7.png" alt="Coleção Especial">
         </div>
     </div>
 

@@ -74,14 +74,14 @@
 
             <div class="coming-grid">
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600" />
+                    <img src="frontend/pages/assets/img5.png" />
                     <div class="card-content">
                         <p>Nova coleção inverno</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600" />
+                    <img src="frontend/pages/assets/img6.png" />
                     <div class="card-content">
                         <p>Novos acessórios</p>
                     </div>
