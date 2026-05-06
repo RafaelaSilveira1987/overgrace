@@ -1,49 +1,57 @@
-import { publicProdutoService } from '../../services/publicProdutoService.js';
+import { publicProdutoService } from "../../services/publicProdutoService.js";
 
 export async function carregarVitrine() {
-  const container = document.getElementById('lista-produtos');
-  container.innerHTML = 'Carregando...';
+  const container = document.getElementById("lista-produtos");
+  container.innerHTML = "Carregando...";
 
   try {
     const res = await publicProdutoService.listar();
 
-    let html = '';
+    let html = "";
 
-    res.data.forEach(produto => {
-
-      const img = produto.imagem_principal 
+    res.data.forEach((produto) => {
+      const img = produto.imagem_principal
         ? `/overgrace/frontend/uploads/products/${produto.imagem_principal}`
-        : '/overgrace/frontend/uploads/placeholders/sem-item.png';
+        : "/overgrace/frontend/uploads/placeholders/sem-item.png";
 
       const semEstoque = produto.estoque <= 0;
- 
+
       html += `
 
-            <a
-                href="produto?id=${produto.uuid}"
-                class="product-card"
-                data-category="${produto.categoria}">
-                <div class="product-img-wrap">
-                <img src="${img}" class="product-img"/>
-                ${produto.badge ? `<span class="product-badge">${produto.badge}</span>` : ''}
-                </div>
-                <div class="product-info">
-                <p class="product-name">${produto.descricao}</p>
-                    <p class="product-price">
-                    ${Number(produto.preco_antigo) > 0 ? `<span class="old-price">R$${produto.preco_antigo}</span>` : '' }
+            <a href="produto?id=${produto.uuid}" class="product-card" data-category="${produto.categoria}">
+  
+  <div class="product-img-wrap">
+    <img src="${img}" class="product-img"/>
+    ${produto.badge ? `<span class="product-badge">${produto.badge}</span>` : ""}
+  </div>
 
-                    R$${produto.preco_atual}
-                    </p>
-                </div>
-            </a>
+  <div class="product-info">
+    
+    <div class="product-text">
+      <p class="product-name">${produto.descricao}</p>
+
+      <p class="product-price">
+        ${
+          Number(produto.preco_antigo) > 0
+            ? `<span class="old-price">R$${produto.preco_antigo}</span>`
+            : ""
+        }
+        <strong>R$${produto.preco_atual}</strong>
+      </p>
+    </div>
+
+    <span class="product-link">Ver mais →</span>
+
+  </div>
+
+</a>
       `;
     });
 
     container.innerHTML = html;
-
   } catch (e) {
     console.error(e);
-    container.innerHTML = 'Erro ao carregar produtos';
+    container.innerHTML = "Erro ao carregar produtos";
   }
 }
 

@@ -162,6 +162,7 @@
                     <p class="product-variant">P · M · G · GG</p>
                     <p class="product-price">R$ 189,00</p>
                 </div>
+
             </div>
 
             <div class="product-card">

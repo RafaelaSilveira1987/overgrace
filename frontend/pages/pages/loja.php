@@ -66,7 +66,7 @@
         </div>
 
         <!-- GRID -->
-        <div class="grid-products" id="lista-produtos">
+        <div class="grid-products list-grid" id="lista-produtos">
         </div>
 
         <section class="section-block">
