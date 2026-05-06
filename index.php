@@ -134,7 +134,7 @@ if (str_starts_with($uri, '/api')) {
     $router = new Router();
 
     $router->add('POST', '/login', 'Auth/AuthController@login');
-    $router->add('POST', '/client-login', 'Auth/AuthController@loginClient');
+    $router->add('POST', '/client-login', 'Auth/AuthController@loginClient'); 
     $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
     $router->add('POST', '/register', 'Auth/AuthController@register');
     $router->add('GET', '/me', 'Auth/AuthController@me');

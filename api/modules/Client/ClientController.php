@@ -14,7 +14,7 @@ class ClientController
 
             $token = ClientService::login(
                 $data['email'],
-                $data['senha']
+                $data['password']
             );
 
             if (!$token) {

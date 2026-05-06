@@ -47,10 +47,11 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
                 email: dados.email,
                 password: dados.password
             });
+
         } catch (e) {
 
             // 🔥 2. se não logou → tenta cadastrar
-            await await clientService.criar(dados);
+            await clientService.criar(dados);
 
             // 🔥 3. depois loga
             auth = await clientService.login({
@@ -64,6 +65,7 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
 
         // 🔐 salva token
         localStorage.setItem('token_client', auth.token);
+        localStorage.setItem('role', auth.role);
 
         notify.success('Continuando...');
 
@@ -77,14 +79,12 @@ document.getElementById('formRegister').addEventListener('submit', async (e) => 
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token_client');
 
+    //if (!token) return;
+
     console.log(token);
 
-
-    if (!token) return;
-
     try {
-
-        const client = await api.get('/auth/me');
+        const client = await clientService.me();
 
         // já logado → pula cadastro
         goToStep(2);

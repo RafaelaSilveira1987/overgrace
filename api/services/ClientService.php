@@ -101,7 +101,7 @@ class ClientService
 
         return true;
     }
-
+ 
     // 🔹 LOGIN
     public static function login($email, $senha)
     {

@@ -195,64 +195,64 @@
 
       <!-- STEP 2: Entrega -->
       <div class="panel" id="panel2">
-          <!-- Opções de frete -->
-          <h3
-            style="
+        <!-- Opções de frete -->
+        <h3
+          style="
                 font-size: 20px;
                 font-weight: 700;
                 margin: 36px 0 20px;
               ">
-            Forma de entrega
-          </h3>
+          Forma de entrega
+        </h3>
 
-          <div class="shipping-options">
-            <label
-              class="ship-option selected"
-              onclick="selectShip(this, 0, 'Frete Grátis')">
-              <input type="radio" name="ship" value="gratis" checked />
-              <div class="ship-radio"></div>
-              <div class="ship-info">
-                <div>
-                  <p class="ship-label">PAC — Entrega Econômica</p>
-                  <p class="ship-eta">Entrega em 5 a 8 dias úteis</p>
-                </div>
+        <div class="shipping-options">
+          <label
+            class="ship-option selected"
+            onclick="selectShip(this, 0, 'Frete Grátis')">
+            <input type="radio" name="ship" value="gratis" checked />
+            <div class="ship-radio"></div>
+            <div class="ship-info">
+              <div>
+                <p class="ship-label">PAC — Entrega Econômica</p>
+                <p class="ship-eta">Entrega em 5 a 8 dias úteis</p>
               </div>
-              <span class="ship-price free">Grátis</span>
-            </label>
+            </div>
+            <span class="ship-price free">Grátis</span>
+          </label>
 
-            <label
-              class="ship-option"
-              onclick="selectShip(this, 18.9, 'Sedex')">
-              <input type="radio" name="ship" value="sedex" />
-              <div class="ship-radio"></div>
-              <div class="ship-info">
-                <div>
-                  <p class="ship-label">SEDEX — Entrega Expressa</p>
-                  <p class="ship-eta">Entrega em 1 a 3 dias úteis</p>
-                </div>
+          <label
+            class="ship-option"
+            onclick="selectShip(this, 18.9, 'Sedex')">
+            <input type="radio" name="ship" value="sedex" />
+            <div class="ship-radio"></div>
+            <div class="ship-info">
+              <div>
+                <p class="ship-label">SEDEX — Entrega Expressa</p>
+                <p class="ship-eta">Entrega em 1 a 3 dias úteis</p>
               </div>
-              <span class="ship-price">R$ 18,90</span>
-            </label>
+            </div>
+            <span class="ship-price">R$ 18,90</span>
+          </label>
 
-            <label
-              class="ship-option"
-              onclick="selectShip(this, 12.5, 'Retirada')">
-              <input type="radio" name="ship" value="retirada" />
-              <div class="ship-radio"></div>
-              <div class="ship-info">
-                <div>
-                  <p class="ship-label">Retirada no Ponto de Coleta</p>
-                  <p class="ship-eta">Disponível em até 2 dias úteis</p>
-                </div>
+          <label
+            class="ship-option"
+            onclick="selectShip(this, 12.5, 'Retirada')">
+            <input type="radio" name="ship" value="retirada" />
+            <div class="ship-radio"></div>
+            <div class="ship-info">
+              <div>
+                <p class="ship-label">Retirada no Ponto de Coleta</p>
+                <p class="ship-eta">Disponível em até 2 dias úteis</p>
               </div>
-              <span class="ship-price">R$ 12,50</span>
-            </label>
-          </div>
+            </div>
+            <span class="ship-price">R$ 12,50</span>
+          </label>
+        </div>
 
-          <button class="submit-btn" onclick="goToStep(3)">
-            Continuar para pagamento <span class="arrow">→</span>
-          </button>
-          <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
+        <button class="submit-btn" onclick="goToStep(3)">
+          Continuar para pagamento <span class="arrow">→</span>
+        </button>
+        <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
       </div>
 
       <!-- STEP 3: Pagamento -->
@@ -481,67 +481,30 @@
     <!-- COLUNA DIREITA: RESUMO -->
     <div class="order-summary">
       <p class="summary-label">Seu pedido</p>
-      <div class="order-items">
-        <div class="order-item">
-          <div class="order-thumb-wrap">
-            <img
-              class="order-thumb"
-              src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=200&q=80"
-              alt="" />
-            <span class="order-qty-badge">1</span>
-          </div>
-          <div style="flex: 1">
-            <p class="order-item-name">Camisa Linho Off-White</p>
-            <p class="order-item-variant">M · Off-White</p>
-          </div>
-          <p class="order-item-price">R$ 189,00</p>
-        </div>
+      <div class="order-items" id="order-items">
 
-        <div class="order-item">
-          <div class="order-thumb-wrap">
-            <img
-              class="order-thumb"
-              src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=200&q=80"
-              alt="" />
-            <span class="order-qty-badge">1</span>
-          </div>
-          <div style="flex: 1">
-            <p class="order-item-name">Boné Aba Curva Preto</p>
-            <p class="order-item-variant">Único · Preto</p>
-          </div>
-          <p class="order-item-price">R$ 99,00</p>
-        </div>
-
-        <div class="order-item">
-          <div class="order-thumb-wrap">
-            <img
-              class="order-thumb"
-              src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=200&q=80"
-              alt="" />
-            <span class="order-qty-badge">1</span>
-          </div>
-          <div style="flex: 1">
-            <p class="order-item-name">Boné Estruturado Bege</p>
-            <p class="order-item-variant">Único · Bege</p>
-          </div>
-          <p class="order-item-price">R$ 119,00</p>
-        </div>
       </div>
 
       <div class="summary-divider"></div>
 
       <div class="summary-line">
         <span class="l">Subtotal</span>
-        <span class="v">R$ 407,00</span>
+        <span class="v" id="total-items">R$ 0,00</span>
       </div>
+
       <div class="summary-line">
         <span class="l">Frete</span>
-        <span class="v" id="shipLabel" style="color: var(--success)">Grátis</span>
+        <span class="v" id="shipLabel" style="color: var(--success)" id="total-frete">Grátis</span>
+      </div>
+
+      <div class="summary-line">
+        <span class="l">Descontos</span>
+        <span class="v" id="total-descontos">R$ 0,00</span>
       </div>
 
       <div class="summary-total-line">
         <span class="l">Total</span>
-        <span class="v" id="totalFinal">R$ 407,00</span>
+        <span class="v" id="total-items-final">R$ 0,00</span>
       </div>
 
       <div class="security-note">
@@ -606,6 +569,7 @@
   </footer>
 
   <script type="module" src="frontend/js/modules/client/register.js"></script>
+  <script type="module" src="frontend/js/modules/checkout/list.js"></script>
   <script src="frontend/js/modules/client/utils.js"></script>
 
   <script>

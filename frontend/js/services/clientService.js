@@ -10,8 +10,12 @@ export const clientService = {
         return api.post('/client/address', dados);
     },
 
-    login(email, senha) {
+    login({ email, password }) {
         return api.post('/client-login', { email, password });
+    },
+ 
+    me() {
+        return api.get('/me');
     },
 
     loginGoogle(token) {

@@ -22,7 +22,7 @@ class AuthService {
 
         return self::loginAdmin($email, $password);
     }
-
+ 
     public static function me($payload) {
         $role = $payload['role'] ?? null;
         $table = $role === 'admin' ? 'users' : 'clients';
