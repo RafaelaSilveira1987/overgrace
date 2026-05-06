@@ -22,6 +22,7 @@
     <header>
         <div class="header-inner">
             <nav class="header-left">
+                <a href="loja">Home</a>
                 <a href="lista">Loja</a>
                 <a href="colecoes">Coleções</a>
                 <a href="sobre">Sobre</a>
@@ -59,7 +60,7 @@
                 todas as ocasiões.
             </p>
 
-            <a href="colecoes" class="btn-outline">Ver Coleção <span class="arrow">→</span></a>
+            <a href="lista" class="btn-outline">Ver Coleção <span class="arrow">→</span></a>
         </div>
         <div class="hero-image">
             <img src="frontend/pages/assets/img6.png" alt="Modelo oversize" />
@@ -221,7 +222,7 @@
             <p class="editorial-sub">Coleção Especial</p>
             <h2 class="editorial-title">Feito <br>para <br><em>durar</em></h2>
             <p class="editorial-body">Sobre a Graça. <br> Cobertos por Ele, vivemos para anunciar!</p>
-            <a href="colecao" class="editorial-cta">Conheça a coleção</a>
+            <a href="colecoes" class="editorial-cta">Conheça a coleção</a>
         </div>
         <div class="editorial-image">
             <img src="frontend/pages/assets/img7.png" alt="Coleção Especial">

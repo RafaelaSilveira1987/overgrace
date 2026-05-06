@@ -17,6 +17,7 @@
     <header>
         <div class="header-inner">
             <nav class="header-left">
+                <a href="loja">Home</a>
                 <a href="lista">Loja</a>
                 <a href="colecoes">Coleções</a>
                 <a href="sobre">Sobre</a>
@@ -32,6 +33,7 @@
                 <a href="login" id="loginLink">Entrar</a>
                 <a href="minha-conta" id="accountLink" hidden>Minha Conta</a>
                 <button class="header-link-button" id="logoutButton" type="button" hidden>Sair</button>
+
                 <a href="carrinho">
                     <button class="cart-btn">
                         Carrinho

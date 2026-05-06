@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Produto | OverGrace</title>
+    <link rel="icon" href="/overgrace/frontend/assets/favicon.ico" />
 
     <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/produto.css" />
     <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
@@ -17,7 +18,8 @@
     <header>
         <div class="header-inner">
             <nav class="header-left">
-                <a href="loja">Loja</a>
+                <a href="loja">Home</a>
+                <a href="lista">Loja</a>
                 <a href="colecoes">Coleções</a>
                 <a href="sobre">Sobre</a>
             </nav>
@@ -29,7 +31,9 @@
                     <span id="customerName">Ola</span>
                     <!-- <small id="customerEmail"></small> -->
                 </div>
-                <a href="login">Entrar</a>
+                <a href="login" id="loginLink">Entrar</a>
+                <a href="minha-conta" id="accountLink" hidden>Minha Conta</a>
+                <button class="header-link-button" id="logoutButton" type="button" hidden>Sair</button>
                 <a href="carrinho">
                     <button class="cart-btn">
                         Carrinho
@@ -56,9 +60,10 @@
                 <div class="product-info">
                     <h1 id="f-name"></h1>
 
-                    <p class="price">
+                    <p class="product-price">
                         <span class="old-price" id="f-price-old">R$0,00</span>
                         R$<span id="f-price">0,00</span>
+                    <p class="installments">ou 3x de R$ 26,63 sem juros</p>
                     </p>
 
                     <p class="short-description">
@@ -87,43 +92,40 @@
         <section class="section-block">
             <h2>Produtos relacionados</h2>
 
-            <div class="related-grid">
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600" />
-                    <div class="card-content">
-                        <p>Camisa Oversized Cáqui</p>
-                        <strong>R$175,00</strong>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600" />
-                    <div class="card-content">
-                        <p>Camiseta Essential</p>
-                        <strong>R$119,00</strong>
-                    </div>
+            <div class="related-wrapper">
+                <div class="related-track" id="relatedTrack">
+                    <!-- CARROSSEL -->
                 </div>
             </div>
         </section>
 
-        <!-- NOVIDADES -->
-        <section class="section-block">
-            <h2>Novidades em breve</h2>
+        <section class="coming-section">
+            <div class="coming-header">
+                <h2>Novidades em breve</h2>
+                <p class="coming-subtitle">
+                    Estamos preparando peças exclusivas para a próxima coleção.
+                </p>
+            </div>
 
             <div class="coming-grid">
-                <div class="card">
+                <div class="coming-card">
                     <img src="frontend/pages/assets/img5.png" alt="">
-                    <div class="card-content">
+                    <div class="coming-overlay">
                         <p>Nova coleção inverno</p>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="coming-card">
                     <img src="frontend/pages/assets/img6.png" alt="">
-                    <div class="card-content">
+                    <div class="coming-overlay">
                         <p>Novos acessórios</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="coming-cta">
+                <p>Quer ser avisado primeiro?</p>
+                <button>Receber novidades</button>
             </div>
         </section>
     </div>
@@ -171,6 +173,8 @@
     <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
     <script type="module" src="frontend/js/modules/cart/formVitrine.js"></script>
     <script src="frontend/js/modules/cart/utils.js"></script>
+    <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+    <script type="module" src="frontend/js/modules/product/relacionedtrack.js"></script>
 
 </body>
 
