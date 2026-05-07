@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/colecoes.css" />
+    <link rel="stylesheet" href="frontend/pages/pages/pages-css/colecoes.css" />
     <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
 </head>
 
@@ -48,20 +48,33 @@
         </div>
     </header>
 
+
     <section class="brand-hero">
+        <!-- IMAGEM -->
+        <img src="frontend/pages/assets/img5.png" alt="Coleção OverGrace" class="hero-bg" />
+        <!-- OVERLAY -->
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <p class="eyebrow">Nova coleção 2025</p>
-            <h1>Vestidos pela graça.<br />Chamados para anunciar.</h1>
+            <div class="eyebrow">
+                DROP 02 • WINTER COLLECTION
+            </div>
+            <h1>
+                Estilo que permanece.<br>
+                Presença que marca.
+            </h1>
             <p>
-                Cada peça da OverGrace carrega propósito, identidade e fé para uma
-                geração que vive para anunciar.
+                Peças minimalistas desenvolvidas para quem
+                entende que vestir também comunica identidade.
             </p>
-            <a href="lista" class="btn-outline">Comprar agora</a>
+            <a href="#lista" class="btn-outline">
+                Explorar coleção
+                <span class="arrow">→</span>
+            </a>
         </div>
     </section>
 
     <section class="manifesto">
-        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1000&q=80" alt="Sobre a marca" />
+        <img src="frontend/pages/assets/img1.png" alt="Sobre a marca" />
         <div>
             <h2>Mais que roupas.</h2>
             <p>
@@ -77,54 +90,46 @@
         </div>
     </section>
 
-    <section>
-        <h2 class="section-title">Coleções em destaque</h2>
-        <div class="collections-grid">
-            <a href="lista?cat=camisas" class="card">
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&q=80" />
-                <div class="card-content">
-                    <h3>Camisas</h3>
-                </div>
-            </a>
-            <a href="lista?cat=bones" class="card">
-                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&q=80" />
-                <div class="card-content">
-                    <h3>Bonés</h3>
-                </div>
-            </a>
-            <a href="lista?cat=acessorios" class="card">
-                <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=900&q=80" />
-                <div class="card-content">
-                    <h3>Acessórios</h3>
-                </div>
-            </a>
-        </div>
+    <section class="collections-grid" id="colecoes">
+        <a href="lista?categoria=camisas" class="card">
+            <img src="frontend/pages/assets/img7.png" alt="Drop 01" />
+            <div class="card-overlay"></div>
+            <div class="card-content">
+                <span class="card-tag">
+                    DROP 01
+                </span>
+                <h3>
+                    Essential Lines
+                </h3>
+                <p>
+                    Peças minimalistas criadas para presença
+                    e conforto diário.
+                </p>
+                <span class="card-link">
+                    Explorar coleção →
+                </span>
+            </div>
+        </a>
     </section>
 
-    <section class="featured-products">
-        <h2 class="section-title">Mais vendidos</h2>
-        <div class="products-grid">
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=900&q=80" />
-                <div class="product-info">
-                    <h4>Camiseta Grace</h4>
-                    <p class="price">R$ 89,90</p>
-                </div>
+    <section class="best-sellers">
+        <div class="section-head">
+            <div>
+                <span class="section-eyebrow">
+                    OVERGRACE SELECTION
+                </span>
+                <h2>
+                    Mais vendidos
+                </h2>
             </div>
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1503342394128-c104d54dba01?w=900&q=80" />
-                <div class="product-info">
-                    <h4>Boné Faith</h4>
-                    <p class="price">R$ 69,90</p>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=900&q=80" />
-                <div class="product-info">
-                    <h4>Moletom OverGrace</h4>
-                    <p class="price">R$ 149,90</p>
-                </div>
-            </div>
+            <a href="lista" class="section-link">
+                Ver catálogo →
+            </a>
+        </div>
+        <div class="best-wrapper">
+            <div class="best-track" id="bestTrack"></div>
+            <!-- Cards de produtos mais vendidos serão inseridos aqui via JavaScript -->
+        </div>
         </div>
     </section>
 
@@ -169,6 +174,7 @@
     </footer>
     <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+    <script type="module" src="frontend/js/modules/product/bestsellers.js"></script>
 
 </body>
 
