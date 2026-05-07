@@ -71,23 +71,33 @@
         <div class="grid-products list-grid" id="lista-produtos">
         </div>
 
-        <section class="section-block">
-            <h2>Novidades em breve</h2>
+        <section class="coming-section">
+            <div class="coming-header">
+                <h2>Novidades em breve</h2>
+                <p class="coming-subtitle">
+                    Estamos preparando peças exclusivas para a próxima coleção.
+                </p>
+            </div>
 
             <div class="coming-grid">
-                <div class="card">
-                    <img src="frontend/pages/assets/img5.png" />
-                    <div class="card-content">
+                <div class="coming-card">
+                    <img src="frontend/pages/assets/img5.png" alt="">
+                    <div class="coming-overlay">
                         <p>Nova coleção inverno</p>
                     </div>
                 </div>
 
-                <div class="card">
-                    <img src="frontend/pages/assets/img6.png" />
-                    <div class="card-content">
+                <div class="coming-card">
+                    <img src="frontend/pages/assets/img6.png" alt="">
+                    <div class="coming-overlay">
                         <p>Novos acessórios</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="coming-cta">
+                <p>Quer ser avisado primeiro?</p>
+                <button>Receber novidades</button>
             </div>
         </section>
 
