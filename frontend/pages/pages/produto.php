@@ -48,9 +48,11 @@
         <div class="product-container">
             <!-- GALERIA -->
             <div class="product-gallery">
-                <img class="main-image" id="mainProductImage" />
+                <div class="main-image-wrap">
+                    <img class="main-image" id="mainProductImage" />
+                </div>
 
-                <div class="thumb-list">
+                <div class="thumb-list" id="thumbList">
 
                 </div>
             </div>
@@ -155,7 +157,7 @@
             </div>
             <div class="footer-col">
                 <h4>Ajuda</h4>
-                <a href="camisas">trocas e Devoluções</a>
+                <a href="camisas">Trocas e Devoluções</a>
                 <a href="bonés">Rastrear Pedido </a>
                 <a href="cropped">Tamanhos</a>
                 <a href="camisas">FAQ</a>
@@ -175,6 +177,24 @@
     <script src="frontend/js/modules/cart/utils.js"></script>
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
     <script type="module" src="frontend/js/modules/product/relacionedtrack.js"></script>
+
+    <script>
+    document.querySelectorAll('.thumb-list img').forEach(img => {
+
+        img.addEventListener('click', () => {
+
+            document.getElementById('mainProductImage').src = img.src;
+
+            document
+                .querySelectorAll('.thumb-list img')
+                .forEach(i => i.classList.remove('active'));
+
+            img.classList.add('active');
+
+        });
+
+    });
+    </script>
 
 </body>
 
