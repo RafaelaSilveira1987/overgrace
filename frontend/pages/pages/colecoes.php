@@ -90,26 +90,62 @@
         </div>
     </section>
 
-    <section class="collections-grid" id="colecoes">
-        <a href="lista?categoria=camisas" class="card">
-            <img src="frontend/pages/assets/img7.png" alt="Drop 01" />
-            <div class="card-overlay"></div>
-            <div class="card-content">
-                <span class="card-tag">
-                    DROP 01
-                </span>
-                <h3>
-                    Essential Lines
-                </h3>
-                <p>
-                    Peças minimalistas criadas para presença
-                    e conforto diário.
-                </p>
-                <span class="card-link">
-                    Explorar coleção →
-                </span>
-            </div>
-        </a>
+    <section class="drops-section">
+        <div class="drops-heading">
+            <span class="drops-kicker">OVERGRACE DROPS</span>
+
+            <h2>
+                Mais que catálogo.
+                <span>Conceito.</span>
+            </h2>
+
+            <p>
+                Coleções desenvolvidas para transmitir identidade,
+                estética e propósito.
+            </p>
+        </div>
+        <div class="drops-top">
+
+            <a href="#" class="drop-card">
+                <img src="frontend/pages/assets/img2.png">
+                <div class="drop-overlay"></div>
+
+                <div class="drop-content">
+                    <span>DROP 01</span>
+                    <h3>Essential Lines</h3>
+                </div>
+            </a>
+
+            <a href="#" class="drop-card">
+                <img src="frontend/pages/assets/img5.png">
+                <div class="drop-overlay"></div>
+
+                <div class="drop-content">
+                    <span>DROP 02</span>
+                    <h3>Winter Layers</h3>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="drops-bottom">
+
+            <a href="#" class="drop-card featured">
+                <img src="frontend/pages/assets/img6.png">
+                <div class="drop-overlay"></div>
+
+                <div class="drop-content">
+                    <span>DROP 03</span>
+                    <h2>Street Uniform</h2>
+
+                    <p>
+                        Modelagens amplas, tons neutros e estética minimalista.
+                    </p>
+                </div>
+            </a>
+
+        </div>
+
     </section>
 
     <section class="best-sellers">
