@@ -56,3 +56,4 @@
 =======
 [2026-05-06 13:35:53][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
 >>>>>>> 16a708ddffbfc1548bb43c96feb3becffe1e4f85
+[2026-05-07 13:02:15][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\middleware\RateLimit.php:33
