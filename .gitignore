@@ -4,6 +4,8 @@ npm-debug.log
 
 # PHP
 /vendor/
+/api/storage/
+
 
 # Ambiente
 .env
