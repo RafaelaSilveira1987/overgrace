@@ -21,6 +21,15 @@
     <!-- Header -->
     <header>
         <div class="header-inner">
+
+            <!-- BOTÃO MOBILE -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- MENU DESKTOP -->
             <nav class="header-left">
                 <a href="loja">Home</a>
                 <a href="lista">Loja</a>
@@ -28,25 +37,70 @@
                 <a href="sobre">Sobre</a>
             </nav>
 
+            <!-- LOGO -->
             <a href="loja" class="logo">OverGrace</a>
 
+            <!-- DIREITA -->
             <div class="header-right">
+
                 <div class="customer-summary" id="customerSummary" hidden>
-                    <span id="customerName">Ola</span>
-                    <!-- <small id="customerEmail"></small> -->
+                    <span id="customerName">Olá</span>
                 </div>
+
                 <a href="login" id="loginLink">Entrar</a>
-                <a href="minha-conta" id="accountLink" hidden>Minha Conta</a>
-                <button class="header-link-button" id="logoutButton" type="button" hidden>Sair</button>
+
+                <a href="minha-conta" id="accountLink" hidden>
+                    Minha Conta
+                </a>
+
+                <button class="header-link-button" id="logoutButton" type="button" hidden>
+                    Sair
+                </button>
+
                 <a href="carrinho">
                     <button class="cart-btn">
                         Carrinho
                         <span class="cart-count">0</span>
                     </button>
                 </a>
+
             </div>
+
         </div>
     </header>
+
+    <!-- OVERLAY -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- MENU MOBILE -->
+    <div class="mobile-menu" id="mobileMenu">
+
+        <div class="mobile-menu-header">
+
+            <span>Menu</span>
+
+            <button class="close-menu" id="closeMenu">
+                ×
+            </button>
+
+        </div>
+
+        <nav class="mobile-nav">
+
+            <a href="loja">Home</a>
+            <a href="lista">Loja</a>
+            <a href="colecoes">Coleções</a>
+            <a href="sobre">Sobre</a>
+
+            <div class="mobile-divider"></div>
+
+            <a href="login">Entrar</a>
+            <a href="minha-conta">Minha Conta</a>
+            <a href="carrinho">Carrinho</a>
+
+        </nav>
+
+    </div>
 
     <!-- Hero -->
     <section class="hero">
@@ -273,6 +327,7 @@
     </footer>
     <script type="module" src="frontend/js/modules/cart/qtyCart.js?v=2"></script>
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+    <script type="module" src="frontend/js/modules/layouts/mobileMenu.js"></script>
 
 </body>
 
