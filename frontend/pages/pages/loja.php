@@ -17,6 +17,7 @@
     <header>
         <div class="header-inner">
             <nav class="header-left">
+                <a href="loja">Home</a>
                 <a href="lista">Loja</a>
                 <a href="colecoes">Coleções</a>
                 <a href="sobre">Sobre</a>
@@ -32,6 +33,7 @@
                 <a href="login" id="loginLink">Entrar</a>
                 <a href="minha-conta" id="accountLink" hidden>Minha Conta</a>
                 <button class="header-link-button" id="logoutButton" type="button" hidden>Sair</button>
+
                 <a href="carrinho">
                     <button class="cart-btn">
                         Carrinho
@@ -69,23 +71,33 @@
         <div class="grid-products list-grid" id="lista-produtos">
         </div>
 
-        <section class="section-block">
-            <h2>Novidades em breve</h2>
+        <section class="coming-section">
+            <div class="coming-header">
+                <h2>Novidades em breve</h2>
+                <p class="coming-subtitle">
+                    Estamos preparando peças exclusivas para a próxima coleção.
+                </p>
+            </div>
 
             <div class="coming-grid">
-                <div class="card">
-                    <img src="frontend/pages/assets/img5.png" />
-                    <div class="card-content">
+                <div class="coming-card">
+                    <img src="frontend/pages/assets/img5.png" alt="">
+                    <div class="coming-overlay">
                         <p>Nova coleção inverno</p>
                     </div>
                 </div>
 
-                <div class="card">
-                    <img src="frontend/pages/assets/img6.png" />
-                    <div class="card-content">
+                <div class="coming-card">
+                    <img src="frontend/pages/assets/img6.png" alt="">
+                    <div class="coming-overlay">
                         <p>Novos acessórios</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="coming-cta">
+                <p>Quer ser avisado primeiro?</p>
+                <button>Receber novidades</button>
             </div>
         </section>
 
