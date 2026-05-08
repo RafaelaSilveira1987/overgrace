@@ -2,18 +2,22 @@
 
 require_once 'api/config/database.php';
 require_once 'api/config/jwt.php';
- 
-class AuthService {
 
-    public static function loginClient($email, $password) {
+class AuthService
+{
+ 
+    public static function loginClient($email, $password)
+    {
         return self::loginByTable('clients', $email, $password, 'client');
     }
 
-    public static function loginAdmin($email, $password) {
+    public static function loginAdmin($email, $password)
+    {
         return self::loginByTable('users', $email, $password, 'admin');
     }
 
-    public static function login($email, $password) {
+    public static function login($email, $password)
+    {
         $client = self::loginClient($email, $password);
 
         if ($client) {
@@ -22,8 +26,9 @@ class AuthService {
 
         return self::loginAdmin($email, $password);
     }
- 
-    public static function me($payload) {
+
+    public static function me($payload)
+    {
         $role = $payload['role'] ?? null;
         $table = $role === 'admin' ? 'users' : 'clients';
 
@@ -47,7 +52,8 @@ class AuthService {
         ];
     }
 
-    private static function loginByTable($table, $email, $password, $role) {
+    private static function loginByTable($table, $email, $password, $role)
+    {
         $db = Database::connect();
 
         $stmt = $db->prepare("SELECT * FROM {$table} WHERE email=?");
@@ -59,20 +65,35 @@ class AuthService {
             return false;
         }
 
+        /*
         $token = JWT::encode([
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'role' => $role
+        ]);*/
+
+        $accessToken = JWT::generateAccessToken([
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'role' => $role
+        ]);
+
+        $refreshToken = JWT::generateRefreshToken([
             'id' => $user['id'],
             'email' => $user['email'],
             'role' => $role
         ]);
 
         return [
-            'token' => $token,
+            'token' => $accessToken,
+            'refresh_token' => $refreshToken,
             'role' => $role
         ];
     }
 
 
-    public static function register($data) {
+    public static function register($data)
+    {
         $db = Database::connect();
 
         $email = trim($data['email']);
@@ -134,7 +155,8 @@ class AuthService {
         }
     }
 
-    private static function getClientColumns($db) {
+    private static function getClientColumns($db)
+    {
         $stmt = $db->query("SHOW COLUMNS FROM clients");
         return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'Field');
     }

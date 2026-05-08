@@ -2,12 +2,12 @@
 
 class JWT
 {
-
     private static function getKey()
     {
         if (empty($_ENV['JWT_SECRET'])) {
             throw new Exception('JWT_SECRET não configurado');
         }
+
         return $_ENV['JWT_SECRET'];
     }
 
@@ -21,45 +21,91 @@ class JWT
         return base64_decode(strtr($data, '-_', '+/'));
     }
 
-    public static function encode($payload)
+    public static function encode(array $payload, int $expiresIn = 900, string $type = 'access')
     {
         $header = self::base64url_encode(json_encode([
             'alg' => 'HS256',
             'typ' => 'JWT'
         ]));
 
-        $payload['exp'] = time() + 3600;
+        $payload['type'] = $type;
+        $payload['iat']  = time();
+        $payload['exp']  = time() + $expiresIn;
 
-        $payload = self::base64url_encode(json_encode($payload));
+        $payloadEncoded = self::base64url_encode(
+            json_encode($payload)
+        );
 
-        $signature = hash_hmac('sha256', "$header.$payload", self::getKey(), true);
-        $signature = self::base64url_encode($signature);
+        $signature = hash_hmac(
+            'sha256',
+            "$header.$payloadEncoded",
+            self::getKey(),
+            true
+        );
 
-        return "$header.$payload.$signature";
+        $signatureEncoded = self::base64url_encode($signature);
+
+        return "$header.$payloadEncoded.$signatureEncoded";
     }
 
-    public static function decode($token)
+    public static function decode(string $token)
     {
         $parts = explode('.', $token);
 
-        if (count($parts) !== 3) return false;
+        if (count($parts) !== 3) {
+            return false;
+        }
 
         [$header, $payload, $signature] = $parts;
 
         $validSignature = self::base64url_encode(
-            hash_hmac('sha256', "$header.$payload", self::getKey(), true)
+            hash_hmac(
+                'sha256',
+                "$header.$payload",
+                self::getKey(),
+                true
+            )
         );
 
         if (!hash_equals($validSignature, $signature)) {
             return false;
         }
 
-        $payload = json_decode(self::base64url_decode($payload), true);
+        $payloadDecoded = json_decode(
+            self::base64url_decode($payload),
+            true
+        );
 
-        if (isset($payload['exp']) && $payload['exp'] < time()) {
+        if (!$payloadDecoded) {
             return false;
         }
 
-        return $payload;
+        if (
+            isset($payloadDecoded['exp']) &&
+            $payloadDecoded['exp'] < time()
+        ) {
+            return false;
+        }
+
+        return $payloadDecoded;
     }
+
+    public static function generateAccessToken(array $data)
+    {
+        return self::encode(
+            $data,
+            15,
+            'access'
+        );
+    }
+
+    public static function generateRefreshToken(array $data)
+    {
+        return self::encode(
+            $data,
+            60 * 60 * 24 * 30,
+            'refresh'
+        );
+    }
+
 }

@@ -1,25 +1,31 @@
 <?php
 
-require_once 'api/config/jwt.php';
-require_once 'api/core/Response.php';
+class AuthMiddleware
+{
 
-class AuthMiddleware {
+    public static function handle()
+    {
 
-    public static function handle() {
         $headers = getallheaders();
 
-        if (!isset($headers['Authorization'])) {
-            Response::json(['error'=>'token required'],401);
+        $authorization =
+            $headers['Authorization']
+            ?? $headers['authorization']
+            ?? $_SERVER['HTTP_AUTHORIZATION']
+            ?? null;
+
+        if (!$authorization) {
+            Response::json(['error' => 'token requerido'], 401);
         }
 
-        $token = str_replace('Bearer ', '', $headers['Authorization']);
+        $token = str_replace('Bearer ', '', $authorization);
+
         $data = JWT::decode($token);
 
         if (!$data) {
-            Response::json(['error'=>'Token expirado'],401);
+            Response::json(['error' => 'Token expirado'], 401);
         }
 
         return $data;
     }
 }
-

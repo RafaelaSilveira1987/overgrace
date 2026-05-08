@@ -567,7 +567,7 @@
     </div>
 
   </footer>
-
+ 
   <script type="module" src="frontend/js/modules/client/register.js"></script>
   <script type="module" src="frontend/js/modules/checkout/list.js"></script>
   <script src="frontend/js/modules/client/utils.js"></script>

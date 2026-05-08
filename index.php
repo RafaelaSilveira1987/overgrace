@@ -133,6 +133,7 @@ if (str_starts_with($uri, '/api')) {
 
     $router = new Router();
 
+    $router->add('POST', '/refresh', 'Auth/AuthController@refresh');
     $router->add('POST', '/login', 'Auth/AuthController@login');
     $router->add('POST', '/client-login', 'Auth/AuthController@loginClient'); 
     $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
