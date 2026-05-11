@@ -94,7 +94,7 @@ class JWT
     {
         return self::encode(
             $data,
-            15,
+            3600,
             'access'
         );
     }

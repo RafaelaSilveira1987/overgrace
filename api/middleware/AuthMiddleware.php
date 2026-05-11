@@ -1,5 +1,8 @@
 <?php
 
+require_once 'api/config/jwt.php';
+
+ 
 class AuthMiddleware
 {
 

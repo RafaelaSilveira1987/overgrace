@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/05/2026 às 22:37
+-- Tempo de geração: 11/05/2026 às 20:28
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -45,7 +45,7 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`, `coupon_id`, `coupon_valor`, `coupon_tipo`) VALUES
 (2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-03 19:11:16', 7, 45, 'fixo'),
-(3, NULL, '14ec39cc1af42c19cd4739ce8d22937d', 'active', '2026-05-04 10:41:00', '2026-05-04 10:41:27', 5, 80.1, 'percentual');
+(3, NULL, '14ec39cc1af42c19cd4739ce8d22937d', 'converted', '2026-05-04 10:41:00', '2026-05-11 18:22:34', 5, 80.1, 'percentual');
 
 -- --------------------------------------------------------
 
@@ -72,8 +72,9 @@ INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `pr
 (5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-03 19:05:24'),
 (8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
 (9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33'),
-(10, 3, 23, 'Único', 2, 325.50, '2026-05-04 10:41:00', '2026-05-04 10:41:04'),
-(11, 3, 15, 'M', 3, 50.00, '2026-05-04 10:41:17', '2026-05-04 10:41:17');
+(10, 3, 23, 'Único', 2, 325.50, '2026-05-04 10:41:00', '2026-05-11 16:02:17'),
+(11, 3, 15, 'M', 1, 50.00, '2026-05-04 10:41:17', '2026-05-11 15:57:53'),
+(12, 3, 17, 'G', 1, 55.25, '2026-05-11 15:57:29', '2026-05-11 15:57:29');
 
 -- --------------------------------------------------------
 
@@ -172,11 +173,24 @@ INSERT INTO `coupons` (`id`, `uuid`, `cupom`, `tipo`, `percentual`, `valor`, `mi
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
+  `cart_id` bigint(20) DEFAULT NULL,
   `status` enum('pending','paid','canceled','refunded') DEFAULT 'pending',
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL,
+  `shipping` decimal(10,2) DEFAULT NULL,
+  `coupon_id` int(11) DEFAULT NULL,
+  `payment_status` enum('pending','approved','rejected','refunded','expired') DEFAULT NULL,
   `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `orders`
+--
+
+INSERT INTO `orders` (`id`, `client_id`, `cart_id`, `status`, `subtotal`, `discount`, `shipping`, `coupon_id`, `payment_status`, `total_amount`, `created_at`, `updated_at`) VALUES
+(7, 8, 3, 'pending', 756.25, 80.10, 0.00, 5, 'pending', 676.15, '2026-05-11 18:22:34', '2026-05-11 18:22:34');
 
 -- --------------------------------------------------------
 
@@ -192,8 +206,18 @@ CREATE TABLE `order_items` (
   `size` varchar(20) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `size`, `quantity`, `price`, `subtotal`, `created_at`) VALUES
+(19, 7, 23, 'Tenis DC classic 3', 'Único', 2, 325.50, 651.00, '2026-05-11 18:22:34'),
+(20, 7, 15, 'Camisa gola povo alpha co amarela', 'M', 1, 50.00, 50.00, '2026-05-11 18:22:34'),
+(21, 7, 17, 'Novo produto', 'G', 1, 55.25, 55.25, '2026-05-11 18:22:34');
 
 -- --------------------------------------------------------
 
@@ -308,7 +332,7 @@ INSERT INTO `products` (`id`, `uuid`, `descricao`, `desc_slug`, `categoria`, `pr
 (17, 'fc2bdc75-4223-11f1-b1c7-d09466a5d484', 'Novo produto', 'novo-produto', 'camisas', 55.25, 79.90, '-20%', 0, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-27 10:29:34', '2026-04-28 00:36:17', 0, NULL),
 (20, '2629adeb-4296-11f1-a581-f4b5204d1e7e', 'Tenis DC classic', 'tenis-dc-classic', 'kits', 325.50, 510.00, '-20%', 0, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-28 00:06:47', '2026-04-28 00:36:17', 0, NULL),
 (22, 'debdc512-4296-11f1-a581-f4b5204d1e7e', 'Tenis DC classic 2', 'tenis-dc-classic-2', 'camisas', 325.11, 450.00, '-20%', 0, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-28 00:11:57', '2026-04-28 00:36:17', 0, NULL),
-(23, '57d4abaa-4297-11f1-a581-f4b5204d1e7e', 'Tenis DC classic 3', 'tenis-dc-classic-3', 'camisas', 325.50, 450.00, '-20%', 1, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-28 00:15:20', '2026-04-28 00:15:20', 0, NULL);
+(23, '57d4abaa-4297-11f1-a581-f4b5204d1e7e', 'Tenis DC classic 3', 'tenis-dc-classic-3', 'camisas', 325.50, 450.00, 'Lançamento', 1, '2026-04-27 00:00:00', '0000-00-00 00:00:00', NULL, '', 0.000, NULL, 0, 1, 1, 0, '2026-04-28 00:15:20', '2026-05-06 18:19:41', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -343,7 +367,7 @@ INSERT INTO `products_img` (`id`, `produto_id`, `imagem`, `ordem`, `destaque`, `
 (100, 22, '80672028ce4312ba7b23a0924b597015.png', 0, 1, '2026-04-28 00:57:53'),
 (101, 16, 'b2be3cf56e8351c963daed1c2c66adf4.jpg', 0, 1, '2026-05-03 02:48:13'),
 (102, 16, '6125146c42ad1e1a138bde465bdebb19.png', 0, 0, '2026-05-03 02:48:13'),
-(104, 23, '9022e86fa69a0d542937139a591e3713.png', 0, 1, '2026-05-03 04:12:30');
+(105, 23, '9022e86fa69a0d542937139a591e3713.png', 0, 1, '2026-05-06 18:19:41');
 
 -- --------------------------------------------------------
 
@@ -398,7 +422,7 @@ INSERT INTO `products_stock` (`id`, `produto_id`, `tamanho`, `estoque`, `estoque
 (206, 17, 'G', 30, 0, 15, 20, 1, '2026-04-27 18:38:32', '2026-04-27 18:40:04'),
 (207, 20, 'Único', 25, 0, 10, 10, 1, '2026-04-28 00:06:47', '2026-05-04 10:40:38'),
 (208, 22, 'Único', 15, 0, 10, 15, 1, '2026-04-28 00:11:57', '2026-04-28 00:57:53'),
-(209, 23, 'Único', 90, 0, 10, 10, 1, '2026-04-28 00:15:20', '2026-04-28 00:32:52');
+(209, 23, 'Único', 100, 0, 10, 10, 1, '2026-04-28 00:15:20', '2026-05-06 18:19:59');
 
 -- --------------------------------------------------------
 
@@ -438,7 +462,8 @@ INSERT INTO `products_stock_movements` (`id`, `produto_id`, `tamanho`, `tipo_mov
 (23, 23, 'Único', 'entrada', 30, NULL, 'DC Calçados', '123', '2026-04-28 00:00:00', 25.00, '', '2026-04-27 21:32:52'),
 (24, 17, 'M', 'entrada', 70, NULL, '', '', '2026-04-28 00:00:00', 0.00, '', '2026-04-27 21:57:34'),
 (25, 16, 'Único', '', 0, NULL, NULL, NULL, '2026-05-02 00:00:00', NULL, 'Estoque inicial (edição)', '2026-05-02 23:48:13'),
-(26, 20, 'Único', 'entrada', 25, NULL, '', '', '2026-05-04 00:00:00', 0.00, '', '2026-05-04 07:40:38');
+(26, 20, 'Único', 'entrada', 25, NULL, '', '', '2026-05-04 00:00:00', 0.00, '', '2026-05-04 07:40:38'),
+(27, 23, 'Único', 'entrada', 10, NULL, '', '', '2026-05-06 00:00:00', 0.00, '', '2026-05-06 15:19:59');
 
 -- --------------------------------------------------------
 
@@ -639,7 +664,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT de tabela `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `clients`
@@ -663,13 +688,13 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT de tabela `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `order_status_history`
@@ -705,19 +730,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT de tabela `products_img`
 --
 ALTER TABLE `products_img`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT de tabela `products_stock`
 --
 ALTER TABLE `products_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
 
 --
 -- AUTO_INCREMENT de tabela `products_stock_movements`
 --
 ALTER TABLE `products_stock_movements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de tabela `products_tags`

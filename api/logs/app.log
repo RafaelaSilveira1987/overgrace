@@ -57,3 +57,13 @@
 [2026-05-06 13:35:53][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
 >>>>>>> 16a708ddffbfc1548bb43c96feb3becffe1e4f85
 [2026-05-07 13:02:15][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\middleware\RateLimit.php:33
+[2026-05-11 13:01:23][ERROR] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'name' in 'field list'
+[2026-05-11 13:26:39][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\middleware\RateLimit.php:33
+[2026-05-11 14:01:04][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Orders\OrderController.php:3
+[2026-05-11 14:01:04][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
+[2026-05-11 14:02:04][ERROR] [2] require_once(core/Response.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\overgrace\api\modules\Orders\OrderController.php:3
+[2026-05-11 14:02:04][ERROR] Failed opening required 'core/Response.php' (include_path='C:\xampp\php\PEAR')
+[2026-05-11 14:02:40][ERROR] Class "JWT" not found
+[2026-05-11 14:09:27][ERROR] Carrinho não encontrado
+[2026-05-11 14:14:01][ERROR] [2] Trying to access array offset on value of type null in C:\xampp\htdocs\overgrace\api\middleware\RateLimit.php:33
+[2026-05-11 15:16:08][ERROR] Carrinho não encontrado

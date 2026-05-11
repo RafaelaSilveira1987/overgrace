@@ -27,6 +27,7 @@ async function refreshAccessToken() {
 
     const data = await response.json();
 
+
     // cliente
     if (localStorage.getItem('refresh_token_client')) {
 
@@ -43,18 +44,26 @@ async function refreshAccessToken() {
 
 export async function request(url, options = {}) {
 
-    const makeRequest = async () => {
+    const makeRequest = async (forcedToken = null) => {
 
         const isFormData = options.body instanceof FormData;
 
-        const headers = isFormData
-            ? {
-                ...getHeaders(true)
-            }
-            : {
-                ...getHeaders(),
-                ...(options.headers || {})
-            };
+        const headers = {
+            ...(options.headers || {})
+        };
+
+        const token =
+            forcedToken ||
+            localStorage.getItem('token') ||
+            localStorage.getItem('token_client');
+
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+
+        if (!isFormData) {
+            headers['Content-Type'] = 'application/json';
+        }
 
         const config = {
             method: 'GET',
@@ -74,10 +83,9 @@ export async function request(url, options = {}) {
 
             try {
 
-                await refreshAccessToken();
+                const newToken = await refreshAccessToken();
 
-                // tenta novamente automaticamente
-                response = await makeRequest();
+                response = await makeRequest(newToken);
 
             } catch (refreshError) {
 

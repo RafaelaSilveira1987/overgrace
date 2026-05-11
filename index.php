@@ -149,6 +149,7 @@ if (str_starts_with($uri, '/api')) {
 
 
     $router->add('POST', '/orders', 'Orders/OrderController@create');
+    $router->add('GET', '/orders/{id}', 'Orders/OrderController@get');
 
     $router->add('POST', '/product', 'Products/ProductController@create');
     $router->add('GET', '/product', 'Products/ProductController@get');

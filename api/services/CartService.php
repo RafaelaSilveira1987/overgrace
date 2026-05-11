@@ -33,7 +33,7 @@ class CartService
         FROM cart_items 
         WHERE cart_id = ? AND product_id = ? AND size = ?
         LIMIT 1
-    ");
+        ");
         $stmt->execute([$cartId, $productId, $size]);
         $item = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -151,7 +151,7 @@ class CartService
         JOIN cart_items ci ON ci.cart_id = c.id
         WHERE c.session_token = ?
         AND c.status = 'active'
-    ");
+        ");
 
         $stmt->execute([$cartToken]);
 
@@ -183,7 +183,7 @@ class CartService
         WHERE session_token = ? 
         AND status = 'active'
         LIMIT 1
-    ");
+        ");
         $stmt->execute([$cartToken]);
         $cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -336,7 +336,7 @@ class CartService
             coupon_tipo = ?,
             updated_at = NOW()
         WHERE id = ?
-    ");
+        ");
         $stmt->execute([
             $coupon['id'],
             $desconto,
@@ -350,5 +350,137 @@ class CartService
             'tipo' => $coupon['tipo'],
             'mensagem' => 'Cupom aplicado com sucesso'
         ];
+    }
+
+    public static function mergeCart($userId, $cartToken)
+    {
+        $db = Database::connect();
+
+        // carrinho anônimo
+        $stmt = $db->prepare("
+        SELECT * 
+        FROM carts
+        WHERE session_token = ?
+        AND status = 'active'
+        LIMIT 1
+        ");
+
+        $stmt->execute([$cartToken]);
+
+        $guestCart = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$guestCart) {
+            return;
+        }
+
+        // carrinho do usuário
+        $stmt = $db->prepare("
+        SELECT * 
+        FROM carts
+        WHERE user_id = ?
+        AND status = 'active'
+        LIMIT 1
+        ");
+
+        $stmt->execute([$userId]);
+
+        $userCart = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // se não existir carrinho do usuário
+        if (!$userCart) {
+
+            $stmt = $db->prepare("
+            UPDATE carts
+            SET user_id = ?
+            WHERE id = ?
+        ");
+
+            $stmt->execute([$userId, $guestCart['id']]);
+
+            return;
+        }
+
+        // merge dos itens
+        $stmt = $db->prepare("
+        SELECT *
+        FROM cart_items
+        WHERE cart_id = ?
+        ");
+
+        $stmt->execute([$guestCart['id']]);
+
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($items as $item) {
+
+            // verifica se item já existe
+            $stmt = $db->prepare("
+            SELECT id, quantity
+            FROM cart_items
+            WHERE cart_id = ?
+            AND product_id = ?
+            AND size = ?
+            LIMIT 1
+            ");
+
+            $stmt->execute([
+                $userCart['id'],
+                $item['product_id'],
+                $item['size']
+            ]);
+
+            $exists = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($exists) {
+
+                $stmt = $db->prepare("
+                UPDATE cart_items
+                SET quantity = quantity + ?
+                WHERE id = ?
+            ");
+
+                $stmt->execute([
+                    $item['quantity'],
+                    $exists['id']
+                ]);
+            } else {
+
+                $stmt = $db->prepare("
+                INSERT INTO cart_items
+                (
+                    cart_id,
+                    product_id,
+                    size,
+                    quantity,
+                    price,
+                    created_at
+                )
+                VALUES (?, ?, ?, ?, ?, NOW())
+            ");
+
+                $stmt->execute([
+                    $userCart['id'],
+                    $item['product_id'],
+                    $item['size'],
+                    $item['quantity'],
+                    $item['price']
+                ]);
+            }
+        }
+
+        // remove carrinho guest
+        $stmt = $db->prepare("
+        DELETE FROM cart_items
+        WHERE cart_id = ?
+        ");
+
+        $stmt->execute([$guestCart['id']]);
+
+        $stmt = $db->prepare("
+        DELETE FROM carts
+        WHERE id = ?
+        ");
+
+        $stmt->execute([$guestCart['id']]);
     }
 }

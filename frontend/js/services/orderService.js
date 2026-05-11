@@ -1,12 +1,16 @@
 import { api } from '../core/api.js';
 
-export const pedidoService = {
+export const orderService = {
 
     criar() {
-        return api.post('/pedidos', {});
+        return api.post('/orders', {});
     },
 
     listar() {
         return api.get('/pedidos');
-    }
+    },
+
+    get(id) {
+        return api.get(`/orders/${id}`);
+    },
 };

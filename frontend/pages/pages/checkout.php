@@ -28,15 +28,15 @@
 
   <!-- Steps indicator -->
   <div class="steps-bar" id="stepsBar">
-    <div class="step-item active" id="step-ind-1" onclick="goToStep(1)">
+    <div class="step-item active" id="step-ind-1">
       <span class="step-num">1</span> Identificação
     </div>
     <div class="step-sep"></div>
-    <div class="step-item" id="step-ind-2" onclick="goToStep(2)">
+    <div class="step-item" id="step-ind-2">
       <span class="step-num">2</span> Entrega
     </div>
     <div class="step-sep"></div>
-    <div class="step-item" id="step-ind-3" onclick="goToStep(3)">
+    <div class="step-item" id="step-ind-3">
       <span class="step-num">3</span> Pagamento
     </div>
   </div>
@@ -195,64 +195,70 @@
 
       <!-- STEP 2: Entrega -->
       <div class="panel" id="panel2">
-        <!-- Opções de frete -->
-        <h3
-          style="
+
+        <form id="formShipping">
+          <!-- Opções de frete -->
+          <h3
+            style="
                 font-size: 20px;
                 font-weight: 700;
                 margin: 36px 0 20px;
               ">
-          Forma de entrega
-        </h3>
+            Forma de entrega
+          </h3>
 
-        <div class="shipping-options">
-          <label
-            class="ship-option selected"
-            onclick="selectShip(this, 0, 'Frete Grátis')">
-            <input type="radio" name="ship" value="gratis" checked />
-            <div class="ship-radio"></div>
-            <div class="ship-info">
-              <div>
-                <p class="ship-label">PAC — Entrega Econômica</p>
-                <p class="ship-eta">Entrega em 5 a 8 dias úteis</p>
+          <div class="shipping-options">
+            <label
+              class="ship-option selected"
+              onclick="selectShip(this, 0, 'Frete Grátis')">
+              <input type="radio" name="ship" value="gratis" checked />
+              <div class="ship-radio"></div>
+              <div class="ship-info">
+                <div>
+                  <p class="ship-label">PAC — Entrega Econômica</p>
+                  <p class="ship-eta">Entrega em 5 a 8 dias úteis</p>
+                </div>
               </div>
-            </div>
-            <span class="ship-price free">Grátis</span>
-          </label>
+              <span class="ship-price free">Grátis</span>
+            </label>
 
-          <label
-            class="ship-option"
-            onclick="selectShip(this, 18.9, 'Sedex')">
-            <input type="radio" name="ship" value="sedex" />
-            <div class="ship-radio"></div>
-            <div class="ship-info">
-              <div>
-                <p class="ship-label">SEDEX — Entrega Expressa</p>
-                <p class="ship-eta">Entrega em 1 a 3 dias úteis</p>
+            <label
+              class="ship-option"
+              onclick="selectShip(this, 18.9, 'Sedex')">
+              <input type="radio" name="ship" value="sedex" />
+              <div class="ship-radio"></div>
+              <div class="ship-info">
+                <div>
+                  <p class="ship-label">SEDEX — Entrega Expressa</p>
+                  <p class="ship-eta">Entrega em 1 a 3 dias úteis</p>
+                </div>
               </div>
-            </div>
-            <span class="ship-price">R$ 18,90</span>
-          </label>
+              <span class="ship-price">R$ 18,90</span>
+            </label>
 
-          <label
-            class="ship-option"
-            onclick="selectShip(this, 12.5, 'Retirada')">
-            <input type="radio" name="ship" value="retirada" />
-            <div class="ship-radio"></div>
-            <div class="ship-info">
-              <div>
-                <p class="ship-label">Retirada no Ponto de Coleta</p>
-                <p class="ship-eta">Disponível em até 2 dias úteis</p>
+            <label
+              class="ship-option"
+              onclick="selectShip(this, 12.5, 'Retirada')">
+              <input type="radio" name="ship" value="retirada" />
+              <div class="ship-radio"></div>
+              <div class="ship-info">
+                <div>
+                  <p class="ship-label">Retirada no Ponto de Coleta</p>
+                  <p class="ship-eta">Disponível em até 2 dias úteis</p>
+                </div>
               </div>
-            </div>
-            <span class="ship-price">R$ 12,50</span>
-          </label>
-        </div>
+              <span class="ship-price">R$ 12,50</span>
+            </label>
+          </div>
 
-        <button class="submit-btn" onclick="goToStep(3)">
-          Continuar para pagamento <span class="arrow">→</span>
-        </button>
-        <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
+          <button type="submit" class="submit-btn">
+            Continuar para pagamento
+            <span class="arrow">→</span>
+          </button>
+          <button class="back-step-btn" onclick="goToStep(1)">← Voltar</button>
+
+        </form>
+
       </div>
 
       <!-- STEP 3: Pagamento -->
@@ -567,7 +573,7 @@
     </div>
 
   </footer>
- 
+
   <script type="module" src="frontend/js/modules/client/register.js"></script>
   <script type="module" src="frontend/js/modules/checkout/list.js"></script>
   <script src="frontend/js/modules/client/utils.js"></script>
