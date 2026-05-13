@@ -5,7 +5,7 @@ require_once 'api/middleware/AuthMiddleware.php';
 require_once 'api/services/StockService.php';
 
 class StockController
-{ 
+{
 
     // 🔹 CRIAR PRODUTO
     public function create()
@@ -87,11 +87,22 @@ class StockController
         }
 
         // 🔥 chama service
-        $ok = StockService::create($data);
+        try {
 
-        Response::json([
-            'success' => true
-        ]);
+            $ok = StockService::create($data);
+
+            Response::json([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+
+            Response::json([
+                'error' => true,
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ], 500);
+        }
     }
 
     // 🔹 LISTAR PRODUTOS (mantido)

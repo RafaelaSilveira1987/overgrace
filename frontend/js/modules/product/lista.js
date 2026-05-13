@@ -30,6 +30,8 @@ export async function carregarProdutos() {
 
     res.data.forEach((produto) => {
       let totalEstoque = 0;
+      let estoqueStatus = "";
+      let estoqueClass = "";
 
       const tamanhosHtml = produto.tamanhos?.length
         ? produto.tamanhos
@@ -39,6 +41,17 @@ export async function carregarProdutos() {
             })
             .join("")
         : `<span style="font-size:12px;color:#999">—</span>`;
+
+      if (totalEstoque <= 0) {
+        estoqueStatus = "Esgotado";
+        estoqueClass = "estoque-esgotado";
+      } else if (totalEstoque <= 3) {
+        estoqueStatus = "Últimas peças";
+        estoqueClass = "estoque-baixo";
+      } else {
+        estoqueStatus = "Disponível";
+        estoqueClass = "estoque-ok";
+      }
 
       const BASE_IMG = "/overgrace/frontend/uploads/products/";
 
@@ -76,7 +89,17 @@ export async function carregarProdutos() {
                 </td>
                 <td class="price-cell">R$ ${produto.preco_atual}</td>
                 <td style="font-size: 12px; color: var(--ink-3)">${dataUtil(produto.inicio_exibicao, "format", "d/m/Y")}</td>
-                <td style="font-size: 13px">${totalEstoque}</td> 
+                <td style="font-size: 13px">
+                    ${totalEstoque}
+
+                    ${
+                      estoqueStatus
+                        ? `<div class="stock-alert ${estoqueClass}">
+                            ${estoqueStatus}
+                          </div>`
+                        : ""
+                    }
+                </td>
                 <td><span class="ativo-dot ${produto.ativo == "1" ? "ativo-sim" : "ativo-nao"}"></span>${produto.ativo == "1" ? "Ativo" : "Inativo"}</td>
                 <td class="actions-cell">
                   <button class="row-btn btn-editar" data-id="${produto.id}">
