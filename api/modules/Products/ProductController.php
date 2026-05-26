@@ -40,15 +40,34 @@ class ProductController
             Response::json(['error' => 'Informe pelo menos um tamanho'], 400);
         }
 
+        // garante que campos opcionais existam
+        $data += [
+            'preco_antigo'    => null,
+            'badge'           => null,
+            'posicao'         => null,
+            'descricao'       => null,
+            'peso'            => null,
+            'data_fim'        => null,
+            'estoque_inicial' => 0,
+            'imagem_principal' => 0,
+        ];
+
         // 🔥 processa upload
         $data['imagens'] = $this->processUpload();
 
-        $produtoId = ProductService::create($data);
+        try {
+            $produtoId = ProductService::create($data);
 
-        Response::json([
-            'success' => true,
-            'produto_id' => $produtoId
-        ]);
+            Response::json([
+                'success' => true,
+                'produto_id' => $produtoId
+            ]);
+
+        } catch (Exception $e) {
+            error_log('[OVERGRACE PRODUCT] ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine());
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    
     }
 
     // 🔹 UPDATE

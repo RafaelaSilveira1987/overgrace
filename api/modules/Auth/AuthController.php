@@ -61,13 +61,13 @@ class AuthController
     public function me()
     {
         $payload = AuthMiddleware::handle();
-        $user = AuthService::me($payload);
+        $userService = AuthService::me($payload);
 
-        if (!$user) {
+        if (!$userService) {
             Response::json(['message' => 'Conta nao encontrada'], 404);
         }
 
-        Response::json($user);
+        Response::json($userService);
     }
 
     public function register()
@@ -128,7 +128,7 @@ class AuthController
 
         return $_POST ?: [];
     }
- 
+
     public function refresh()
     {
 

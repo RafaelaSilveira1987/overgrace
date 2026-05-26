@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div class="shell">
+  <iv class="shell">
     <!-- ── SIDEBAR ──────────────────────────────────────── -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-logo">
@@ -89,12 +89,15 @@
       </nav>
 
       <div class="sidebar-footer">
-        <div class="sidebar-avatar">MF</div>
-        <div class="sidebar-user-info">
-          <div class="sidebar-user-name">Mary OverGrace</div>
-          <div class="sidebar-user-role">Administrador</div>
-        </div>
+        <a class="nav-item sidebar-user-link" href="pages/perfil.php" target="content" data-page="perfil">
+          <div class="sidebar-avatar">MF</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Mary OverGrace</div>
+            <div class="sidebar-user-role">Administrador</div>
+          </div>
+        </a>
       </div>
+      
     </aside>
 
     <!-- ── MAIN ──────────────────────────────────────────── -->
@@ -142,6 +145,7 @@
       pedidos: "Pedidos",
       clientes: "Clientes",
       configuracoes: "Configurações",
+      perfil: "Perfil",  
     };
 
     // Ativa o item de nav correto e atualiza breadcrumb
@@ -161,8 +165,8 @@
 
         const page = link.dataset.page;
 
-        document.getElementById("contentFrame").src =
-          BASE_URL + page + ".html";
+        const ext = page === "perfil" ? ".php" : ".html";
+document.getElementById("contentFrame").src = BASE_URL + page + ext;
 
         setActive(page);
       });
@@ -171,15 +175,15 @@
 
     // Permite que páginas internas (dentro do iframe) sinalizem qual página estão
     window.addEventListener("message", (e) => {
-      if (e.data && e.data.type === "navigate") {
-        // Navega para outra página a partir do iframe
-        const frame = document.getElementById("contentFrame");
-        frame.src = BASE_URL + e.data.page + ".html"
-        setActive(e.data.page);
-      } else if (e.data && e.data.type === "page") {
-        setActive(e.data.name);
-      }
-    });
+  if (e.data && e.data.type === "navigate") {
+    const frame = document.getElementById("contentFrame");
+    const ext = e.data.page === "perfil" ? ".php" : ".html";
+    frame.src = BASE_URL + e.data.page + ext;
+    setActive(e.data.page);
+  } else if (e.data && e.data.type === "page") {
+    setActive(e.data.name);
+  }
+});
 
     // Estado inicial
     setActive("dashboard");

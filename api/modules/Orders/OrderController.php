@@ -9,11 +9,11 @@ class OrderController
 
     public function create()
     {
-        $user = AuthMiddleware::handle();
+        $userService = AuthMiddleware::handle();
 
         $cartToken = $this->getCartToken();
 
-        $orderId = OrderService::createOrder($user['id'], $cartToken, date('Y-m-d'));
+        $orderId = OrderService::createOrder($userService['id'], $cartToken, date('Y-m-d'));
 
         if (!$orderId) {
             Response::json(['error' => 'empty cart'], 400);
@@ -27,11 +27,11 @@ class OrderController
         try {
 
 
-            $user = AuthMiddleware::handle();
+            $userService = AuthMiddleware::handle();
 
             $order = OrderService::get(
                 $id,
-                $user['id']
+                $userService['id']
             );
 
             Response::json($order);

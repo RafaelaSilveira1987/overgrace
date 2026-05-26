@@ -47,10 +47,10 @@ class ClientController
     public function updateAddress()
     {
         $data = json_decode(file_get_contents("php://input"), true);
-        //$user = Auth::getUser(); // via JWT
+        //$userService = Auth::getUser(); // via JWT
 
         try {
-            //ClientService::updateAddress($user->id, $data);
+            //ClientService::updateAddress($userService->id, $data);
             Response::json(['success' => true]);
         } catch (Exception $e) {
             Response::json(['error' => $e->getMessage()], 400);

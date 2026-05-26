@@ -101,7 +101,7 @@ class ClientService
 
         return true;
     }
- 
+
     // 🔹 LOGIN
     public static function login($email, $senha)
     {
@@ -150,9 +150,9 @@ class ClientService
         $stmt = $pdo->prepare("SELECT * FROM customers WHERE email = ?");
         $stmt->execute([$email]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userService = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user) {
+        if (!$userService) {
             // cria usuário automaticamente
             $stmt = $pdo->prepare("
             INSERT INTO customers (uuid, email, nome, google_id)
@@ -165,14 +165,14 @@ class ClientService
                 $googleId
             ]);
 
-            $userId = $pdo->lastInsertId();
+            $userServiceId = $pdo->lastInsertId();
 
             $stmt = $pdo->prepare("SELECT * FROM customers WHERE id = ?");
-            $stmt->execute([$userId]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->execute([$userServiceId]);
+            $userService = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
-        return $user;*/
+        return $userService;*/
     }
 
 

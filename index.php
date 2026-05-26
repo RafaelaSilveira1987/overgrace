@@ -2,6 +2,9 @@
 
 date_default_timezone_set('America/Sao_Paulo');
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -14,33 +17,33 @@ $dotenv->safeLoad();
 // LOGS / ERROS
 require_once 'api/helpers/logger.php';
 
-set_exception_handler(function ($e) {
-    Logger::error($e->getMessage());
-    http_response_code(500);
-    echo json_encode(['error' => 'internal server error']);
-    exit;
-});
+// set_exception_handler(function ($e) {
+//     Logger::error($e->getMessage());
+//     http_response_code(500);
+//     echo json_encode(['error' => 'internal server error']);
+//     exit;
+// });
 
-set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+// set_error_handler(function ($errno, $errstr, $errfile, $errline) {
 
-    $nonFatal = [
-        E_NOTICE,
-        E_WARNING,
-        E_DEPRECATED,
-        E_USER_NOTICE,
-        E_USER_WARNING
-    ];
+//     $nonFatal = [
+//         E_NOTICE,
+//         E_WARNING,
+//         E_DEPRECATED,
+//         E_USER_NOTICE,
+//         E_USER_WARNING
+//     ];
 
-    Logger::error("[$errno] $errstr in $errfile:$errline");
+//     Logger::error("[$errno] $errstr in $errfile:$errline");
 
-    if (in_array($errno, $nonFatal)) {
-        return true;
-    }
+//     if (in_array($errno, $nonFatal)) {
+//         return true;
+//     }
 
-    http_response_code(500);
-    echo json_encode(['error' => 'internal server error']);
-    exit;
-});
+//     http_response_code(500);
+//     echo json_encode(['error' => 'internal server error']);
+//     exit;
+// });
 
 
 // HTTPS (produção)
@@ -135,7 +138,7 @@ if (str_starts_with($uri, '/api')) {
 
     $router->add('POST', '/refresh', 'Auth/AuthController@refresh');
     $router->add('POST', '/login', 'Auth/AuthController@login');
-    $router->add('POST', '/client-login', 'Auth/AuthController@loginClient'); 
+    $router->add('POST', '/client-login', 'Auth/AuthController@loginClient');
     $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
     $router->add('POST', '/register', 'Auth/AuthController@register');
     $router->add('GET', '/me', 'Auth/AuthController@me');
@@ -173,6 +176,40 @@ if (str_starts_with($uri, '/api')) {
     $router->add('GET', '/stock/{id}', 'Stock/StockController@getById');
     $router->add('POST', '/stock/{id}', 'Stock/StockController@update');
     $router->add('DELETE', '/stock/{id}', 'Stock/StockController@delete');
+
+
+    $router->add('GET', '/admin/me', 'Admin/AdminController@me');
+
+    $router->add('GET', '/users', 'Admin/AdminController@users');
+
+    $router->add('POST', '/users', 'Admin/AdminController@create');
+
+    $router->add('POST', '/users/{id}', 'Admin/AdminController@update');
+
+    $router->add(
+        'POST',
+        '/users/{id}/inactive',
+        'Admin/AdminController@inactive'
+    );
+
+    $router->add(
+        'POST',
+        '/users/{id}/active',
+        'Admin/AdminController@active'
+    );
+
+    $router->add(
+        'DELETE',
+        '/users/{id}',
+        'Admin/AdminController@delete'
+    );
+
+    $router->add(
+        'POST',
+        '/admin/change-password',
+        'Admin/AdminController@changePassword'
+    );
+
 
     $router->run();
     exit;
@@ -221,6 +258,9 @@ $routes = [
     '/client'         => 'frontend/pages/paineladm/pages/clientes.php',
     '/configuration'  => 'frontend/pages/paineladm/pages/configuracoes.php',
     '/coupons'        => 'frontend/pages/paineladm/pages/cupons.php',
+
+    '/perfil' => 'frontend/pages/paineladm/pages/perfil.php',
+    '/admins' => 'frontend/pages/paineladm/pages/admins.php',
 ];
 
 if (isset($routes[$uri])) {

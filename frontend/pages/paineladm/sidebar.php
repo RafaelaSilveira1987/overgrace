@@ -87,34 +87,148 @@
                     </svg>
                     Configurações
                 </a>
+
+                <a class="nav-item" href="perfil" data-page="perfil">
+                    <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="8" cy="5" r="3" />
+                        <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+                    </svg>
+                    Perfil
+                </a>
+
+                <a class="nav-item" href="admins" data-page="admins" id="menuAdmins">
+                    <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="5" cy="5" r="2" />
+                        <circle cx="11" cy="5" r="2" />
+                        <path d="M1 14c0-2.5 2-4 4-4" />
+                        <path d="M7 14c0-2.5 2-4 4-4" />
+                        <path d="M9 14h6" />
+                    </svg>
+                    Gerenciar Usuários
+                </a>
             </div>
         </nav>
 
         <div class="sidebar-footer">
-
             <div class="sidebar-user">
-                <div class="sidebar-avatar" id="sidebarAvatar">MF</div>
-
-                <div class="sidebar-user-info">
-                    <div class="sidebar-user-name" id="sidebarUserName">
-                        Usuário
+                <a class="sidebar-user-link nav-item" href="perfil">
+                    <div class="sidebar-avatar" id="sidebarAvatar">
                     </div>
-
-                    <div class="sidebar-user-role">
-                        Administrador
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name" id="sidebarUserName">
+                        </div>
+                        <div class="sidebar-user-role" id="sidebarUserRole">
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-
             <button class="sidebar-logout" id="logoutButton">
                 Sair
             </button>
-
         </div>
         ...
     </aside>
 
     <script type="module" src="frontend/js/modules/admin/sidebar.js"></script>
+    <script>
+    const token =
+        localStorage.getItem('token');
+
+    if (!token) {
+
+        location.href =
+            '/overgrace/admin-login';
+    }
+
+    async function loadSidebarUser() {
+
+        try {
+
+            const response =
+                await fetch(
+                    '/overgrace/api/me', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+            if (!response.ok) {
+
+                localStorage.removeItem(
+                    'token'
+                );
+
+                location.href =
+                    '/overgrace/admin-login';
+
+                return;
+            }
+
+            const user =
+                await response.json();
+
+            fillSidebarUser(user);
+
+        } catch (error) {
+
+            console.error(error);
+        }
+    }
+
+    function fillSidebarUser(user) {
+
+        document.getElementById(
+                'sidebarUserName'
+            ).textContent =
+            user.nome || 'Usuário';
+
+        document.getElementById(
+                'sidebarUserRole'
+            ).textContent =
+            user.role || 'Admin';
+
+        const avatar =
+            document.getElementById(
+                'sidebarAvatar'
+            );
+
+        avatar.textContent =
+            user.nome ?
+            user.nome
+            .substring(0, 2)
+            .toUpperCase() :
+            'AD';
+
+        if (
+            user.role === 'superadmin'
+        ) {
+
+            document.getElementById(
+                'menuAdmins'
+            ).style.display = 'flex';
+        }
+    }
+
+    document
+        .getElementById(
+            'logoutButton'
+        )
+        .addEventListener(
+            'click',
+            function() {
+
+                localStorage.removeItem(
+                    'token'
+                );
+
+                location.href =
+                    '/overgrace/admin-login';
+            }
+        );
+
+    loadSidebarUser();
+    </script>
 
 </body>
 

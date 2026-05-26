@@ -166,10 +166,10 @@ class CartService
         $db->prepare("DELETE FROM cart_items WHERE id=?")->execute([$itemId]);
     }
 
-    public static function clear($userId)
+    public static function clear($userServiceId)
     {
         $db = Database::connect();
-        $db->prepare("DELETE FROM cart WHERE user_id=?")->execute([$userId]);
+        $db->prepare("DELETE FROM cart WHERE user_id=?")->execute([$userServiceId]);
     }
 
     public static function update($cartToken, $itemId, $quantity)
@@ -352,7 +352,7 @@ class CartService
         ];
     }
 
-    public static function mergeCart($userId, $cartToken)
+    public static function mergeCart($userServiceId, $cartToken)
     {
         $db = Database::connect();
 
@@ -382,12 +382,12 @@ class CartService
         LIMIT 1
         ");
 
-        $stmt->execute([$userId]);
+        $stmt->execute([$userServiceId]);
 
-        $userCart = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userServiceCart = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // se não existir carrinho do usuário
-        if (!$userCart) {
+        if (!$userServiceCart) {
 
             $stmt = $db->prepare("
             UPDATE carts
@@ -395,7 +395,7 @@ class CartService
             WHERE id = ?
         ");
 
-            $stmt->execute([$userId, $guestCart['id']]);
+            $stmt->execute([$userServiceId, $guestCart['id']]);
 
             return;
         }
@@ -424,7 +424,7 @@ class CartService
             ");
 
             $stmt->execute([
-                $userCart['id'],
+                $userServiceCart['id'],
                 $item['product_id'],
                 $item['size']
             ]);
@@ -459,7 +459,7 @@ class CartService
             ");
 
                 $stmt->execute([
-                    $userCart['id'],
+                    $userServiceCart['id'],
                     $item['product_id'],
                     $item['size'],
                     $item['quantity'],

@@ -25,23 +25,23 @@ class ProductService
                 $data['slug'],
                 $data['categoria'],
                 $data['preco'],
-                $data['preco_antigo'],
-                $data['badge'],
-                $data['posicao'],
+                $data['preco_antigo']   ?? null,   // ← opcional
+                $data['badge']          ?? null,   // ← opcional
+                $data['posicao']        ?? null,   // ← opcional
                 $data['data_inicio'],
-                $data['data_fim'],
-                $data['descricao'],
-                $data['peso'],
+                $data['data_fim']       ?? null,   // ← opcional
+                $data['descricao']      ?? null,   // ← opcional (texto longo)
+                $data['peso']           ?? null,   // ← opcional
                 $data['ativo'] ? 1 : 0,
-                $data['estoque_inicial'],
+                $data['estoque_inicial'] ?? 0,     // ← opcional, padrão 0
             ]);
 
             $produtoId = $pdo->lastInsertId();
 
             // 🔹 2. imagens (igual ao seu)
             $stmtImg = $pdo->prepare("
-            INSERT INTO products_img (produto_id, imagem, destaque) 
-            VALUES (?, ?, ?)
+                INSERT INTO products_img (produto_id, imagem, destaque) 
+                VALUES (?, ?, ?)
         ");
 
             $imagens = $data['imagens'] ?? [];
@@ -689,4 +689,6 @@ class ProductService
 
         return $stmt->execute([$id]);
     }
+
+    
 }

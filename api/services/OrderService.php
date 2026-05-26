@@ -5,7 +5,7 @@ require_once 'api/config/database.php';
 class OrderService
 {
 
-    public static function createOrder($userId, $cartToken, $checkoutData)
+    public static function createOrder($userServiceId, $cartToken, $checkoutData)
     {
         $db = Database::connect();
 
@@ -81,7 +81,7 @@ class OrderService
             ");
 
             $stmt->execute([
-                $userId,
+                $userServiceId,
                 $cart['id'],
                 $subtotal,
                 $discount,
@@ -146,7 +146,7 @@ class OrderService
     }
 
 
-    public static function get($orderId, $userId)
+    public static function get($orderId, $userServiceId)
     {
         $db = Database::connect();
 
@@ -160,7 +160,7 @@ class OrderService
 
         $stmt->execute([
             $orderId,
-            $userId
+            $userServiceId
         ]);
 
         $order = $stmt->fetch(PDO::FETCH_ASSOC);

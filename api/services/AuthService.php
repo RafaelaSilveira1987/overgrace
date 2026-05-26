@@ -5,7 +5,7 @@ require_once 'api/config/jwt.php';
 
 class AuthService
 {
- 
+
     public static function loginClient($email, $password)
     {
         return self::loginByTable('clients', $email, $password, 'client');
@@ -36,18 +36,18 @@ class AuthService
         $stmt = $db->prepare("SELECT * FROM {$table} WHERE id=?");
         $stmt->execute([$payload['id']]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userService = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user) {
+        if (!$userService) {
             return false;
         }
 
         return [
-            'id' => $user['id'],
-            'nome' => $user['nome'] ?? null,
-            'email' => $user['email'],
-            'cpf' => $user['cpf'] ?? null,
-            'telefone' => $user['telefone'] ?? null,
+            'id' => $userService['id'],
+            'nome' => $userService['nome'] ?? null,
+            'email' => $userService['email'],
+            'cpf' => $userService['cpf'] ?? null,
+            'telefone' => $userService['telefone'] ?? null,
             'role' => $role
         ];
     }
@@ -59,28 +59,28 @@ class AuthService
         $stmt = $db->prepare("SELECT * FROM {$table} WHERE email=?");
         $stmt->execute([$email]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userService = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$userService || !password_verify($password, $userService['password'])) {
             return false;
         }
 
         /*
         $token = JWT::encode([
-            'id' => $user['id'],
-            'email' => $user['email'],
+            'id' => $userService['id'],
+            'email' => $userService['email'],
             'role' => $role
         ]);*/
 
         $accessToken = JWT::generateAccessToken([
-            'id' => $user['id'],
-            'email' => $user['email'],
+            'id' => $userService['id'],
+            'email' => $userService['email'],
             'role' => $role
         ]);
 
         $refreshToken = JWT::generateRefreshToken([
-            'id' => $user['id'],
-            'email' => $user['email'],
+            'id' => $userService['id'],
+            'email' => $userService['email'],
             'role' => $role
         ]);
 

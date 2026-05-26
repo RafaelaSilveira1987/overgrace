@@ -76,3 +76,231 @@
 [2026-05-12 14:59:21][ERROR] SQLSTATE[HY000]: General error: 1364 Field 'id' doesn't have a default value
 [2026-05-12 14:59:28][ERROR] SQLSTATE[HY000]: General error: 1364 Field 'id' doesn't have a default value
 [2026-05-12 15:33:23][ERROR] SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '' for column 'fim_exibicao' at row 16
+[2026-05-25 10:22:17][ERROR] SQLSTATE[HY000]: General error: 1366 Incorrect decimal value: '' for column 'preco_antigo' at row 1
+[2026-05-25 10:22:55][ERROR] SQLSTATE[HY000]: General error: 1366 Incorrect decimal value: '' for column 'preco_antigo' at row 1
+[2026-05-25 10:54:19][ERROR] SQLSTATE[HY000]: General error: 1366 Incorrect decimal value: '' for column 'preco_antigo' at row 1
+[2026-05-25 13:43:25][ERROR] syntax error, unexpected identifier "INSERT", expecting ")"
+[2026-05-25 13:43:27][ERROR] syntax error, unexpected identifier "INSERT", expecting ")"
+[2026-05-25 13:44:27][ERROR] syntax error, unexpected identifier "INSERT", expecting ")"
+[2026-05-25 13:48:07][ERROR] [2] Undefined variable $produto_id in C:\wamp64\www\overgrace\api\services\ProductService.php:56
+[2026-05-25 13:53:16][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 13:53:16][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 13:53:16][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 13:53:16][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 13:53:16][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 13:54:02][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 13:54:02][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 13:54:02][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 13:54:02][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 13:54:02][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 13:55:20][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 13:55:20][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 13:55:20][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 13:55:20][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 13:55:20][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 16:16:49][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 16:16:49][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 16:16:49][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 16:16:49][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 16:16:49][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 16:16:55][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\api\middleware\RateLimit.php:33
+[2026-05-25 16:18:16][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 16:18:16][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 16:18:16][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 16:18:16][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 16:18:16][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 16:18:57][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 16:18:57][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 16:18:57][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 16:18:57][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 16:18:57][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 16:24:07][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 16:24:07][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 16:24:07][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 16:24:07][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 16:24:07][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 16:24:18][ERROR] [2] Undefined array key "preco_antigo" in C:\wamp64\www\overgrace\api\services\ProductService.php:471
+[2026-05-25 16:24:18][ERROR] [2] Undefined array key "badge" in C:\wamp64\www\overgrace\api\services\ProductService.php:472
+[2026-05-25 16:24:18][ERROR] [2] Undefined array key "posicao" in C:\wamp64\www\overgrace\api\services\ProductService.php:473
+[2026-05-25 16:24:18][ERROR] [2] Undefined array key "data_fim" in C:\wamp64\www\overgrace\api\services\ProductService.php:475
+[2026-05-25 16:24:18][ERROR] [2] Undefined array key "peso" in C:\wamp64\www\overgrace\api\services\ProductService.php:477
+[2026-05-25 17:17:10][ERROR] SQLSTATE[HY000]: General error: 1364 Field 'id' doesn't have a default value
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $msg in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:57
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:09:42][ERROR] [8192] substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:09:42][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:09:42][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:09:42][ERROR] [8192] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:09:42][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:09:42][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:09:42][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:09:42][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:09:42][ERROR] [2] Undefined variable $allAdmins in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:09:42][ERROR] [2] foreach() argument must be of type array|object, null given in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $msg in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:57
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:10:17][ERROR] [8192] substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:10:17][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:10:17][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:10:17][ERROR] [8192] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:10:17][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:10:17][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:10:17][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:10:17][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:10:17][ERROR] [2] Undefined variable $allAdmins in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:10:17][ERROR] [2] foreach() argument must be of type array|object, null given in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $msg in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:57
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:11:16][ERROR] [8192] substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:11:16][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:11:16][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:11:16][ERROR] [8192] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:11:16][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:11:16][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:11:16][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:11:16][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:11:16][ERROR] [2] Undefined variable $allAdmins in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:11:16][ERROR] [2] foreach() argument must be of type array|object, null given in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $msg in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:57
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:11:58][ERROR] [8192] substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:71
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:11:58][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:84
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:86
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:11:58][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:87
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:11:58][ERROR] [8192] strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:97
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:11:58][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:123
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:11:58][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:128
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:11:58][ERROR] [8192] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:135
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:227
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:11:58][ERROR] [2] Trying to access array offset on null in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:246
+[2026-05-25 21:11:58][ERROR] [2] Undefined variable $allAdmins in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:11:58][ERROR] [2] foreach() argument must be of type array|object, null given in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:252
+[2026-05-25 21:50:55][ERROR] [2] Undefined global variable $_SESSION in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:28
+[2026-05-25 21:50:55][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:29
+[2026-05-25 21:52:32][ERROR] syntax error, unexpected token "require_once"
+[2026-05-25 21:54:30][ERROR] [2] Undefined variable $admin in C:\wamp64\www\overgrace\frontend\pages\paineladm\pages\perfil.php:32
+[2026-05-26 07:53:59][ERROR] [2] require(frontend/pages/paineladm/pages/usuarios.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\index.php:244
+[2026-05-26 07:53:59][ERROR] Failed opening required 'frontend/pages/paineladm/pages/usuarios.php' (include_path='.;C:\php\pear')
+[2026-05-26 08:23:53][ERROR] Undefined constant "GET"
+[2026-05-26 08:24:00][ERROR] Undefined constant "GET"
+[2026-05-26 08:24:09][ERROR] Undefined constant "GET"
+[2026-05-26 08:33:46][ERROR] Undefined constant "GET"
+[2026-05-26 08:36:43][ERROR] Undefined constant "GET"
+[2026-05-26 10:47:32][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 10:47:32][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 10:47:44][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 10:47:44][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 10:48:44][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 10:48:44][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 10:51:45][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 10:51:45][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 10:59:01][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 10:59:01][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:07:34][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 11:07:34][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:07:44][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 11:07:44][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:08:24][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 11:08:24][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:12:02][ERROR] [2] require_once(api/modules/Users/UserController.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\core\Router.php:37
+[2026-05-26 11:12:02][ERROR] Failed opening required 'api/modules/Users/UserController.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:14:29][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 11:14:29][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:15:40][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 11:15:40][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:15:51][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 11:15:51][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:21:51][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 11:21:51][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:24:43][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 11:24:43][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 11:36:25][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 11:36:25][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 13:39:20][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 13:39:20][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 13:39:28][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 13:39:28][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 13:56:19][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 13:56:19][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 13:56:40][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 13:56:40][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 13:57:22][ERROR] [2] require_once(api/helpers/Response.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\modules\Admin\AdminController.php:5
+[2026-05-26 13:57:22][ERROR] Failed opening required 'api/helpers/Response.php' (include_path='.;C:\php\pear')
+[2026-05-26 14:01:11][ERROR] [2] require_once(C:\wamp64\www\overgrace\api\services/../../config/database.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\services\AdminService.php:3
+[2026-05-26 14:01:11][ERROR] Failed opening required 'C:\wamp64\www\overgrace\api\services/../../config/database.php' (include_path='.;C:\php\pear')
+[2026-05-26 14:01:38][ERROR] [2] require_once(C:\wamp64\www\overgrace\api\services/../../config/database.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\services\AdminService.php:3
+[2026-05-26 14:01:38][ERROR] Failed opening required 'C:\wamp64\www\overgrace\api\services/../../config/database.php' (include_path='.;C:\php\pear')
+[2026-05-26 14:01:48][ERROR] [2] require_once(C:\wamp64\www\overgrace\api\services/../../config/database.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\services\AdminService.php:3
+[2026-05-26 14:01:48][ERROR] Failed opening required 'C:\wamp64\www\overgrace\api\services/../../config/database.php' (include_path='.;C:\php\pear')
+[2026-05-26 14:01:52][ERROR] [2] require_once(C:\wamp64\www\overgrace\api\services/../../config/database.php): Failed to open stream: No such file or directory in C:\wamp64\www\overgrace\api\services\AdminService.php:3
+[2026-05-26 14:01:52][ERROR] Failed opening required 'C:\wamp64\www\overgrace\api\services/../../config/database.php' (include_path='.;C:\php\pear')
