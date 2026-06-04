@@ -144,6 +144,7 @@
         <script type="module" src="frontend/js/modules/product/listaVitrine.js"></script>
         <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
         <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+        <script type="module" src="/overgrace/frontend/js/modules/site-content/public-site-content.js"></script>
 
         <script>
         function filtrar(cat, btn) {

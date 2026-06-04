@@ -329,6 +329,7 @@
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
     <script type="module" src="frontend/js/modules/layouts/mobileMenu.js"></script>
 
+    <script type="module" src="/overgrace/frontend/js/modules/site-content/public-site-content.js"></script>
 </body>
 
 </html>

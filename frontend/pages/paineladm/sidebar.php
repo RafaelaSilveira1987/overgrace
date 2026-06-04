@@ -79,6 +79,15 @@
 
             <div class="nav-group">
                 <div class="nav-group-label">Sistema</div>
+                <a class="nav-item" href="site-content" data-page="site-content">
+                    <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="3" width="12" height="10" rx="1.5" />
+                        <path d="M5 6h6M5 9h3" />
+                    </svg>
+                    Conteúdo do site
+                </a>
+
+
                 <a class="nav-item" href="configuration" data-page="configuracoes">
                     <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5">
                         <circle cx="8" cy="8" r="2.5" />

@@ -57,7 +57,7 @@
     </section>
 
     <section class="story">
-        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1200&q=80" alt="Nossa história" />
+        <img src="" alt="Nossa história" />
         <div>
             <h2>Nossa história</h2>
             <p>
@@ -165,6 +165,7 @@
     <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
 
+    <script type="module" src="/overgrace/frontend/js/modules/site-content/public-site-content.js"></script>
 </body>
 
 </html>

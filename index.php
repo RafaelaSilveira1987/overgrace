@@ -103,6 +103,7 @@ if (file_exists($staticFile) && !is_dir($staticFile)) {
 }
 
 
+
 /**
  * ==========================================
  * 2. API ROUTER
@@ -179,37 +180,17 @@ if (str_starts_with($uri, '/api')) {
 
 
     $router->add('GET', '/admin/me', 'Admin/AdminController@me');
-
     $router->add('GET', '/users', 'Admin/AdminController@users');
-
     $router->add('POST', '/users', 'Admin/AdminController@create');
-
     $router->add('POST', '/users/{id}', 'Admin/AdminController@update');
+    $router->add('POST', '/users/{id}/inactive', 'Admin/AdminController@inactive');
+    $router->add('POST', '/users/{id}/active', 'Admin/AdminController@active');
+    $router->add('DELETE', '/users/{id}', 'Admin/AdminController@delete');
+    $router->add('POST', '/admin/change-password', 'Admin/AdminController@changePassword');
 
-    $router->add(
-        'POST',
-        '/users/{id}/inactive',
-        'Admin/AdminController@inactive'
-    );
-
-    $router->add(
-        'POST',
-        '/users/{id}/active',
-        'Admin/AdminController@active'
-    );
-
-    $router->add(
-        'DELETE',
-        '/users/{id}',
-        'Admin/AdminController@delete'
-    );
-
-    $router->add(
-        'POST',
-        '/admin/change-password',
-        'Admin/AdminController@changePassword'
-    );
-
+    $router->add('GET',  '/site-content/public', 'SiteContent/SiteContentController@getPublic');
+    $router->add('GET',  '/site-content', 'SiteContent/SiteContentController@getAdmin');
+    $router->add('POST', '/site-content', 'SiteContent/SiteContentController@update');
 
     $router->run();
     exit;
@@ -258,9 +239,10 @@ $routes = [
     '/client'         => 'frontend/pages/paineladm/pages/clientes.php',
     '/configuration'  => 'frontend/pages/paineladm/pages/configuracoes.php',
     '/coupons'        => 'frontend/pages/paineladm/pages/cupons.php',
+    '/site-content'   => 'frontend/pages/paineladm/pages/site-content.php',
 
-    '/perfil' => 'frontend/pages/paineladm/pages/perfil.php',
-    '/admins' => 'frontend/pages/paineladm/pages/admins.php',
+    '/perfil'         => 'frontend/pages/paineladm/pages/perfil.php',
+    '/admins'         => 'frontend/pages/paineladm/pages/admins.php',
 ];
 
 if (isset($routes[$uri])) {
