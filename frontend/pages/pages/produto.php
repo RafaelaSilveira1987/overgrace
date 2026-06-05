@@ -49,10 +49,12 @@
             <!-- GALERIA -->
             <div class="product-gallery">
                 <div class="main-image-wrap">
-                    <img class="main-image" id="mainProductImage" />
+                    <button class="gallery-nav gallery-prev" id="galleryPrev" type="button" aria-label="Imagem anterior">&#10094;</button>
+                    <img class="main-image" id="mainProductImage" alt="Imagem do produto" title="Clique para ampliar" />
+                    <button class="gallery-nav gallery-next" id="galleryNext" type="button" aria-label="Próxima imagem">&#10095;</button>
                 </div>
 
-                <div class="thumb-list" id="thumbList">
+                <div class="thumb-list" id="thumbList" aria-label="Miniaturas do produto">
 
                 </div>
             </div>
@@ -132,6 +134,13 @@
         </section>
     </div>
 
+    <div class="product-lightbox" id="productLightbox" hidden>
+        <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Fechar imagem ampliada">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Imagem anterior">&#10094;</button>
+        <img id="lightboxImage" alt="Imagem ampliada do produto" />
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Próxima imagem">&#10095;</button>
+    </div>
+
     <footer>
         <div class="footer-top">
             <div>
@@ -178,23 +187,6 @@
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
     <script type="module" src="frontend/js/modules/product/relacionedtrack.js"></script>
 
-    <script>
-    document.querySelectorAll('.thumb-list img').forEach(img => {
-
-        img.addEventListener('click', () => {
-
-            document.getElementById('mainProductImage').src = img.src;
-
-            document
-                .querySelectorAll('.thumb-list img')
-                .forEach(i => i.classList.remove('active'));
-
-            img.classList.add('active');
-
-        });
-
-    });
-    </script>
 
 </body>
 

@@ -6,7 +6,7 @@ export const publicProdutoService = {
         return api.get('/product', filtros);
     },
 
-    buscar(id) {
-        return api.get(`/products/public/${id}`);
+    buscar(uuid) {
+        return api.get(`/product/uuid/${uuid}`);
     }
 };
