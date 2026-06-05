@@ -21,7 +21,7 @@ USE `overgrace`;
 
 -- Copiando estrutura para tabela overgrace.carts
 CREATE TABLE IF NOT EXISTS `carts` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `client_id` bigint unsigned DEFAULT NULL,
   `session_token` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `status` enum('active','converted','abandoned') COLLATE utf8mb4_general_ci DEFAULT 'active',
@@ -29,44 +29,30 @@ CREATE TABLE IF NOT EXISTS `carts` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `coupon_id` int DEFAULT NULL,
   `coupon_valor` float DEFAULT NULL,
-  `coupon_tipo` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `coupon_tipo` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Copiando dados para a tabela overgrace.carts: ~5 rows (aproximadamente)
 INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`, `coupon_id`, `coupon_valor`, `coupon_tipo`) VALUES
-	(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-03 19:11:16', 7, 45, 'fixo'),
-	(2, NULL, '300b9aa2b3f57a06ee92474636089bd6', 'active', '2026-05-02 16:04:40', '2026-05-03 19:11:16', 7, 45, 'fixo'),
-	(4, NULL, '37b3fe5aad224d474a0b9e024352000b', 'active', '2026-05-04 19:06:21', '2026-05-12 11:32:32', 7, 45, 'fixo'),
-	(5, NULL, '8ae7b777daf06560bcce9d966a88043a', 'active', '2026-05-08 20:33:55', '2026-05-12 11:33:00', NULL, NULL, NULL),
-	(3, NULL, '14ec39cc1af42c19cd4739ce8d22937d', 'converted', '2026-05-04 13:41:00', '2026-05-11 21:22:34', 5, 80.1, 'percentual');
+	(1, NULL, '9ddcef2f28bb43356a9e6a3c9a59730d', 'active', '2026-06-05 01:07:27', '2026-06-05 01:07:27', NULL, NULL, NULL);
 
 -- Copiando estrutura para tabela overgrace.cart_items
 CREATE TABLE IF NOT EXISTS `cart_items` (
-  `id` bigint unsigned NOT NULL,
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `cart_id` bigint unsigned NOT NULL,
   `product_id` bigint unsigned NOT NULL,
   `size` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `quantity` int NOT NULL DEFAULT '1',
   `price` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Copiando dados para a tabela overgrace.cart_items: ~13 rows (aproximadamente)
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-	(5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-03 19:05:24'),
-	(8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
-	(9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33'),
-	(5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-03 19:05:24'),
-	(8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
-	(9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33'),
-	(5, 2, 23, 'Único', 2, 325.50, '2026-05-02 19:50:16', '2026-05-03 19:05:24'),
-	(8, 2, 15, 'P', 2, 50.00, '2026-05-02 19:53:38', '2026-05-02 20:11:35'),
-	(9, 2, 14, 'Único', 11, 15.00, '2026-05-02 20:12:25', '2026-05-02 20:12:33'),
-	(13, 5, 16, 'M', 2, 5.25, '2026-05-08 20:33:55', '2026-05-12 11:34:14'),
-	(10, 3, 23, 'Único', 2, 325.50, '2026-05-04 13:41:00', '2026-05-11 19:02:17'),
-	(11, 3, 15, 'M', 1, 50.00, '2026-05-04 13:41:17', '2026-05-11 18:57:53'),
-	(12, 3, 17, 'G', 1, 55.25, '2026-05-11 18:57:29', '2026-05-11 18:57:29');
+	(1, 1, 10, 'G', 1, 149.90, '2026-06-05 01:07:27', '2026-06-05 01:07:27');
 
 -- Copiando estrutura para tabela overgrace.clients
 CREATE TABLE IF NOT EXISTS `clients` (
@@ -108,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `clients_address` (
   CONSTRAINT `fk_adress_client` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela overgrace.clients_address: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela overgrace.clients_address: ~0 rows (aproximadamente)
 INSERT INTO `clients_address` (`id`, `client_id`, `tipo`, `cep`, `endereco`, `numero`, `bairro`, `complemento`, `cidade`, `estado`) VALUES
 	(2, 8, 'entrega', '36884-081', 'Rua Rui Barbosa', '123', 'Barra', 'Cardoso de Melo', 'Muriaé', 'MG');
 
@@ -154,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela overgrace.orders: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela overgrace.orders: ~0 rows (aproximadamente)
 INSERT INTO `orders` (`id`, `client_id`, `cart_id`, `status`, `subtotal`, `discount`, `shipping`, `coupon_id`, `payment_status`, `total_amount`, `created_at`, `updated_at`) VALUES
 	(7, 8, 3, 'pending', 756.25, 80.10, 0.00, 5, 'pending', 676.15, '2026-05-11 21:22:34', '2026-05-11 21:22:34');
 
@@ -322,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `products_stock` (
   UNIQUE KEY `unique_produto_tamanho` (`produto_id`,`tamanho`)
 ) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela overgrace.products_stock: ~7 rows (aproximadamente)
+-- Copiando dados para a tabela overgrace.products_stock: ~6 rows (aproximadamente)
 INSERT INTO `products_stock` (`id`, `produto_id`, `tamanho`, `estoque`, `estoque_reservado`, `minimo`, `estoque_inicial`, `ativo`, `created_at`, `updated_at`) VALUES
 	(300, 6, 'G', 10, 0, 5, 10, 1, '2026-05-25 16:50:29', '2026-05-25 16:50:29'),
 	(307, 7, 'G', 10, 0, 5, 10, 1, '2026-05-25 19:23:35', '2026-05-25 19:23:35'),
@@ -349,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `products_stock_movements` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela overgrace.products_stock_movements: ~7 rows (aproximadamente)
+-- Copiando dados para a tabela overgrace.products_stock_movements: ~6 rows (aproximadamente)
 INSERT INTO `products_stock_movements` (`id`, `produto_id`, `tamanho`, `tipo_movimento`, `quantidade`, `pedido_id`, `fornecedor`, `lote`, `data_movimento`, `custo_unitario`, `observacao`, `created_at`) VALUES
 	(42, 6, 'G', 'saldo_inicial', 10, NULL, NULL, NULL, '2026-05-25 00:00:00', NULL, 'Estoque inicial do produto', '2026-05-25 13:50:29'),
 	(43, 7, 'G', 'saldo_inicial', 10, NULL, NULL, NULL, '2026-05-25 00:00:00', NULL, 'Estoque inicial do produto', '2026-05-25 16:23:35'),
@@ -368,6 +354,94 @@ CREATE TABLE IF NOT EXISTS `products_tags` (
 
 -- Copiando dados para a tabela overgrace.products_tags: ~0 rows (aproximadamente)
 
+-- Copiando estrutura para tabela overgrace.site_content
+CREATE TABLE IF NOT EXISTS `site_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `section_key` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `field_key` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `field_type` enum('text','textarea','html','image','url') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text',
+  `label` varchar(140) COLLATE utf8mb4_general_ci NOT NULL,
+  `value` longtext COLLATE utf8mb4_general_ci,
+  `sort_order` int NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_site_content_section_field` (`section_key`,`field_key`),
+  KEY `idx_site_content_section` (`section_key`),
+  KEY `idx_site_content_active` (`active`)
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela overgrace.site_content: ~56 rows (aproximadamente)
+INSERT INTO `site_content` (`id`, `section_key`, `field_key`, `field_type`, `label`, `value`, `sort_order`, `active`, `created_at`, `updated_at`) VALUES
+	(1, 'global', 'topbar_text', 'text', 'Texto da faixa superior', 'Frete grátis acima de R$ 299 - Parcele em até 6x', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(2, 'global', 'logo_text', 'text', 'Texto da logo', 'OverGrace', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(3, 'global', 'footer_tagline', 'textarea', 'Texto do rodapé', 'Camisas e bonés para quem importa com o que veste - sem abrir mão do conforto e estilo.', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(4, 'global', 'instagram_link', 'url', 'Link do Instagram', '#', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(5, 'global', 'whatsapp_link', 'url', 'Link do WhatsApp', '#', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(6, 'home_hero', 'eyebrow', 'text', 'Chamada pequena', 'NOVA COLEÇÃO', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(7, 'home_hero', 'title_html', 'html', 'Título principal', 'Descubra o <em>melhor</em> da moda Oversize', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(8, 'home_hero', 'description', 'textarea', 'Descrição', 'Camisas masculinas e femininas que combinam estilo e conforto para todas as ocasiões.', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(9, 'home_hero', 'button_text', 'text', 'Texto do botão', 'Ver Coleção', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(10, 'home_hero', 'button_link', 'url', 'Link do botão', 'lista', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(11, 'home_hero', 'image', 'image', 'Imagem do hero', 'frontend/uploads/site-content/home_hero_image_20260604173713_190eb1f6.jpeg', 60, 1, '2026-06-04 20:21:34', '2026-06-04 20:37:13'),
+	(12, 'home_hero', 'image_alt', 'text', 'Texto alternativo da imagem', 'Modelo oversize', 70, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(13, 'home_hero', 'badge', 'text', 'Selo da imagem', 'Coleção 2026', 80, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(14, 'about_hero', 'title_html', 'html', 'Título da página Sobre', 'Não vendemos apenas roupas.<br />Vestimos propósito.', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(15, 'about_story', 'image', 'image', 'Imagem da história', 'frontend/uploads/site-content/about_story_image_20260604173956_dc8eabc7.jpeg', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:39:56'),
+	(16, 'about_story', 'image_alt', 'text', 'Texto alternativo da imagem', 'Nossa história', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(17, 'about_story', 'title', 'text', 'Título da história', 'Nossa história', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(18, 'about_story', 'paragraph_1', 'textarea', 'Primeiro parágrafo', 'A OverGrace nasceu do desejo de unir fé, identidade e estilo em cada detalhe. Criamos peças modernas e minimalistas para uma geração que carrega uma mensagem.', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(19, 'about_story', 'paragraph_2', 'textarea', 'Segundo parágrafo', 'Mais do que moda, queremos inspirar vidas a viverem e anunciarem o Evangelho com autenticidade.', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(20, 'about_values', 'mission_title', 'text', 'Título da missão', 'Missão', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(21, 'about_values', 'mission_text', 'textarea', 'Texto da missão', 'Vestir pessoas com propósito e anunciar Cristo através da moda.', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(22, 'about_values', 'vision_title', 'text', 'Título da visão', 'Visão', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(23, 'about_values', 'vision_text', 'textarea', 'Texto da visão', 'Alcançar uma geração com estilo, identidade e fé.', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(24, 'about_values', 'values_title', 'text', 'Título dos valores', 'Valores', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(25, 'about_values', 'values_text', 'textarea', 'Texto dos valores', 'Excelência, autenticidade, propósito e compromisso com o Reino.', 60, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(26, 'about_message', 'title_html', 'html', 'Título da mensagem', 'Cobertos por Ele,<br />vivemos para anunciar.', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(27, 'about_message', 'subtitle', 'textarea', 'Subtítulo da mensagem', 'Uma marca que carrega propósito em cada peça.', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(28, 'about_cta', 'title', 'text', 'Título da chamada final', 'Vista essa mensagem', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(29, 'about_cta', 'text', 'textarea', 'Texto da chamada final', 'Conheça nossas coleções e faça parte desse movimento.', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(30, 'about_cta', 'button_text', 'text', 'Texto do botão', 'Comprar agora', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(31, 'about_cta', 'button_link', 'url', 'Link do botão', 'lista', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(32, 'collections_hero', 'image', 'image', 'Imagem do hero de coleções', 'frontend/pages/assets/img5.png', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(33, 'collections_hero', 'image_alt', 'text', 'Texto alternativo da imagem', 'Coleção OverGrace', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(34, 'collections_hero', 'eyebrow', 'text', 'Chamada pequena', 'DROP 02 • WINTER COLLECTION', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(35, 'collections_hero', 'title_html', 'html', 'Título do hero', 'Estilo que permanece.<br>Presença que marca.', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(36, 'collections_hero', 'description', 'textarea', 'Descrição do hero', 'Peças minimalistas desenvolvidas para quem entende que vestir também comunica identidade.', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(37, 'collections_hero', 'button_text', 'text', 'Texto do botão', 'Explorar coleção', 60, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(38, 'collections_hero', 'button_link', 'url', 'Link do botão', '#lista', 70, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(39, 'collections_manifesto', 'image', 'image', 'Imagem do manifesto', 'frontend/pages/assets/img1.png', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(40, 'collections_manifesto', 'image_alt', 'text', 'Texto alternativo da imagem', 'Sobre a marca', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(41, 'collections_manifesto', 'title', 'text', 'Título do manifesto', 'Mais que roupas.', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(42, 'collections_manifesto', 'paragraph_1', 'textarea', 'Primeiro parágrafo', 'A OverGrace nasceu para vestir quem carrega uma mensagem. Unimos moda, propósito e excelência para criar peças minimalistas, modernas e cheias de significado.', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(43, 'collections_manifesto', 'paragraph_2', 'textarea', 'Segundo parágrafo', 'Nosso desejo é inspirar uma geração a viver o Evangelho em cada detalhe.', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(44, 'collections_drops', 'kicker', 'text', 'Chamada da seção drops', 'OVERGRACE DROPS', 10, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(45, 'collections_drops', 'title_html', 'html', 'Título da seção drops', 'Mais que catálogo. <span>Conceito.</span>', 20, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(46, 'collections_drops', 'description', 'textarea', 'Descrição da seção drops', 'Coleções desenvolvidas para transmitir identidade, estética e propósito.', 30, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(47, 'collections_drops', 'drop_1_image', 'image', 'Imagem do Drop 01', 'frontend/pages/assets/img2.png', 40, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(48, 'collections_drops', 'drop_1_label', 'text', 'Etiqueta do Drop 01', 'DROP 01', 50, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(49, 'collections_drops', 'drop_1_title', 'text', 'Título do Drop 01', 'Essential Lines', 60, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(50, 'collections_drops', 'drop_2_image', 'image', 'Imagem do Drop 02', 'frontend/pages/assets/img5.png', 70, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(51, 'collections_drops', 'drop_2_label', 'text', 'Etiqueta do Drop 02', 'DROP 02', 80, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(52, 'collections_drops', 'drop_2_title', 'text', 'Título do Drop 02', 'Winter Layers', 90, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(53, 'collections_drops', 'drop_3_image', 'image', 'Imagem do Drop 03', 'frontend/pages/assets/img6.png', 100, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(54, 'collections_drops', 'drop_3_label', 'text', 'Etiqueta do Drop 03', 'DROP 03', 110, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(55, 'collections_drops', 'drop_3_title', 'text', 'Título do Drop 03', 'Street Uniform', 120, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(56, 'collections_drops', 'drop_3_description', 'textarea', 'Descrição do Drop 03', 'Modelagens amplas, tons neutros e estética minimalista.', 130, 1, '2026-06-04 20:21:34', '2026-06-04 20:21:34'),
+	(57, 'shop_coming', 'title', 'text', 'Título da seção', 'Novidades em breve', 10, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(58, 'shop_coming', 'subtitle', 'textarea', 'Subtítulo da seção', 'Estamos preparando peças exclusivas para a próxima coleção.', 20, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(59, 'shop_coming', 'card_1_image', 'image', 'Imagem do primeiro card', 'frontend/pages/assets/img5.png', 30, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(60, 'shop_coming', 'card_1_alt', 'text', 'Texto alternativo do primeiro card', 'Nova coleção inverno', 40, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(61, 'shop_coming', 'card_1_text', 'text', 'Texto do primeiro card', 'Nova coleção inverno', 50, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(62, 'shop_coming', 'card_2_image', 'image', 'Imagem do segundo card', 'frontend/pages/assets/img6.png', 60, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(63, 'shop_coming', 'card_2_alt', 'text', 'Texto alternativo do segundo card', 'Novos acessórios', 70, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(64, 'shop_coming', 'card_2_text', 'text', 'Texto do segundo card', 'Novos acessórios', 80, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(65, 'shop_coming', 'cta_text', 'text', 'Texto da chamada', 'Quer ser avisado primeiro?', 90, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(66, 'shop_coming', 'button_text', 'text', 'Texto do botão', 'Receber novidades', 100, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53'),
+	(67, 'shop_coming', 'button_link', 'url', 'Link do botão', '#', 110, 1, '2026-06-04 23:16:53', '2026-06-04 23:16:53');
+
 -- Copiando estrutura para tabela overgrace.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -381,10 +455,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `criado_por` int DEFAULT NULL,
   `ultimo_acesso` datetime DEFAULT NULL,
   `criado_em` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` tinyint(1) DEFAULT '1',
+  `role` varchar(20) COLLATE utf8mb4_general_ci DEFAULT 'admin',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela overgrace.users: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela overgrace.users: ~3 rows (aproximadamente)
 INSERT INTO `users` (`id`, `email`, `password`, `nome`, `cargo`, `telefone`, `permissoes`, `status`, `criado_por`, `ultimo_acesso`, `criado_em`, `active`, `role`) VALUES
 	(1, 'marcosadmleandro@gmail.com', '$2y$10$5FnxEP4Zn.M0XNMci0f52eNXpCpXhSmStWCT8B6Pnok5Z2jjBQwxq', 'Marcos', 'superadmin', NULL, '["dashboard", "pedidos", "produtos", "clientes", "estoque", "financeiro", "configuracoes"]', 'ativo', NULL, NULL, '2026-05-25 20:15:55', 1, 'admin'),
 	(2, 'admin@overgrace.com.br', '$2a$12$MmdZiyxRnZig7LKt9M4Ii.UObD1icaNkOZH6/1ckEkv556N680meO', 'Administrador', 'superadmin', '32988880001', '["dashboard", "pedidos", "produtos", "clientes", "estoque", "financeiro", "configuracoes"]', 'ativo', NULL, NULL, '2026-05-25 20:18:25', 1, 'admin'),
