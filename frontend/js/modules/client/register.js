@@ -3,229 +3,273 @@ import { orderService } from '../../services/orderService.js';
 import { notify } from '../../utils/notify.js';
 import { marcarErro } from '../../utils/validateUI.js';
 
-document.getElementById('formRegister').addEventListener('submit', async (e) => {
-    e.preventDefault();
+const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === true;
 
-    try {
+function getEl(id) {
+  return document.getElementById(id);
+}
 
-        const campos = ['nome', 'sobrenome', 'email', 'password', 'cpf', 'tel', 'cep', 'endereco', 'numero', 'comp', 'bairro', 'cidade', 'estado'];
+function value(id) {
+  return getEl(id)?.value?.trim() || '';
+}
 
-        let erro = false;
+function markRequired(ids) {
+  let hasError = false;
 
-        campos.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el.value.trim()) {
-                marcarErro(el);
-                erro = true;
-            }
-        });
-
-        if (erro) throw new Error('Preencha os campos obrigatórios');
-
-        const dados = {
-            //identificação
-            nome: nome.value,
-            sobrenome: sobrenome.value,
-            email: email.value,
-            password: password.value,
-            cpf: cpf.value,
-            telefone: tel.value,
-            //endereço de entrega
-            cep: cep.value,
-            endereco: endereco.value,
-            numero: numero.value,
-            complemento: comp.value || null,
-            bairro: bairro.value,
-            cidade: cidade.value,
-            estado: estado.value
-        };
-
-        let auth;
-
-        // 🔥 1. tenta login primeiro
-        try {
-            auth = await clientService.login({
-                email: dados.email,
-                password: dados.password
-            });
-
-        } catch (e) {
-
-            // 🔥 2. se não logou → tenta cadastrar
-            await clientService.criar(dados);
-
-            // 🔥 3. depois loga
-            auth = await clientService.login({
-                email: dados.email,
-                password: dados.password
-            });
-
-            notify.error(e.error || e.message);
-
-        }
-
-        // 🔐 salva token
-        localStorage.setItem('token_client', auth.token);
-        localStorage.setItem('refresh_token_client', auth.refresh_token);
-        localStorage.setItem('role', auth.role);
-
-        console.log(auth);
-
-        notify.success('Continuando...');
-
-        goToStep(2);
-
-    } catch (e) {
-        notify.error(e.message || 'Erro ao continuar');
+  ids.forEach((id) => {
+    const el = getEl(id);
+    if (!el || !el.value.trim()) {
+      marcarErro(el);
+      hasError = true;
     }
-});
+  });
 
-document.getElementById('formShipping').addEventListener('submit', async (e) => {
+  return hasError;
+}
 
-    e.preventDefault();
+function saveAuth(auth) {
+  if (!auth?.token) throw new Error('Login não retornou token');
+
+  localStorage.setItem('token_client', auth.token);
+  if (auth.refresh_token) localStorage.setItem('refresh_token_client', auth.refresh_token);
+  if (auth.role) localStorage.setItem('role', auth.role);
+}
+
+function saveDemoAuth() {
+  localStorage.setItem('token_client', 'demo-checkout-token');
+  localStorage.setItem('role', 'client-demo');
+}
+
+function createDemoOrderId() {
+  const current = localStorage.getItem('order_id');
+  if (current) return current;
+
+  const id = String(Math.floor(Math.random() * 99999)).padStart(5, '0');
+  localStorage.setItem('order_id', id);
+  return id;
+}
+
+function fillDemoFields() {
+  const demo = {
+    nome: 'Cliente',
+    sobrenome: 'Demo',
+    email: 'cliente.demo@overgrace.local',
+    password: '123456',
+    cpf: '000.000.000-00',
+    tel: '(11) 99999-9999',
+    cep: '01001-000',
+    endereco: 'Praça da Sé',
+    numero: '100',
+    bairro: 'Sé',
+    cidade: 'São Paulo',
+    estado: 'SP'
+  };
+
+  Object.entries(demo).forEach(([id, val]) => {
+    const el = getEl(id);
+    if (el && !el.value) el.value = val;
+  });
+
+  window.updateAddressPreview?.();
+  window.updateDeliveryResume?.();
+}
+
+
+function extractOrderId(response) {
+  return (
+    response?.order_id?.order_id ||
+    response?.order_id?.id ||
+    response?.order_id ||
+    response?.id ||
+    response?.order?.id ||
+    null
+  );
+}
+
+function getCheckoutPayload() {
+  return {
+    cliente: {
+      nome: value('nome'),
+      sobrenome: value('sobrenome'),
+      email: value('email'),
+      cpf: value('cpf'),
+      telefone: value('tel')
+    },
+    entrega: {
+      cep: value('cep'),
+      endereco: value('endereco'),
+      numero: value('numero'),
+      complemento: value('comp') || null,
+      bairro: value('bairro'),
+      cidade: value('cidade'),
+      estado: value('estado')
+    }
+  };
+}
+
+async function loginOrCreateClient() {
+  const credentials = {
+    email: value('email'),
+    password: value('password')
+  };
+
+  try {
+    return await clientService.login(credentials);
+  } catch (loginError) {
+    const dados = {
+      ...getCheckoutPayload().cliente,
+      password: credentials.password,
+      telefone: value('tel'),
+      ...getCheckoutPayload().entrega
+    };
+
+    await clientService.criar(dados);
+    return await clientService.login(credentials);
+  }
+}
+
+const formRegister = getEl('formRegister');
+if (formRegister) {
+  formRegister.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const required = ['nome', 'sobrenome', 'email', 'password', 'cpf', 'tel', 'cep', 'endereco', 'numero', 'bairro', 'cidade', 'estado'];
 
     try {
+      if (markRequired(required)) throw new Error('Preencha os campos obrigatórios');
 
-        const btn = e.target.querySelector('.submit-btn');
+      const submitButton = formRegister.querySelector('.submit-btn');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Validando dados...';
+      }
 
-        btn.disabled = true;
-        btn.innerHTML = 'Continuando...';
+      if (DEMO_CHECKOUT) {
+        saveDemoAuth();
+        localStorage.setItem('checkout_customer', JSON.stringify(getCheckoutPayload()));
+        notify.success('Dados confirmados no modo demonstração');
+        window.goToStep?.(2, true);
+        return;
+      }
 
-        // FRETE
-        const shippingSelecionado = document.querySelector('input[name="ship"]:checked');
+      const auth = await loginOrCreateClient();
+      saveAuth(auth);
 
-        const shipOption = shippingSelecionado.closest('.ship-option');
+      localStorage.setItem('checkout_customer', JSON.stringify(getCheckoutPayload()));
+      notify.success('Dados confirmados');
 
-        const tipo = shippingSelecionado.value;
-
-        const valorTexto = shipOption
-            .querySelector('.ship-price')
-            .innerText;
-
-        const valor = valorTexto.includes('Grátis')
-            ? 0
-            : parseFloat(
-                valorTexto
-                    .replace('R$', '')
-                    .replace('.', '')
-                    .replace(',', '.')
-                    .trim()
-            );
-
-        // LOGIN
-        let auth;
-
-        try {
-
-            auth = await clientService.login({
-                email: email.value,
-                password: password.value
-            });
-
-        } catch (e) {
-
-            throw new Error('E-mail ou senha inválidos');
-        }
-
-        // TOKEN
-        localStorage.setItem('token_client', auth.token);
-        localStorage.setItem('refresh_token_client', auth.refresh_token);
-        localStorage.setItem('role', auth.role);
-
-        // PEDIDO
-        const order = await orderService.criar({
-            shipping_tipo: tipo,
-            shipping_valor: valor
-        });
-
-        console.log(order);
-
-        localStorage.setItem('order_id', order.order_id.order_id);
-
-        notify.success('Pedido criado com sucesso');
-
-        goToStep(3);
-
-    } catch (e) {
-
-        console.error(e);
-
-        notify.error(e.message || 'Erro ao continuar');
-
+      window.goToStep?.(2, true);
+    } catch (error) {
+      notify.error(error?.message || 'Erro ao continuar');
+      console.error(error);
     } finally {
-
-        const btn = document.querySelector('.submit-btn');
-
-        btn.disabled = false;
-
-        btn.innerHTML = `
-            Continuar para pagamento
-            <span class="arrow">→</span>
-        `;
+      const submitButton = formRegister.querySelector('.submit-btn');
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Continuar para entrega <span class="arrow">→</span>';
+      }
     }
-});
+  });
+}
+
+const formShipping = getEl('formShipping');
+if (formShipping) {
+  formShipping.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const submitButton = formShipping.querySelector('.submit-btn');
+
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Criando pedido...';
+      }
+
+      const selectedShipping = document.querySelector('input[name="ship"]:checked');
+      if (!selectedShipping) throw new Error('Escolha uma forma de entrega');
+
+      const shipOption = selectedShipping.closest('.ship-option');
+      const shippingType = selectedShipping.value;
+      const shippingValue = Number(shipOption?.dataset?.cost || 0);
+      const shippingLabel = shipOption?.dataset?.label || shippingType;
+
+      if (DEMO_CHECKOUT) {
+        saveDemoAuth();
+        createDemoOrderId();
+        localStorage.setItem('checkout_shipping', JSON.stringify({
+          shipping_tipo: shippingType,
+          shipping_label: shippingLabel,
+          shipping_valor: shippingValue
+        }));
+        notify.success('Pedido demonstrativo criado. Falta só escolher a simulação do pagamento.');
+        window.goToStep?.(3, true);
+        return;
+      }
+
+      if (!localStorage.getItem('token_client')) {
+        const auth = await clientService.login({
+          email: value('email'),
+          password: value('password')
+        });
+        saveAuth(auth);
+      }
+
+      const order = await orderService.criar({
+        shipping_tipo: shippingType,
+        shipping_label: shippingLabel,
+        shipping_valor: shippingValue,
+        checkout: getCheckoutPayload()
+      });
+
+      const orderId = extractOrderId(order);
+      if (orderId) localStorage.setItem('order_id', orderId);
+
+      notify.success('Pedido criado. Falta só o pagamento.');
+      window.goToStep?.(3, true);
+    } catch (error) {
+      notify.error(error?.message || 'Erro ao continuar');
+      console.error(error);
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Continuar para pagamento <span class="arrow">→</span>';
+      }
+    }
+  });
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
+  if (DEMO_CHECKOUT) {
+    fillDemoFields();
+    localStorage.removeItem('order_id');
+    return;
+  }
 
-    const token = localStorage.getItem('token_client');
+  const token = localStorage.getItem('token_client');
+  const orderId = localStorage.getItem('order_id');
 
-    const orderId = localStorage.getItem('order_id');
-    console.log('pedido: ', orderId);
+  if (!token) return;
 
-    if (!token) {
-        return;
-    }
+  try {
+    await clientService.me();
 
-    try {
-
-        // valida cliente
-        const client = await clientService.me();
-
-        console.log(client);
-
-        // possui pedido salvo
-        if (orderId) {
-
-            try {
-
-                const order = await orderService.get(orderId);
-
-                console.log('order: ', order);
-
-                // pedido válido
-                if (order.status === 'pending') {
-
-                    goToStep(3, true);
-
-                    return;
-                }
-
-                // pedido já pago/cancelado/etc
-                localStorage.removeItem('order_id');
-
-            } catch (e) {
-
-                console.error(e);
-
-                // pedido não existe
-                //localStorage.removeItem('order_id');
-            }
+    if (orderId) {
+      try {
+        const order = await orderService.get(orderId);
+        if (order?.status === 'pending') {
+          window.goToStep?.(3, true);
+          return;
         }
-
-        // segue checkout normal
-        goToStep(2, true);
-
-    } catch (e) {
-
-        console.error(e);
-
-        localStorage.removeItem('token_client');
-        localStorage.removeItem('refresh_token_client');
-        //localStorage.removeItem('order_id');
+        localStorage.removeItem('order_id');
+      } catch (error) {
+        console.warn('Pedido salvo não localizado:', error);
+      }
     }
+
+    window.goToStep?.(2, true);
+  } catch (error) {
+    localStorage.removeItem('token_client');
+    localStorage.removeItem('refresh_token_client');
+    console.warn('Sessão do cliente expirada:', error);
+  }
 });
-
-
-
-
-
