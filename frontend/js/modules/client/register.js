@@ -3,7 +3,7 @@ import { orderService } from '../../services/orderService.js';
 import { notify } from '../../utils/notify.js';
 import { marcarErro } from '../../utils/validateUI.js';
 
-const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === true;
+const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === false;
 
 function getEl(id) {
   return document.getElementById(id);
@@ -133,7 +133,19 @@ if (formRegister) {
   formRegister.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const required = ['nome', 'sobrenome', 'email', 'password', 'cpf', 'tel', 'cep', 'endereco', 'numero', 'bairro', 'cidade', 'estado'];
+    const required = [
+        'nome', 
+        'sobrenome', 
+        'email', 
+        'password', 
+        'cpf', 
+        'tel', 
+        'cep', 
+        'endereco', 
+        'numero', 
+        'bairro', 
+        'cidade', 
+        'estado'];
 
     try {
       if (markRequired(required)) throw new Error('Preencha os campos obrigatórios');
@@ -144,13 +156,14 @@ if (formRegister) {
         submitButton.innerHTML = 'Validando dados...';
       }
 
+      /*
       if (DEMO_CHECKOUT) {
         saveDemoAuth();
         localStorage.setItem('checkout_customer', JSON.stringify(getCheckoutPayload()));
         notify.success('Dados confirmados no modo demonstração');
         window.goToStep?.(2, true);
         return;
-      }
+      }*/
 
       const auth = await loginOrCreateClient();
       saveAuth(auth);
@@ -192,7 +205,7 @@ if (formShipping) {
       const shippingType = selectedShipping.value;
       const shippingValue = Number(shipOption?.dataset?.cost || 0);
       const shippingLabel = shipOption?.dataset?.label || shippingType;
-
+      
       if (DEMO_CHECKOUT) {
         saveDemoAuth();
         createDemoOrderId();

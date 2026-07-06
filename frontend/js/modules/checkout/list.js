@@ -10,7 +10,7 @@ window.checkoutCartState = {
   shipping: 0,
   total: 0,
   items: []
-};
+}; 
 
 function formatBRL(value) {
   return Number(value || 0).toLocaleString('pt-BR', {
@@ -137,10 +137,11 @@ function renderCart(cart) {
 }
 
 export async function carregarCarrinho() {
+  /*
   if (window.OVERGRACE_DEMO_CHECKOUT === true) {
     renderCart(getDemoCart());
     return;
-  }
+  }*/
 
   try {
     const cart = await carrinhoService.get();

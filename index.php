@@ -155,6 +155,11 @@ if (str_starts_with($uri, '/api')) {
     $router->add('POST', '/orders', 'Orders/OrderController@create');
     $router->add('GET', '/orders/{id}', 'Orders/OrderController@get');
 
+    $router->add('POST', '/payments', 'Payment/PaymentController@create');
+    $router->add('GET', '/payments/{id}', 'Payment/PaymentController@get');
+    $router->add('POST', '/payments/{id}/refresh', 'Payment/PaymentController@refresh');
+    $router->add('POST', '/payments/{id}/cancel', 'Payment/PaymentController@cancel');
+
     $router->add('POST', '/product', 'Products/ProductController@create');
     $router->add('GET', '/product', 'Products/ProductController@get');
     $router->add('GET', '/product/uuid/{uuid}', 'Products/ProductController@getByUuid');

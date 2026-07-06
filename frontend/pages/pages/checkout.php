@@ -23,7 +23,7 @@
     window.OVERGRACE_DEMO_CHECKOUT = true;
     </script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
-</head>
+</head> 
 
 <body>
     <div class="checkout-topbar">

@@ -51,7 +51,7 @@ export async function carregarCarrinho() {
 
         // base imagem
         const BASE_IMG = '/overgrace/frontend/uploads/products/';
-
+ 
 
         // preencher campos
         document.getElementById('sub-total-items').textContent = 'R$ ' + formatar(cart.total);

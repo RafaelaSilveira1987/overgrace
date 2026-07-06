@@ -44,7 +44,7 @@
       <!-- Coluna de itens -->
       <div class="cart-items">
         <div class="cart-header-row">
-          <span>Produto</span>
+          <span>Produto</span> 
           <span style="text-align: center">Quantidade</span>
           <span style="text-align: right">Subtotal</span>
           <span></span>
