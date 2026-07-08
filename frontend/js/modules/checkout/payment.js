@@ -1,4 +1,5 @@
 import { notify } from '../../utils/notify.js';
+import { confirmarPedido, selectShip } from './utils.js';
 
 const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === true;
 const PUBLIC_KEY = window.OVERGRACE_MP_PUBLIC_KEY || '';
@@ -277,3 +278,8 @@ function initCardForm() {
 }
 
 document.addEventListener('DOMContentLoaded', initCardForm);
+
+document.getElementById('btnPix')?.addEventListener('click', () => {confirmarPedido('pix', 'pending');});
+
+document.getElementById('btnFrete')?.addEventListener('click', () => {selectShip(this, 12,50, 'Frete Pac')});
+

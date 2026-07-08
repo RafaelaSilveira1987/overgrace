@@ -3,7 +3,7 @@
 require_once 'api/core/Response.php';
 require_once 'api/middleware/AuthMiddleware.php';
 
-require_once 'api/services/PaymentService.php';
+require_once 'api/services/payment/PaymentService.php';
 
 class PaymentController
 {

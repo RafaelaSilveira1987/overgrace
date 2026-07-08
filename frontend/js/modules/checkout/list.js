@@ -137,12 +137,6 @@ function renderCart(cart) {
 }
 
 export async function carregarCarrinho() {
-  /*
-  if (window.OVERGRACE_DEMO_CHECKOUT === true) {
-    renderCart(getDemoCart());
-    return;
-  }*/
-
   try {
     const cart = await carrinhoService.get();
     renderCart(cart);

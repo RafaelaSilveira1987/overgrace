@@ -2,6 +2,7 @@ import { clientService } from '../../services/clientService.js';
 import { orderService } from '../../services/orderService.js';
 import { notify } from '../../utils/notify.js';
 import { marcarErro } from '../../utils/validateUI.js';
+import { goToStep } from '../checkout/utils.js'; 
 
 const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === false;
 
@@ -270,7 +271,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const order = await orderService.get(orderId);
         if (order?.status === 'pending') {
-          window.goToStep?.(3, true);
+          goToStep(3, true);
           return;
         }
         localStorage.removeItem('order_id');
@@ -279,7 +280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
-    window.goToStep?.(2, true);
+    goToStep(2, true);
   } catch (error) {
     localStorage.removeItem('token_client');
     localStorage.removeItem('refresh_token_client');

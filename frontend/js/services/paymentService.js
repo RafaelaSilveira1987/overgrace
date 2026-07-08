@@ -1,10 +1,11 @@
 import { api } from '../core/api.js';
 
 export const paymentService = {
-
-    criarPix(orderId) {
-        return api.post('/payments/pix', {
-            order_id: orderId
+ 
+    criar(orderId, method) {
+        return api.post('/payments', {
+            order_id: orderId,
+            method: method
         });
     },
 

@@ -190,8 +190,6 @@ export async function aplicarCupom(code) {
     }
 }
 
-
-
 document.addEventListener('click', function (e) {
     if (e.target.matches('.btn-deletar') || e.target.closest('.btn-deletar')) {
 

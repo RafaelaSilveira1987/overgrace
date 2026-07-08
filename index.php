@@ -69,7 +69,7 @@ if (str_starts_with($uri, $base)) {
     $uri = substr($uri, strlen($base));
 }
 
-$uri = '/' . ltrim($uri, '/'); // 🔥 garante padrão /rota
+$uri = '/' . ltrim($uri, '/'); 
 
 
 /**
@@ -149,16 +149,18 @@ if (str_starts_with($uri, '/api')) {
     $router->add('GET', '/cart/count', 'Cart/CartController@count');
     $router->add('POST', '/cart/alter/{id}', 'Cart/CartController@update');
     $router->add('POST', '/cart/coupon', 'Cart/CartController@applyCoupon');
-    $router->add('DELETE', '/cart/{id}', 'Cart/CartController@delete');
+    $router->add('DELETE', '/cart/{id}', 'Cart/CartController@delete'); 
 
 
     $router->add('POST', '/orders', 'Orders/OrderController@create');
     $router->add('GET', '/orders/{id}', 'Orders/OrderController@get');
 
-    $router->add('POST', '/payments', 'Payment/PaymentController@create');
-    $router->add('GET', '/payments/{id}', 'Payment/PaymentController@get');
-    $router->add('POST', '/payments/{id}/refresh', 'Payment/PaymentController@refresh');
-    $router->add('POST', '/payments/{id}/cancel', 'Payment/PaymentController@cancel');
+    $router->add('POST', '/payments', 'Payments/PaymentController@create');
+    $router->add('GET', '/payments/{id}', 'Payments/PaymentController@get');
+    $router->add('POST', '/payments/{id}/refresh', 'Payments/PaymentController@refresh');
+    $router->add('POST', '/payments/{id}/cancel', 'Payments/PaymentController@cancel');
+
+    $router->add('POST', '/webhooks/mercadopago', 'Payment/WebhookController@mercadoPago');
 
     $router->add('POST', '/product', 'Products/ProductController@create');
     $router->add('GET', '/product', 'Products/ProductController@get');

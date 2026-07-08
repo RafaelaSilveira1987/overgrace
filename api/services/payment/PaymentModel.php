@@ -1,6 +1,6 @@
 <?php
 
-require_once 'api/core/Database.php';
+require_once 'api/config/database.php';
 
 class PaymentModel
 {

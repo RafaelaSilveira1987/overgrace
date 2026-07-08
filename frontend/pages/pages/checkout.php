@@ -250,8 +250,7 @@
                             <h3 class="mini-title shipping-title">Forma de entrega</h3>
 
                             <div class="shipping-options">
-                                <label class="ship-option selected" data-cost="0" data-label="Pac"
-                                    onclick="selectShip(this, 12,50, 'Frete Pac')">
+                                <label class="ship-option selected" data-cost="0" data-label="Pac" id="btnFrete">
                                     <input type="radio" name="ship" value="price" checked />
                                     <span class="ship-radio"></span>
                                     <span class="ship-info">
@@ -314,7 +313,7 @@
                             <button type="button" class="pay-tab" onclick="selectPayTab('boleto', this)">Boleto</button>
                             <button type="button" class="pay-tab" onclick="selectPayTab('cartao', this)">Cartão</button>
                         </div>
-
+ 
                         <div class="pay-panel active" id="pay-pix">
                             <div class="payment-method-card highlight">
                                 <span class="method-icon">◆</span>
@@ -327,7 +326,7 @@
                                 <p class="demo-title">Prévia demonstrativa</p>
                                 <p>Simule a tela que aparece depois de criar o pagamento PIX.</p>
                             </div>
-                            <button type="button" class="submit-btn" onclick="confirmarPedido('pix', 'pending')">
+                            <button type="button" class="submit-btn" id="btnPix">
                                 Gerar PIX demonstrativo <span class="arrow">→</span>
                             </button>
                             <button type="button" class="back-step-btn" onclick="goToStep(2, true)">← Voltar</button>
@@ -593,9 +592,10 @@
             <a href="carrinho">Carrinho</a>
             <a href="lista">Loja</a>
         </div>
-    </footer>
+    </footer> 
 
-    <script src="frontend/js/modules/client/utils.js"></script>
+    <script type="module" src="frontend/js/utils/notify.js"></script>
+    <script type="module" src="frontend/js/modules/checkout/utils.js"></script>
     <script type="module" src="frontend/js/modules/client/register.js"></script>
     <script type="module" src="frontend/js/modules/checkout/list.js"></script>
     <script type="module" src="frontend/js/modules/checkout/payment.js"></script>
