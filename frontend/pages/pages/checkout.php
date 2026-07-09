@@ -17,13 +17,13 @@
 
     <!-- SDK de pagamento seguro. Configure a chave pública do provedor no ambiente correto. -->
     <script>
-    window.OVERGRACE_MP_PUBLIC_KEY = '';
-    window.OVERGRACE_MP_LOCALE = 'pt-BR';
-    // Enquanto o backend de pagamento/pedido não existir, deixe true para navegar por todas as telas.
-    window.OVERGRACE_DEMO_CHECKOUT = true;
+        window.OVERGRACE_MP_PUBLIC_KEY = '';
+        window.OVERGRACE_MP_LOCALE = 'pt-BR';
+        // Enquanto o backend de pagamento/pedido não existir, deixe true para navegar por todas as telas.
+        window.OVERGRACE_DEMO_CHECKOUT = true;
     </script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
-</head> 
+</head>
 
 <body>
     <div class="checkout-topbar">
@@ -250,7 +250,17 @@
                             <h3 class="mini-title shipping-title">Forma de entrega</h3>
 
                             <div class="shipping-options">
-                                <label class="ship-option selected" data-cost="0" data-label="Pac" id="btnFrete">
+                                <label class="ship-option selected btnFrete" data-cost="0" data-label="Retirada">
+                                    <input type="radio" name="ship" value="gratis" />
+                                    <span class="ship-radio"></span>
+                                    <span class="ship-info">
+                                        <strong>Retirada no ponto de coleta</strong>
+                                        <small>Disponível em até 2 dias úteis</small>
+                                    </span>
+                                    <span class="ship-price free">Grátis</span>
+                                </label>
+
+                                <label class="ship-option btnFrete" data-cost="12.50" data-label="Pac">
                                     <input type="radio" name="ship" value="price" checked />
                                     <span class="ship-radio"></span>
                                     <span class="ship-info">
@@ -260,8 +270,7 @@
                                     <span class="ship-price">R$ 12,50</span>
                                 </label>
 
-                                <label class="ship-option" data-cost="18.90" data-label="Sedex"
-                                    onclick="selectShip(this, 18.90, 'Sedex')">
+                                <label class="ship-option btnFrete" data-cost="18.90" data-label="Sedex">
                                     <input type="radio" name="ship" value="sedex" />
                                     <span class="ship-radio"></span>
                                     <span class="ship-info">
@@ -270,23 +279,12 @@
                                     </span>
                                     <span class="ship-price">R$ 18,90</span>
                                 </label>
-
-                                <label class="ship-option" data-cost="12.50" data-label="Retirada"
-                                    onclick="selectShip(this, 0, 'Retirada')">
-                                    <input type="radio" name="ship" value="gratis" />
-                                    <span class="ship-radio"></span>
-                                    <span class="ship-info">
-                                        <strong>Retirada no ponto de coleta</strong>
-                                        <small>Disponível em até 2 dias úteis</small>
-                                    </span>
-                                    <span class="ship-price free">Grátis</span>
-                                </label>
                             </div>
 
                             <button type="submit" class="submit-btn">
                                 Continuar para pagamento <span class="arrow">→</span>
                             </button>
-                            <button type="button" class="back-step-btn" onclick="goToStep(1, true)">← Voltar</button>
+                            <button type="button" class="back-step-btn" id="voltarFrete">← Voltar</button>
                         </form>
                     </div>
                 </section>
@@ -308,12 +306,11 @@
                         </div>
 
                         <div class="payment-tabs" role="tablist" aria-label="Métodos de pagamento">
-                            <button type="button" class="pay-tab active"
-                                onclick="selectPayTab('pix', this)">PIX</button>
-                            <button type="button" class="pay-tab" onclick="selectPayTab('boleto', this)">Boleto</button>
-                            <button type="button" class="pay-tab" onclick="selectPayTab('cartao', this)">Cartão</button>
+                            <button type="button" class="pay-tab active" data-method="pix">PIX</button>
+                            <button type="button" class="pay-tab" data-method="boleto">Boleto</button>
+                            <button type="button" class="pay-tab" data-method="cartao">Cartão</button>
                         </div>
- 
+
                         <div class="pay-panel active" id="pay-pix">
                             <div class="payment-method-card highlight">
                                 <span class="method-icon">◆</span>
@@ -322,15 +319,12 @@
                                     <p>Confirmação rápida e melhor para liberar separação do pedido sem enrolação.</p>
                                 </div>
                             </div>
-                            <div class="demo-payment-box">
-                                <p class="demo-title">Prévia demonstrativa</p>
-                                <p>Simule a tela que aparece depois de criar o pagamento PIX.</p>
-                            </div>
+
                             <button type="button" class="submit-btn" id="btnPix">
-                                Gerar PIX demonstrativo <span class="arrow">→</span>
+                                Gerar PIX <span class="arrow">→</span>
                             </button>
-                            <button type="button" class="back-step-btn" onclick="goToStep(2, true)">← Voltar</button>
-                        </div>
+                            <button type="button" class="back-step-btn voltarPedido">← Voltar</button>
+                        </div>  
 
                         <div class="pay-panel" id="pay-boleto">
                             <div class="payment-method-card">
@@ -348,7 +342,7 @@
                             <button type="button" class="submit-btn" onclick="confirmarPedido('boleto', 'pending')">
                                 Gerar boleto demonstrativo <span class="arrow">→</span>
                             </button>
-                            <button type="button" class="back-step-btn" onclick="goToStep(2, true)">← Voltar</button>
+                            <button type="button" class="back-step-btn voltarPedido">← Voltar</button>
                         </div>
 
                         <div class="pay-panel" id="pay-cartao">
@@ -471,7 +465,7 @@
                                 <button type="submit" class="submit-btn" id="form-checkout__submit">
                                     Simular pagamento no cartão <span class="arrow">→</span>
                                 </button>
-                                <button type="button" class="back-step-btn" onclick="goToStep(2, true)">←
+                                <button type="button" class="back-step-btn voltarPedido">←
                                     Voltar</button>
                             </form>
                         </div>
@@ -592,7 +586,7 @@
             <a href="carrinho">Carrinho</a>
             <a href="lista">Loja</a>
         </div>
-    </footer> 
+    </footer>
 
     <script type="module" src="frontend/js/utils/notify.js"></script>
     <script type="module" src="frontend/js/modules/checkout/utils.js"></script>

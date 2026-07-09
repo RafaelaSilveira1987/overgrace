@@ -7,14 +7,17 @@ async function criarPagamento(method = "pix") {
 
   try {
 
-    const orderId = localStorage.getItem('order_id');
+    const order_id = localStorage.getItem('order_id');
 
     // cria pedido
-    const order = await orderService.get(orderId);
+    const order = await orderService.get(order_id);
+
+    const client_id = order.client_id;
 
     // cria pagamento
     const payment = await paymentService.criar({
-      orderId,
+      order_id,
+      client_id,
       method
     });
 
@@ -279,7 +282,7 @@ export function selectShip(option, cost = 0, label = 'Frete Grátis') {
 
 
 /* Abas de pagamento */
-function selectPayTab(id, btn) {
+export function selectPayTab(id, btn) {
   document.querySelectorAll('.pay-tab').forEach((tab) => tab.classList.remove('active'));
   document.querySelectorAll('.pay-panel').forEach((panel) => panel.classList.remove('active'));
 

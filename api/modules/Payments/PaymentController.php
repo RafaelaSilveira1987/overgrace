@@ -27,7 +27,7 @@ class PaymentController
             }
 
             $payment = PaymentService::createPix(
-                (int) $body['order_id'], (int) $body['user_id']
+                (int) $body['order_id'], (int) $body['client_id']
             );
 
             Response::json([

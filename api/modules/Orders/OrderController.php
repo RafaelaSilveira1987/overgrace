@@ -6,7 +6,6 @@ require_once 'api/services/OrderService.php';
 
 class OrderController
 {
-
     public function create()
     {
         $userService = AuthMiddleware::handle();

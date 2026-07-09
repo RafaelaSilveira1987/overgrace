@@ -239,7 +239,7 @@ if (formShipping) {
       if (orderId) localStorage.setItem('order_id', orderId);
 
       notify.success('Pedido criado. Falta só o pagamento.');
-      window.goToStep?.(3, true);
+      goToStep(3, true);
     } catch (error) {
       notify.error(error?.message || 'Erro ao continuar');
       console.error(error);

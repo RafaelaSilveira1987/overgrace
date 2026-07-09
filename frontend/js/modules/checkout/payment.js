@@ -1,5 +1,5 @@
 import { notify } from '../../utils/notify.js';
-import { confirmarPedido, selectShip } from './utils.js';
+import { confirmarPedido, selectShip, goToStep, selectPayTab } from './utils.js';
 
 const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === true;
 const PUBLIC_KEY = window.OVERGRACE_MP_PUBLIC_KEY || '';
@@ -279,7 +279,31 @@ function initCardForm() {
 
 document.addEventListener('DOMContentLoaded', initCardForm);
 
-document.getElementById('btnPix')?.addEventListener('click', () => {confirmarPedido('pix', 'pending');});
+document.getElementById('btnPix')?.addEventListener('click', () => { confirmarPedido('pix', 'pending'); });
 
-document.getElementById('btnFrete')?.addEventListener('click', () => {selectShip(this, 12,50, 'Frete Pac')});
+document.querySelectorAll('.btnFrete').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const cost = parseFloat(this.dataset.cost);
+    const label = this.dataset.label;
+
+    selectPayTab(this, cost, label);
+  });
+});
+
+document.getElementById('voltarFrete')?.addEventListener('click', () => { goToStep(1, true) });
+
+document.querySelectorAll('.voltarPedido').forEach(btn => {
+  btn.addEventListener('click', function () {
+    goToStep(2, true);
+  });
+});
+
+document.querySelectorAll('.pay-tab').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const method = this.dataset.method;
+
+    selectPayTab(method, this);
+  });
+});
+
 
