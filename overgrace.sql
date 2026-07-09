@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/07/2026 às 18:10
+-- Tempo de geração: 09/07/2026 às 22:18
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -44,8 +44,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `client_id`, `session_token`, `status`, `created_at`, `updated_at`, `coupon_id`, `coupon_valor`, `coupon_tipo`) VALUES
-(6, NULL, 'bff9339cdd98a1ced3794a270ca97d7e', 'converted', '2026-07-07 16:36:59', '2026-07-07 16:39:15', NULL, NULL, NULL),
-(7, NULL, 'bff9339cdd98a1ced3794a270ca97d7e', 'active', '2026-07-07 16:54:34', '2026-07-07 16:54:34', NULL, NULL, NULL);
+(9, NULL, 'bff9339cdd98a1ced3794a270ca97d7e', 'active', '2026-07-09 18:37:16', '2026-07-09 19:13:38', 3, 19.98, 'percentual');
 
 -- --------------------------------------------------------
 
@@ -70,7 +69,9 @@ CREATE TABLE `cart_items` (
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `product_id`, `size`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
 (8, 6, 12, 'Único', 2, 99.90, '2026-07-07 16:36:59', '2026-07-07 16:38:56'),
-(9, 7, 12, 'Único', 2, 99.90, '2026-07-07 16:54:34', '2026-07-07 16:54:34');
+(9, 7, 12, 'Único', 2, 99.90, '2026-07-07 16:54:34', '2026-07-07 16:54:34'),
+(10, 8, 12, 'Único', 1, 99.90, '2026-07-09 10:39:05', '2026-07-09 10:39:05'),
+(11, 9, 12, 'Único', 1, 99.90, '2026-07-09 18:37:16', '2026-07-09 18:37:16');
 
 -- --------------------------------------------------------
 
@@ -157,7 +158,7 @@ CREATE TABLE `coupons` (
 
 INSERT INTO `coupons` (`id`, `uuid`, `cupom`, `tipo`, `percentual`, `valor`, `minimo`, `limite`, `validade`, `status`, `created_at`, `updated_at`) VALUES
 (2, 'db781bd8-46a6-11f1-bd1a-f4b5204d1e7e', 'CUPOMTESTE10', 'percentual', 10.00, 10.00, 150.00, 2500, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:16:29', '2026-05-03 04:19:34'),
-(3, 'f25d574c-46a6-11f1-bd1a-f4b5204d1e7e', 'NOVO20', 'percentual', 20.00, 20.00, 0.00, NULL, '2027-01-01 00:00:00', 'pausado', '2026-05-03 04:17:08', '2026-05-03 04:19:31'),
+(3, 'f25d574c-46a6-11f1-bd1a-f4b5204d1e7e', 'NOVO20', 'percentual', 20.00, 20.00, 0.00, NULL, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:17:08', '2026-07-09 18:40:26'),
 (4, 'fec3c930-46a6-11f1-bd1a-f4b5204d1e7e', 'CUPOMEXPIRADO', 'percentual', 5.00, 5.00, 0.00, NULL, '2027-01-01 00:00:00', 'expirado', '2026-05-03 04:17:28', '2026-05-03 04:19:29'),
 (5, '20d06e73-46a7-11f1-bd1a-f4b5204d1e7e', 'TESTE', 'percentual', NULL, 10.00, 500.00, 5000, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:18:26', '2026-05-03 04:19:27'),
 (6, '3e955d6a-46a7-11f1-bd1a-f4b5204d1e7e', 'BONES15', 'percentual', NULL, 15.00, 500.00, 5000, '2027-01-01 00:00:00', 'ativo', '2026-05-03 04:19:15', '2026-05-03 15:25:53'),
@@ -190,8 +191,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `client_id`, `cart_id`, `status`, `subtotal`, `discount`, `shipping`, `coupon_id`, `payment_status`, `total_amount`, `created_at`, `updated_at`) VALUES
-(12, 10, 5, 'pending', 99.90, 0.00, 0.00, NULL, 'pending', 99.90, '2026-07-07 16:29:03', '2026-07-07 16:29:03'),
-(13, 10, 6, 'pending', 199.80, 0.00, 0.00, NULL, 'pending', 199.80, '2026-07-07 16:39:15', '2026-07-07 16:39:15');
+(18, 10, 9, 'pending', 99.90, 19.98, 0.00, 3, 'pending', 79.92, '2026-07-09 19:12:56', '2026-07-09 19:12:56');
 
 -- --------------------------------------------------------
 
@@ -216,16 +216,7 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `size`, `quantity`, `price`, `subtotal`, `created_at`) VALUES
-(19, 7, 23, 'Tenis DC classic 3', 'Único', 2, 325.50, 651.00, '2026-05-11 21:22:34'),
-(20, 7, 15, 'Camisa gola povo alpha co amarela', 'M', 1, 50.00, 50.00, '2026-05-11 21:22:34'),
-(21, 7, 17, 'Novo produto', 'G', 1, 55.25, 55.25, '2026-05-11 21:22:34'),
-(0, 0, 12, 'Boné - Isaias 9:6', 'Único', 1, 99.90, 99.90, '2026-07-02 23:35:42'),
-(0, 0, 8, 'Camisa - Carvalhos de Justiça', 'G', 4, 139.90, 559.60, '2026-07-02 23:35:42'),
-(0, 10, 12, 'Boné - Isaias 9:6', 'Único', 2, 99.90, 199.80, '2026-07-06 15:49:54'),
-(0, 10, 10, 'Camisa - Frutos do Espírito', 'G', 1, 149.90, 149.90, '2026-07-06 15:49:54'),
-(0, 11, 12, 'Boné - Isaias 9:6', 'Único', 1, 99.90, 99.90, '2026-07-07 16:26:43'),
-(0, 12, 12, 'Boné - Isaias 9:6', 'Único', 1, 99.90, 99.90, '2026-07-07 16:29:03'),
-(0, 13, 12, 'Boné - Isaias 9:6', 'Único', 2, 99.90, 199.80, '2026-07-07 16:39:15');
+(35, 18, 12, 'Boné - Isaias 9:6', 'Único', 1, 99.90, 99.90, '2026-07-09 19:12:56');
 
 -- --------------------------------------------------------
 
@@ -274,6 +265,13 @@ CREATE TABLE `payments` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `payments`
+--
+
+INSERT INTO `payments` (`id`, `uuid`, `order_id`, `gateway`, `method`, `status`, `amount`, `fee`, `net_amount`, `currency`, `installments`, `gateway_payment_id`, `gateway_customer_id`, `gateway_reference`, `qr_code`, `qr_code_base64`, `pix_copy_paste`, `boleto_url`, `boleto_barcode`, `authorization_code`, `expires_at`, `paid_at`, `cancelled_at`, `gateway_response`, `created_at`, `updated_at`) VALUES
+(3, 'dd9299d0-7bcb-11f1-aa52-d09466a5d484', 18, 'mercadopago', 'pix', 'pending', 79.92, 0.00, 79.92, 'BRL', 1, '1327631130', NULL, NULL, '00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b61520400005303986540579.925802BR5917MAReKnYcGsLIBRTLV6009Sao Paulo62230519mpqrinter1327631130630425C0', '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', '00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b61520400005303986540579.925802BR5917MAReKnYcGsLIBRTLV6009Sao Paulo62230519mpqrinter1327631130630425C0', NULL, NULL, NULL, NULL, NULL, NULL, '{\"accounts_info\":null,\"acquirer_reconciliation\":[],\"additional_info\":{\"tracking_id\":\"platform:v1-whitelabel,so:ALL,type:N\\/A,security:none\"},\"authorization_code\":null,\"binary_mode\":false,\"brand_id\":null,\"build_version\":\"3.163.0-rc-1\",\"call_for_authorize_id\":null,\"callback_url\":null,\"captured\":true,\"card\":[],\"charges_details\":[{\"accounts\":{\"from\":\"collector\",\"to\":\"mp\"},\"amounts\":{\"original\":0.79,\"refunded\":0},\"client_id\":0,\"date_created\":\"2026-07-09T15:24:52.700-04:00\",\"external_charge_id\":\"01KX45E3HEDJHHYNY277PX96QG\",\"id\":\"1327631130-001\",\"last_updated\":\"2026-07-09T15:24:52.700-04:00\",\"metadata\":{\"reason\":\"\",\"source\":\"proc-svc-charges\",\"source_detail\":\"processing_fee_charge\"},\"name\":\"mercadopago_fee\",\"refund_charges\":[],\"reserve_id\":null,\"type\":\"fee\",\"update_charges\":[]}],\"charges_execution_info\":{\"internal_execution\":{\"date\":\"2026-07-09T15:24:52.669-04:00\",\"execution_id\":\"01KX45E3F6CCMZT89MJ6993AHV\"}},\"collector_id\":606550709,\"corporation_id\":null,\"counter_currency\":null,\"coupon_amount\":0,\"currency_id\":\"BRL\",\"date_approved\":null,\"date_created\":\"2026-07-09T15:24:52.696-04:00\",\"date_last_updated\":\"2026-07-09T15:24:52.696-04:00\",\"date_of_expiration\":\"2026-07-10T15:24:52.344-04:00\",\"deduction_schema\":null,\"description\":\"Pedido #18\",\"differential_pricing_id\":null,\"external_reference\":null,\"fee_details\":[],\"financing_group\":null,\"id\":1327631130,\"installments\":1,\"integrator_id\":null,\"issuer_id\":\"12501\",\"live_mode\":false,\"marketplace_owner\":null,\"merchant_account_id\":null,\"merchant_number\":null,\"metadata\":[],\"money_release_date\":null,\"money_release_schema\":null,\"money_release_status\":\"released\",\"notification_url\":null,\"operation_type\":\"regular_payment\",\"order\":[],\"payer\":{\"email\":null,\"entity_type\":null,\"first_name\":null,\"id\":\"3530089187\",\"identification\":{\"number\":null,\"type\":null},\"last_name\":null,\"phone\":{\"area_code\":null,\"extension\":null,\"number\":null},\"type\":null},\"payment_method\":{\"id\":\"pix\",\"issuer_id\":\"12501\",\"type\":\"bank_transfer\"},\"payment_method_id\":\"pix\",\"payment_type_id\":\"bank_transfer\",\"platform_id\":null,\"point_of_interaction\":{\"application_data\":{\"name\":null,\"operating_system\":null,\"version\":null},\"business_info\":{\"branch\":\"Merchant Services\",\"sub_unit\":\"default\",\"unit\":\"online_payments\"},\"location\":{\"source\":null,\"state_id\":null},\"transaction_data\":{\"bank_info\":{\"collector\":{\"account_alias\":null,\"account_holder_name\":\"MaVXVL KZcdkuM tmlv\",\"account_id\":null,\"long_name\":null,\"transfer_account_id\":null},\"is_same_bank_account_owner\":null,\"origin_bank_id\":null,\"origin_wallet_id\":null,\"payer\":{\"account_holder_name\":null,\"account_id\":null,\"branch\":null,\"external_account_id\":null,\"id\":null,\"identification\":{\"number\":null,\"type\":null},\"long_name\":null}},\"bank_transfer_id\":null,\"e2e_id\":null,\"financial_institution\":null,\"is_end_consumer\":null,\"merchant_category_code\":null,\"qr_code\":\"00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b61520400005303986540579.925802BR5917MAReKnYcGsLIBRTLV6009Sao Paulo62230519mpqrinter1327631130630425C0\",\"qr_code_base64\":\"iVBORw0KGgoAAAANSUhEUgAABWQAAAVkAQMAAABpQ4TyAAAABlBMVEX\\/\\/\\/8AAABVwtN+AAAKnklEQVR42uzdQXLyRhMGYFEsWHIEjsLR8NE4Ckfw0gsX+isuxHS3RhjHfz6U1PNuXE4MevTturqnZxARERERERERERERERERERERERERERERERERERGRfza7cZbz7X8dx+vXz9Pt55TT\\/S8\\/2388jOPtQ2P70vf2JcOw+fr9dP\\/Q9utPpg\\/X0NLS0tLS0tLS0tLS0tL+H7SX8vv5ry8e2wNrvh54KNqQcfz4Uift9Ipvf\\/2yv3340LTpG460tLS0tLS0tLS0tLS0a9a2SjNpr19f\\/HYvV4P+EB+Yv+SmzbVuy\\/b2e655W6H8QUtLS0tLS0tLS0tLS\\/vv0obO6b7UvvtW6y43O3ftVWsBnWrfAy0tLS0tLS0tLS0tLe1\\/Q7tvD2wP+rzVwGFk9jJXp4J50r7Fh3Y7p7S0tLS0tLS0tLS0tLS0\\/4S2TAsP3RbtKRbZl9aqHe+\\/hzOn7ZU7I8dfr7xtH\\/rdbDMtLS0tLS0tLS0tLS3tn9TONxdt2nHRNC38mR40nxb+iNqffckv9izR0tLS0tLS0tLS0tLS\\/jHtUqbOaWff7Xz\\/7W5e87bOaafWHWP79XP4fWhpaWlpaWlpaWlpaWn\\/mPbQbk\\/55haVbbcs7ZarxziHG76ktl+rNgloaWlpaWlpaWlpaWlp16cdYtMzTcF27uLcz8vV7vzt2Ft71CmY5z3TR6c4aWlpaWlpaWlpaWlpaWl\\/ru1s620PqMX1NCW8bQ+Y+r3n26tPr3a+v+Kmew1petXDc9PCtLS0tLS0tLS0tLS0tK\\/Sdi79bA+aHrCZ778NTeL5Kw+3D41FO96mhaebQy\\/x5+6Js6a0tLS0tLS0tLS0tLS0r9VOleZHnNXddGd2T7EJ+nDZUD1zul\\/opB7K8twwt0xLS0tLS0tLS0tLS0u7Zm2qeTft9zQ6W2veXK5Oo7OpcB7jGdNp7nbfO7j68Vyfl5aWlpaWlpaWlpaWlpb2Se2uPfC8UKGfxnFh0PczlfelVVu\\/5Nq29YY+b9qzREtLS0tLS0tLS0tLS\\/uv0KZ9Qce7LhwT3bdy9e3bZvFHW3s0DEP60GlWA9c+76PNRbS0tLS0tLS0tLS0tLSv1Q5tSniM17TsS8079pRhc9Hhvvd2TGdNx\\/jq6cxpp2f7wz1LtLS0tLS0tLS0tLS0tH9aGzYXnWO5Wkdnp2ZnuPRzvv92iOVqXXvU6ZyOtyW6l\\/jv9vHgX5WWlpaWlpaWlpaWlpaW9qfaNui7GxfzFovuBw9oZX6YGh7jmdPpAGtd8XtYuHWGlpaWlpaWlpaWlpaWdiXa7gM36YG1z5uWEIWFu+Xs6bVcHNNpEocp4fS\\/vp0WpqWlpaWlpaWlpaWlpX2NNt8cuvCgPOibOqeXuLo2dVCv3Vfvaoc4Pfxkn5eWlpaWlpaWlpaWlpb2BdoHS4eO91p3szx\\/G7RtiW79kjR\\/O6TOaWm3fr+5iJaWlpaWlpaWlpaWlvaF2nqNZrhFpXVOr+0B+9YxbQcxh\\/iqY7o9pXux56Q+xC8Lm4weTQvT0tLS0tLS0tLS0tLS0v5Im2Z0p6L6uLi5KD9gfv3oR+nv7suB1TFu5d2WO19oaWlpaWlpaWlpaWlp16sdSos2XdeSH1Sva6nHRcv1o9f081Re\\/XQ\\/qPr9jTS0tLS0tLS0tLS0tLS0K9IOs3J1aGdOx4XbVC7lVcPmovTK881F27YGKbRf6\\/WjtLS0tLS0tLS0tLS0tCvVHnq3p4TOadtcFI6LptHZ+uGpc\\/re+5nPnKbPXUovl5aWlpaWlpaWlpaWlpb2F9p8Y2g6Jpr6vcMw27OUtFPFfuxt7U3Twp9p39J437cUyvwjLS0tLS0tLS0tLS0t7Tq1Q6o8b\\/3eTat5O0uHxliuXuYPKn3eadQ4XByT8ln6u993pWlpaWlpaWlpaWlpaWlfpX1Q87aEY6PpgblcbTXvGAvlTbs4Zmw1b3vlzyR5bs8SLS0tLS0tLS0tLS0t7Wu0YflQt8YdyqWf+3nZ2p2\\/nd8cOj41f5varrS0tLS0tLS0tLS0tLS0v9Du5jtzj2Pnks9h\\/sD0qofZmdOQqc\\/buTk0nXq9xCVNtLS0tLS0tLS0tLS0tOvThmnh873bel34s23aYNQtU4+L64\\/CzaFp5e+2jBzT0tLS0tLS0tLS0tLSrl2bcoyDvu+3zmnQ1kHf7ura411bbw4N08IPC2VaWlpaWlpaWlpaWlra9Wq7Jz7D7SnT3O17LJTrA8OHp72351LrVm1ru34kCS0tLS0tLS0tLS0tLe1KteFv59doTkuI6hzupTeHu5uf6jzfC+c6vFs7p0+GlpaWlpaWlpaWlpaWlvZH6W7n7SYV19tvSv\\/9\\/MtO9+28WZvWIJ1paWlpaWlpaWlpaWlp16mt17Wkyz836fjo9KBTebflZnH35tDOK08HVw9P3BxKS0tLS0tLS0tLS0tL+0Jtp+ZtD+o8IF36mY+LTh9OXzLGW1TGNnI8r32H9CW0tLS0tLS0tLS0tLS0a9TuenuDNm117dguQDmV1bXdjUVDLKCXrmIZ4+aiztnT44MKnZaWlpaWlpaWlpaWlpb2R9puq7YV12Fb71Rch2nh7sLdumep9Xm35ZU7y5pGWlpaWlpaWlpaWlpa2tVq632dx97W3vd5ubpc++7auqPzwsUxb\\/cDq+Hg6pOzzbS0tLS0tLS0tLS0tLQv1IbLPlvN+z6EPbih+ZmmhT\\/ne2\\/Ps\\/Zr2FwUPtx0nVf+ZlqYlpaWlpaWlpaWlpaW9lXa6aRnmnqtys4NopeivdyvYJm+7FoK5ms6uPo2Uy71cmlpaWlpaWlpaWlpaWlp\\/542nDk9loHdVCfvW2v2LU4Jh0W7aWp40raDq8O8zxu05cO0tLS0tLS0tLS0tLS0a9XW7urxXp5OuabFu3XA9+GD6vqjKae4sWgoo8bf3hxKS0tLS0tLS0tLS0tL+0ptvbYladPq2vfy+frAdufLZqFwzh\\/+8f5bWlpaWlpaWlpaWlpa2tdq69bZNDpbm57vUblNrzrVuOnD57L26C3+U4SO6TNTwrS0tLS0tLS0tLS0tLSv1nb05\\/KgoYzO1jJ1+ZX3reY9zdqxS3lU89LS0tLS0tLS0tLS0tLS\\/n1tKK7rtPBbadW2xbu7tnzoWD5UtWn90Ri39+5oaWlpaWlpaWlpaWlpV6\\/dzYvOc0\\/9fjsmum81b3f\\/7fH2wO4S3c71o\\/OLYwZaWlpaWlpaWlpaWlraNWsvi53TXOOeZpd+hs1FlzgtvCsHV+v1o2FzUS2cn9t\\/S0tLS0tLS0tLS0tLS\\/tKbTr5WbfPtqbntu2\\/vUR1nb\\/dNWVbpnudX8WSbk955uwpLS0tLS0tLS0tLS0tLe0vtZv5Vt6h9HmnaeFui7Z7cHWTmsXp+tGkfObOF1paWlpaWlpaWlpaWtrVaY\\/3MrWztTcN\\/I7t+tHxPi08pDOnw73vG7SXhVceaGlpaWlpaWlpaWlpadesXZgWDuXquDw1nLTncpB1fg3pNhXUaZluOAVLS0tLS0tLS0tLS0tLu1Ltw81FQduOh25vX7idv+q8+Tl1TK\\/lDGrnw+mVaWlpaWlpaWlpaWlpaWl\\/pxURERERERERERERERERERERERERERERERERERFZdf4XAAD\\/\\/ygVccxOAacCAAAAAElFTkSuQmCC\",\"ticket_url\":\"https:\\/\\/www.mercadopago.com.br\\/sandbox\\/payments\\/1327631130\\/ticket?caller_id=3530089187&hash=c6e4a10c-28aa-4a18-b24a-9e7950aedba6\",\"transaction_id\":null},\"type\":\"OPENPLATFORM\"},\"pos_id\":null,\"processing_mode\":\"aggregator\",\"refunds\":[],\"release_info\":null,\"shipping_amount\":0,\"sponsor_id\":null,\"statement_descriptor\":null,\"status\":\"pending\",\"status_detail\":\"pending_waiting_transfer\",\"store_id\":null,\"tags\":null,\"taxes_amount\":0,\"tenant_context\":\"mp\",\"transaction_amount\":79.92,\"transaction_amount_refunded\":0,\"transaction_details\":{\"acquirer_reference\":null,\"bank_transfer_id\":null,\"external_resource_url\":null,\"financial_institution\":null,\"installment_amount\":0,\"net_received_amount\":0,\"overpaid_amount\":0,\"payable_deferral_period\":null,\"payment_method_reference_id\":null,\"total_paid_amount\":79.92,\"transaction_id\":null}}', '2026-07-09 16:24:53', '2026-07-09 16:24:53');
 
 -- --------------------------------------------------------
 
@@ -633,11 +631,24 @@ ALTER TABLE `clients_address`
   ADD KEY `fk_adress_client` (`client_id`);
 
 --
+-- Índices de tabela `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_client_prder` (`client_id`);
+
+--
+-- Índices de tabela `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_item_order` (`order_id`);
 
 --
 -- Índices de tabela `payments`
@@ -708,13 +719,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `clients`
@@ -729,16 +740,28 @@ ALTER TABLE `clients_address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de tabela `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT de tabela `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de tabela `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de tabela `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `payment_transactions`
@@ -803,6 +826,12 @@ ALTER TABLE `clients_address`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk_client_prder` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_item_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `payments`
