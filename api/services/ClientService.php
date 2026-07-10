@@ -185,4 +185,133 @@ class ClientService
         //if (!preg_match('/[0-9]/', $senha)) return false;
         return true;
     }
+
+    public static function list($filters = [], $limit = 10, $offset = 0)
+    {
+        $pdo = Database::connect();
+
+        $where = [];
+        $params = [];
+
+        // 🔎 Filtros dinâmicos
+        if (!empty($filters['descricao'])) {
+            $where[] = "(
+                            p.cpf LIKE :descricao
+                            OR p.nome LIKE :descricao
+                            OR p.email LIKE :descricao
+                        )";
+            $params[':descricao'] = "%" . $filters['descricao'] . "%";
+        }
+
+        // Monta WHERE
+        $whereSql = "";
+        if (!empty($where)) {
+            $whereSql = "WHERE " . implode(" AND ", $where);
+        }
+
+        // 🔃 Ordenação dinâmica (segura)
+        $orderBy = 'p.id'; // padrão
+        $orderDir = 'DESC'; // padrão
+
+        $allowedFields = [
+            'id'    => 'p.id',
+            'nome'  => 'p.nome',
+            'cpf'   => 'p.cpf',
+            'email' => 'p.email',
+        ];
+
+        $allowedDirections = ['ASC', 'DESC'];
+
+        if (!empty($filters['order_by']) && isset($allowedFields[$filters['order_by']])) {
+            $orderBy = $allowedFields[$filters['order_by']];
+        }
+
+        if (!empty($filters['order_dir']) && in_array(strtoupper($filters['order_dir']), $allowedDirections)) {
+            $orderDir = strtoupper($filters['order_dir']);
+        }
+
+
+        // Query final
+        $sql = "
+            SELECT 
+                p.*,
+                COUNT(o.id) AS pedidos,
+                COALESCE(SUM(o.subtotal), 0) AS valor_gasto,
+                MAX(o.created_at) as ultimo_pedido
+            FROM clients p
+            LEFT JOIN orders o
+                ON o.client_id = p.id
+            $whereSql
+            GROUP BY p.id
+            ORDER BY $orderBy $orderDir
+            LIMIT :limit OFFSET :offset
+        ";
+
+
+        $stmt = $pdo->prepare($sql);
+
+        // Bind dos filtros
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        // Bind paginação
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $orders;
+    }
+
+    public static function totals()
+    {
+        $pdo = Database::connect();
+
+        $sql = "
+        SELECT 
+            COUNT(*) as qt_clients
+        FROM clients p";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function count($filters = [])
+    {
+        $pdo = Database::connect();
+
+        $where = [];
+        $params = [];
+
+        if (!empty($filters['descricao'])) {
+            $where[] = "(
+                            p.cpf LIKE :descricao
+                            OR p.nome LIKE :descricao
+                            OR p.email LIKE :descricao
+                        )";
+            $params[':descricao'] = "%" . $filters['descricao'] . "%";
+        }
+
+        $whereSql = "";
+        if (!empty($where)) {
+            $whereSql = "WHERE " . implode(" AND ", $where);
+        }
+
+        $sql = "SELECT COUNT(*) as total FROM clients p $whereSql";
+
+        $stmt = $pdo->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
 }

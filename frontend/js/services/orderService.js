@@ -5,8 +5,12 @@ export const orderService = {
     return api.post('/orders', dados);
   },
 
-  listar() {
-    return api.get('/pedidos');
+  listar(filtros = {}) {
+    return api.get('/orders-list', filtros);
+  },
+
+  listarDash(filtros = {}) {
+    return api.get('/orders-dash', filtros);
   },
 
   get(id) {

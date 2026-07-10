@@ -154,6 +154,8 @@ if (str_starts_with($uri, '/api')) {
 
     $router->add('POST', '/orders', 'Orders/OrderController@create');
     $router->add('GET', '/orders/{id}', 'Orders/OrderController@get');
+    $router->add('GET', '/orders-list', 'Orders/OrderController@list');
+    $router->add('GET', '/orders-dash', 'Orders/OrderController@dash');
 
     $router->add('POST', '/payments', 'Payments/PaymentController@create');
     $router->add('GET', '/payments/{id}', 'Payments/PaymentController@get');
@@ -178,6 +180,7 @@ if (str_starts_with($uri, '/api')) {
     $router->add('GET', '/clients', 'Client/ClientController@get');
     $router->add('GET', '/clients/{id}', 'Client/ClientController@getById');
     $router->add('POST', '/clients/{id}', 'Client/ClientController@update');
+    $router->add('GET', '/clients-list', 'Client/ClientController@list');
 
     $router->add('POST', '/stock', 'Stock/StockController@create');
     $router->add('GET', '/stock', 'Stock/StockController@get');

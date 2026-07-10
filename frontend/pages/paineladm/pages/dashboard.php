@@ -51,7 +51,7 @@
                 </div>
 
                 <!-- KPIs -->
-                <div class="kpi-grid">
+                <div class="kpi-grid" id="kpis">
                     <div class="kpi">
                         <div class="kpi-label">
                             <svg width="13" height="13" fill="none" viewBox="0 0 13 13" stroke="currentColor"
@@ -60,7 +60,7 @@
                             </svg>
                             Faturamento (mês)
                         </div>
-                        <div class="kpi-value">R$ 18.420</div>
+                        <div class="kpi-value" id="kpi-totals"></div>
                         <span class="kpi-delta up">↑ 12,4% vs mês anterior</span>
                     </div>
                     <div class="kpi">
@@ -73,7 +73,7 @@
                             </svg>
                             Pedidos (mês)
                         </div>
-                        <div class="kpi-value">94</div>
+                        <div class="kpi-value" id="kpi-qty-totals"></div>
                         <span class="kpi-delta up">↑ 8,1% vs mês anterior</span>
                     </div>
                     <div class="kpi">
@@ -85,8 +85,8 @@
                             </svg>
                             Novos clientes
                         </div>
-                        <div class="kpi-value">31</div>
-                        <span class="kpi-delta down">↓ 3,2% vs mês anterior</span>
+                        <div class="kpi-value">0</div>
+                        <span class="kpi-delta down">↓ 0,00% vs mês anterior</span>
                     </div>
                     <div class="kpi">
                         <div class="kpi-label">
@@ -97,7 +97,7 @@
                             </svg>
                             Ticket médio
                         </div>
-                        <div class="kpi-value">R$ 196</div>
+                        <div class="kpi-value" id="kpi-ticket"></div>
                         <span class="kpi-delta up">↑ 4,7% vs mês anterior</span>
                     </div>
                 </div>
@@ -108,13 +108,13 @@
                         <div class="card-header">
                             <span class="card-title">Receita por dia — Abril</span>
                             <select style="
-                  font-size: 12px;
-                  border: 1px solid var(--border);
-                  border-radius: 5px;
-                  padding: 3px 7px;
-                  background: #fff;
-                  color: var(--ink-2);
-                ">
+                            font-size: 12px;
+                            border: 1px solid var(--border);
+                            border-radius: 5px;
+                            padding: 3px 7px;
+                            background: #fff;
+                            color: var(--ink-2);
+                                ">
                                 <option>Este mês</option>
                                 <option>Mês anterior</option>
                                 <option>Este ano</option>
@@ -189,7 +189,7 @@
                             <span class="card-title">Mais vendidos</span>
                         </div>
                         <div class="card-body">
-                            <div class="top-products">
+                            <div class="top-products" id="top-products">
                                 <div class="top-product-row">
                                     <img class="top-product-img"
                                         src="https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=80&q=70"
@@ -252,21 +252,21 @@
                     <div class="card-header">
                         <span class="card-title">Pedidos recentes</span>
                         <a onclick="
-                window.parent.postMessage(
-                  { type: 'navigate', page: 'pedidos' },
-                  '*',
-                )
-              " style="
-                font-size: 12px;
-                color: var(--ink-3);
-                cursor: pointer;
-                text-decoration: none;
-              ">
+                    window.parent.postMessage(
+                    { type: 'navigate', page: 'pedidos' },
+                    '*',
+                        )
+                        " style="
+                            font-size: 12px;
+                            color: var(--ink-3);
+                            cursor: pointer;
+                            text-decoration: none;
+                        ">
                             Ver todos →
                         </a>
                     </div>
                     <div class="card-body" style="padding: 0">
-                        <div class="recent-orders" style="padding: 0 18px">
+                        <div class="recent-orders" style="padding: 0 18px" id="pedidos-recentes">
                             <div class="recent-order-row">
                                 <span class="recent-order-num">#10094</span>
                                 <span class="recent-order-client">Ana Beatriz Souza</span>
@@ -305,6 +305,8 @@
 
     </div>
 
+
+  <script type="module" src="frontend/js/modules/dash/listaDash.js"></script>
 </body>
 
 </html>

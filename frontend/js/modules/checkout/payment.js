@@ -286,7 +286,7 @@ document.querySelectorAll('.btnFrete').forEach(btn => {
     const cost = parseFloat(this.dataset.cost);
     const label = this.dataset.label;
 
-    selectPayTab(this, cost, label);
+    selectShip(this, cost, label);
   });
 });
 

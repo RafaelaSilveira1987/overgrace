@@ -43,6 +43,59 @@ class OrderController
         }
     }
 
+    // 🔹 LISTAR PRODUTOS (mantido)
+    public function list()
+    {
+        $filters = [
+            'descricao'   => $_GET['descricao']   ?? null,
+            'status'      => $_GET['status']   ?? null,
+            'order_by'    => $_GET['order_by']    ?? null,
+            'order_dir'   => $_GET['order_dir']   ?? null,
+        ];
+
+        $page  = isset($_GET['page'])  ? (int) $_GET['page']  : 1;
+        $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
+
+        if ($page < 1) $page = 1;
+        if ($limit < 1) $limit = 10;
+
+        $offset = ($page - 1) * $limit;
+
+        $orders        = OrderService::list($filters, $limit, $offset);
+        $total         = OrderService::count($filters);
+        $totalGeral    = OrderService::totals();
+
+        Response::json([
+            'data' => $orders,
+            'totals' => $totalGeral,
+            'pagination' => [
+                'total' => (int) $total,
+                'page'  => $page,
+                'limit' => $limit,
+                'pages' => $limit > 0 ? ceil($total / $limit) : 1
+            ]
+        ]);
+    }
+
+    public function dash()
+    {
+        $competencia = trim($_GET['competencia'] ?? '');
+
+        if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $competencia)) {
+            $competencia = date('Y-m');
+        }
+
+        $orders = OrderService::dashboardList($competencia);
+        $items = OrderService::dashboardItemList($competencia);
+        $totals = OrderService::dashboardTotals($competencia);
+
+        Response::json([
+            'data'   => $orders,
+            'items' => $items,
+            'totals' => $totals,
+        ]);
+    }
+
     private function getCartToken()
     {
         if (empty($_COOKIE['cart_token'])) {

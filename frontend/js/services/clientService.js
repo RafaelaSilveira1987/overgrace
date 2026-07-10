@@ -13,12 +13,16 @@ export const clientService = {
     login({ email, password }) {
         return api.post('/client-login', { email, password });
     },
- 
+
     me() {
         return api.get('/me');
     },
 
     loginGoogle(token) {
         return api.post('/clients/google', { token });
-    }
+    },
+
+    listar(filtros = {}) {
+        return api.get('/clients-list', filtros);
+    },
 };
