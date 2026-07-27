@@ -203,7 +203,7 @@ class ProductService
         }
 
 
-        // Query final
+        // Query final 
         $sql = "
             SELECT 
                 p.*,

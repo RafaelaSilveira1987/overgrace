@@ -190,6 +190,11 @@ class OrderService
             $params[':status'] = $filters['status'];
         }
 
+        if (!empty($filters['client_id'])) {
+            $where[] = "p.client_id = :client_id";
+            $params[':client_id'] = $filters['client_id'];
+        }
+
         // Monta WHERE
         $whereSql = "";
         if (!empty($where)) {
@@ -257,9 +262,17 @@ class OrderService
         $db = Database::connect();
 
         $stmt = $db->prepare("
-        SELECT *
-        FROM order_items
-        WHERE order_id = ?
+        SELECT 
+            oi.*,
+            (
+                SELECT imagem 
+                FROM products_img pi 
+                WHERE pi.produto_id = oi.product_id 
+                ORDER BY destaque DESC 
+                LIMIT 1
+            ) as imagem_principal
+        FROM order_items oi
+        WHERE oi.order_id = ?
         ");
 
         $stmt->execute([
@@ -320,6 +333,11 @@ class OrderService
         if (!empty($filters['data_fim'])) {
             $where[] = "inicio_exibicao <= :data_fim";
             $params[':data_fim'] = $filters['data_fim'];
+        }
+
+        if (!empty($filters['client_id'])) {
+            $where[] = "client_id <= :client_id";
+            $params[':client_id'] = $filters['client_id'];
         }
 
         $whereSql = "";

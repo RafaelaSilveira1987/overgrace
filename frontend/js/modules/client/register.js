@@ -250,7 +250,7 @@ if (formShipping) {
       }
     }
   });
-}
+} 
 
 document.addEventListener('DOMContentLoaded', async () => {
   if (DEMO_CHECKOUT) {

@@ -123,9 +123,9 @@ class MercadoPagoClient
 
             throw new \Exception(
 
-                $json["message"] ??
-
-                    "Erro Mercado Pago"
+                ($json["message"] ?? "Erro Mercado Pago") .
+                    PHP_EOL .
+                    "Resposta: " . $response
 
             );
         }

@@ -9,6 +9,11 @@ export const orderService = {
     return api.get('/orders-list', filtros);
   },
 
+  listarPedidosCliente(filtros = {}) {
+    console.log("entrou no service");
+    return api.get('/orders-client', filtros);
+  },
+
   listarDash(filtros = {}) {
     return api.get('/orders-dash', filtros);
   },

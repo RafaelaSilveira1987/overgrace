@@ -77,6 +77,38 @@ class OrderController
         ]);
     }
 
+    public function listClient()
+    {
+
+        $filters = [
+            'client_id'   => $_GET['client_id']   ?? null,
+        ];
+
+        $page  = isset($_GET['page'])  ? (int) $_GET['page']  : 1;
+        $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
+
+        if ($page < 1) $page = 1;
+        if ($limit < 1) $limit = 10;
+
+        $offset = ($page - 1) * $limit;
+
+        $orders        = OrderService::list($filters, $limit, $offset);
+        $total         = OrderService::count($filters);
+        $totalGeral    = OrderService::totals();
+
+        Response::json([
+            'data' => $orders,
+            'totals' => $totalGeral,
+            'pagination' => [
+                'total' => (int) $total,
+                'page'  => $page,
+                'limit' => $limit,
+                'pages' => $limit > 0 ? ceil($total / $limit) : 1
+            ]
+        ]);
+    }
+
+
     public function dash()
     {
         $competencia = trim($_GET['competencia'] ?? '');

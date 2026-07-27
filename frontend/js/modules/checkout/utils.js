@@ -137,7 +137,7 @@ export async function confirmarPedido() {
 }
 
 /* Máscaras */
-function maskCPF(el) {
+export function maskCPF(el) {
   let value = el.value.replace(/\D/g, '').slice(0, 11);
 
   if (value.length > 9) value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
@@ -147,7 +147,7 @@ function maskCPF(el) {
   el.value = value;
 }
 
-function maskPhone(el) {
+export function maskPhone(el) {
   let value = el.value.replace(/\D/g, '').slice(0, 11);
 
   if (value.length > 10) value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
@@ -157,13 +157,13 @@ function maskPhone(el) {
   el.value = value;
 }
 
-function maskCEP(el) {
+export function maskCEP(el) {
   let value = el.value.replace(/\D/g, '').slice(0, 8);
   if (value.length > 5) value = value.replace(/(\d{5})(\d{1,3})/, '$1-$2');
   el.value = value;
 }
 
-async function fetchCEP(cep) {
+export async function fetchCEP(cep) {
   const cleanCep = String(cep || '').replace(/\D/g, '');
   if (cleanCep.length !== 8) return;
 

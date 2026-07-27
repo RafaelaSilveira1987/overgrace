@@ -155,6 +155,7 @@ if (str_starts_with($uri, '/api')) {
     $router->add('POST', '/orders', 'Orders/OrderController@create');
     $router->add('GET', '/orders/{id}', 'Orders/OrderController@get');
     $router->add('GET', '/orders-list', 'Orders/OrderController@list');
+    $router->add('GET', '/orders-client', 'Orders/OrderController@listClient');
     $router->add('GET', '/orders-dash', 'Orders/OrderController@dash');
 
     $router->add('POST', '/payments', 'Payments/PaymentController@create');

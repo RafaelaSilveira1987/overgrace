@@ -1,5 +1,13 @@
 import { notify } from '../../utils/notify.js';
-import { confirmarPedido, selectShip, goToStep, selectPayTab } from './utils.js';
+import {
+  confirmarPedido,
+  selectShip,
+  goToStep,
+  selectPayTab,
+  maskCEP,
+  maskCPF,
+  fetchCEP
+} from './utils.js';
 
 const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === true;
 const PUBLIC_KEY = window.OVERGRACE_MP_PUBLIC_KEY || '';
@@ -304,6 +312,25 @@ document.querySelectorAll('.pay-tab').forEach(btn => {
 
     selectPayTab(method, this);
   });
+});
+
+const formaRegister = document.getElementById("formRegister");
+formaRegister.querySelector('#cpf').addEventListener('input', (e) => {
+  maskCPF(e.target);
+});
+
+/*
+formaRegister.querySelector('#tel').addEventListener('input', (e) => {
+  maskPhone(e.target);
+});*/
+
+formaRegister.querySelector('#cep').addEventListener('input', (e) => {
+  maskCEP(e.target);
+});
+
+formaRegister.querySelector('#cep').addEventListener('blur', (e) => {
+  console.log("teste");
+  fetchCEP(e.target.value);
 });
 
 

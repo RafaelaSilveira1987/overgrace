@@ -121,12 +121,12 @@
                                 <div class="field">
                                     <label for="cpf">CPF</label>
                                     <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                                        oninput="maskCPF(this)" autocomplete="off" />
+                                       autocomplete="off" />
                                 </div>
                                 <div class="field">
                                     <label for="tel">Telefone</label>
                                     <input type="text" id="tel" placeholder="(00) 00000-0000" maxlength="15"
-                                        oninput="maskPhone(this)" autocomplete="tel" />
+                                       autocomplete="tel" />
                                 </div>
                             </div>
 
@@ -140,12 +140,11 @@
                                 <a href="https://buscacepinter.correios.com.br" target="_blank" rel="noopener"
                                     class="helper-link">Não sei meu CEP</a>
                             </div>
-
+ 
                             <div class="form-row cep-row">
                                 <div class="field">
                                     <label for="cep">CEP</label>
                                     <input type="text" id="cep" placeholder="00000-000" maxlength="9"
-                                        oninput="maskCEP(this)" onblur="fetchCEP(this.value)"
                                         autocomplete="postal-code" />
                                 </div>
                                 <div class="address-preview" id="addressPreview">

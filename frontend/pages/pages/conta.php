@@ -120,17 +120,17 @@
                 <h1 class="panel-title">Meus <em>pedidos</em></h1>
                 <p class="panel-sub">Acompanhe, rastreie e gerencie suas compras.</p>
 
-                <div class="summary-cards">
+                <div class="summary-cards" id="summary-cards">
                     <div class="sum-card">
-                        <div class="sum-card-val">4</div>
+                        <div class="sum-card-val pedidos_realizados">0</div>
                         <div class="sum-card-label">Pedidos realizados</div>
                     </div>
                     <div class="sum-card">
-                        <div class="sum-card-val">1</div>
+                        <div class="sum-card-val em_transito">0</div>
                         <div class="sum-card-label">Em trânsito agora</div>
                     </div>
                     <div class="sum-card">
-                        <div class="sum-card-val">R$ 986</div>
+                        <div class="sum-card-val valor_investido">R$ 0,00</div>
                         <div class="sum-card-label">Total investido</div>
                     </div>
                 </div>
@@ -144,7 +144,10 @@
                         <span></span>
                     </div>
 
-                    <!-- Pedido 1 - em tr�nsito -->
+                    <div id="lista-pedidos"></div>
+
+                    <!--
+                     Pedido 1 - em tr�nsito
                     <div class="order-row" onclick="toggleOrder('od1')">
                         <div>
                             <p class="order-id">#FOR-00823</p>
@@ -221,7 +224,8 @@
                         </div>
                     </div>
 
-                    <!-- Pedido 2 - entregue -->
+                    
+                     Pedido 2 - entregue
                     <div class="order-row" onclick="toggleOrder('od2')">
                         <div>
                             <p class="order-id">#FOR-00701</p>
@@ -274,7 +278,7 @@
                         </div>
                     </div>
 
-                    <!-- Pedido 3 - entregue -->
+                     Pedido 3 - entregue
                     <div class="order-row" onclick="toggleOrder('od3')">
                         <div>
                             <p class="order-id">#FOR-00654</p>
@@ -339,7 +343,7 @@
                         </div>
                     </div>
 
-                    <!-- Pedido 4 - cancelado -->
+                    Pedido 4 - cancelado 
                     <div class="order-row" onclick="toggleOrder('od4')">
                         <div>
                             <p class="order-id">#FOR-00598</p>
@@ -402,7 +406,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -809,184 +813,12 @@
                 <a href="#" target="_blank">Whatsapp</a>
             </div>
         </div>
-
+ 
     </footer>
 
-    <script>
-    function setMobileMenuState(isOpen) {
-        document.body.classList.toggle("menu-open", isOpen);
-        const toggle = document.querySelector(".menu-toggle");
-        const menu = document.getElementById("mobileMenu");
-        if (toggle) toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        if (menu) menu.setAttribute("aria-hidden", isOpen ? "false" : "true");
-    }
+    <script src="frontend/js/modules/account/utils.js"></script>
+    <script type="module" src="frontend/js/modules/account/listDataAccount.js"></script>
 
-    function toggleMobileMenu() {
-        setMobileMenuState(!document.body.classList.contains("menu-open"));
-    }
-
-    function closeMobileMenu() {
-        setMobileMenuState(false);
-    }
-
-    /* --- NAVEGA��O --- */
-    function switchPanel(id, btn) {
-        document
-            .querySelectorAll(".panel")
-            .forEach((p) => p.classList.remove("active"));
-        document
-            .querySelectorAll(".snav-item")
-            .forEach((b) => b.classList.remove("active"));
-        document.getElementById("panel-" + id).classList.add("active");
-        if (btn) btn.classList.add("active");
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    /* --- ACCORDION PEDIDOS --- */
-    function toggleOrder(id) {
-        const detail = document.getElementById(id);
-        const isOpen = detail.classList.contains("open");
-        document
-            .querySelectorAll(".order-detail")
-            .forEach((d) => d.classList.remove("open"));
-        if (!isOpen) detail.classList.add("open");
-    }
-
-    /* --- EDI��O DE PERFIL --- */
-    function toggleEdit(section) {
-        const fields = document.querySelectorAll(`#form-${section} input`);
-        const btns = document.getElementById(`btns-${section}`);
-        fields.forEach((f) => (f.disabled = false));
-        btns.style.display = "flex";
-    }
-
-    function cancelEdit(section) {
-        const fields = document.querySelectorAll(`#form-${section} input`);
-        const btns = document.getElementById(`btns-${section}`);
-        fields.forEach((f) => (f.disabled = true));
-        btns.style.display = "none";
-    }
-
-    function saveEdit(section) {
-        const fields = document.querySelectorAll(`#form-${section} input`);
-        const btns = document.getElementById(`btns-${section}`);
-        fields.forEach((f) => (f.disabled = true));
-        btns.style.display = "none";
-        // Feedback visual
-        const btn = btns.querySelector(".save-btn");
-        const orig = btn.textContent;
-        btn.textContent = "? Salvo!";
-        setTimeout(() => (btn.textContent = orig), 2000);
-    }
-
-    /* --- FAVORITOS --- */
-    function removeFav(id, e) {
-        e.stopPropagation();
-        const card = document.getElementById(id);
-        card.style.opacity = "0";
-        card.style.transform = "scale(.96)";
-        card.style.transition = "opacity .25s, transform .25s";
-        setTimeout(() => {
-            card.remove();
-            const remaining = document.querySelectorAll(".fav-card").length;
-            if (remaining === 0) {
-                document.getElementById("favGrid").innerHTML = `
-          <div class="empty-state" style="grid-column:1/-1">
-            <div class="empty-icon">?</div>
-            <h3 class="empty-title">Nenhum favorito ainda</h3>
-            <p class="empty-sub">Salve pe�as que voc� ama para encontr�-las facilmente.</p>
-            <a href="/overgrace/colecoes" class="empty-cta">Ver colecoes</a>
-          </div>`;
-            }
-        }, 250);
-    }
-
-    /* --- NOTIFICA��ES --- */
-    function dismissNotif(id) {
-        const item = document.getElementById(id);
-        item.style.opacity = "0";
-        item.style.maxHeight = item.offsetHeight + "px";
-        item.style.transition =
-            "opacity .2s, max-height .3s .1s, padding .3s .1s";
-        requestAnimationFrame(() => {
-            item.style.maxHeight = "0";
-            item.style.padding = "0";
-        });
-        setTimeout(() => item.remove(), 450);
-    }
-
-    /* --- LOGOUT --- */
-    function confirmLogout() {
-        if (confirm("Tem certeza que deseja sair da conta?")) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
-            window.location.href = "/overgrace/";
-        }
-    }
-
-    window.addEventListener("resize", () => {
-        if (window.innerWidth > 992) closeMobileMenu();
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeMobileMenu();
-    });
-    </script>
-    <script type="module" src="/overgrace/frontend/js/modules/cart/qtyCart.js?v=2"></script>
-    <script type="module">
-    import {
-        authService
-    } from "/overgrace/frontend/js/services/authService.js?v=7";
-
-    function initials(nameOrEmail) {
-        return nameOrEmail
-            .split(/\s+/)
-            .filter(Boolean)
-            .slice(0, 2)
-            .map((part) => part[0])
-            .join("")
-            .toUpperCase();
-    }
-
-    function formatCpf(value) {
-        const digits = String(value || "").replace(/\D/g, "");
-        return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    }
-
-    function formatPhone(value) {
-        const digits = String(value || "").replace(/\D/g, "");
-        return digits.length === 11 ?
-            digits.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3") :
-            digits.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
-    }
-
-    try {
-        const user = await authService.getUser();
-
-        if (user.role !== "client") {
-            window.location.href = "/overgrace/login";
-        }
-
-        const fullName = user.name || user.email;
-        const nameParts = fullName.split(" ");
-
-        document.querySelector(".avatar-circle").textContent = initials(fullName);
-        document.querySelector(".sidebar-name").textContent = fullName;
-        document.querySelector(".sidebar-email").textContent = user.email;
-        document.getElementById("headerAccountName").textContent = `Ola, ${fullName.split(" ")[0]}`;
-        document.getElementById("inp-nome").value = nameParts[0] || "";
-        document.getElementById("inp-sobrenome").value = nameParts.slice(1).join(" ");
-        document.getElementById("inp-email").value = user.email;
-        document.getElementById("inp-cpf").value = formatCpf(user.cpf);
-        document.getElementById("inp-tel").value = formatPhone(user.telefone);
-    } catch (err) {
-        authService.logout();
-        window.location.href = "/overgrace/login";
-    }
-    </script>
 </body>
 
 </html>
