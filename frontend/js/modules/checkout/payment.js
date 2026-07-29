@@ -1,6 +1,6 @@
 import { notify } from '../../utils/notify.js';
 import {
-  confirmarPedido,
+  criarPagamento,
   selectShip,
   goToStep,
   selectPayTab,
@@ -287,7 +287,7 @@ function initCardForm() {
 
 document.addEventListener('DOMContentLoaded', initCardForm);
 
-document.getElementById('btnPix')?.addEventListener('click', () => { confirmarPedido('pix', 'pending'); });
+document.getElementById('btnPix')?.addEventListener('click', () => { criarPagamento('pix'); });
 
 document.querySelectorAll('.btnFrete').forEach(btn => {
   btn.addEventListener('click', function () {

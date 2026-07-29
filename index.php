@@ -126,15 +126,6 @@ if (str_starts_with($uri, '/api')) {
 
     RateLimit::handle();
 
-    //     <<<<<<< Updated upstream
-    //     $router = new Router();
-
-    //     $router->add('POST', '/login', 'Auth/AuthController@login');
-    //     $router->add('POST', '/client-login', 'Auth/AuthController@loginClient');
-    //     $router->add('POST', '/admin-login', 'Auth/AuthController@loginAdmin');
-    //     $router->add('POST', '/register', 'Auth/AuthController@register');
-    // =======
-
     $router = new Router();
 
     $router->add('POST', '/refresh', 'Auth/AuthController@refresh');
@@ -157,13 +148,14 @@ if (str_starts_with($uri, '/api')) {
     $router->add('GET', '/orders-list', 'Orders/OrderController@list');
     $router->add('GET', '/orders-client', 'Orders/OrderController@listClient');
     $router->add('GET', '/orders-dash', 'Orders/OrderController@dash');
+    $router->add('GET', '/orders-payment/{id}', 'Orders/OrderController@getPaymentOrder');
 
     $router->add('POST', '/payments', 'Payments/PaymentController@create');
     $router->add('GET', '/payments/{id}', 'Payments/PaymentController@get');
     $router->add('POST', '/payments/{id}/refresh', 'Payments/PaymentController@refresh');
     $router->add('POST', '/payments/{id}/cancel', 'Payments/PaymentController@cancel');
 
-    $router->add('POST', '/webhooks/mercadopago', 'Payment/WebhookController@mercadoPago');
+    $router->add('POST', '/webhooks/mercadopago', 'Payments/WebhookController@mercadoPago');
 
     $router->add('POST', '/product', 'Products/ProductController@create');
     $router->add('GET', '/product', 'Products/ProductController@get');

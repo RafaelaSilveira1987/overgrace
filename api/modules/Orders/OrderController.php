@@ -2,7 +2,9 @@
 
 require_once 'api/core/Response.php';
 require_once 'api/middleware/AuthMiddleware.php';
-require_once 'api/services/OrderService.php';
+require_once 'api/services/OrderService.php'; 
+require_once 'api/services/payment/PaymentService.php';
+
 
 class OrderController
 {
@@ -105,6 +107,21 @@ class OrderController
                 'limit' => $limit,
                 'pages' => $limit > 0 ? ceil($total / $limit) : 1
             ]
+        ]);
+    }
+
+    public function getPaymentOrder($order_id)
+    {
+
+        $client_id = $_GET['client_id'] ?? null;
+
+        $payment = PaymentService::getbyOrder(
+            (int)$order_id,
+            (int)$client_id
+        );
+
+        Response::json([
+            'data' => $payment,
         ]);
     }
 

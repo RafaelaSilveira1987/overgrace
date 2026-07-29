@@ -38,6 +38,9 @@ async function hydrateHeader() {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
+  console.log("olha o token ai: ", token);
+  console.log("olha o role ai: ", role);
+
   if (!token || role !== "client") {
     resetHeader();
     return;

@@ -2,9 +2,7 @@ import { clientService } from '../../services/clientService.js';
 import { orderService } from '../../services/orderService.js';
 import { notify } from '../../utils/notify.js';
 import { marcarErro } from '../../utils/validateUI.js';
-import { goToStep } from '../checkout/utils.js'; 
-
-const DEMO_CHECKOUT = window.OVERGRACE_DEMO_CHECKOUT === false;
+import { goToStep } from '../checkout/utils.js';
 
 function getEl(id) {
   return document.getElementById(id);
@@ -135,18 +133,18 @@ if (formRegister) {
     event.preventDefault();
 
     const required = [
-        'nome', 
-        'sobrenome', 
-        'email', 
-        'password', 
-        'cpf', 
-        'tel', 
-        'cep', 
-        'endereco', 
-        'numero', 
-        'bairro', 
-        'cidade', 
-        'estado'];
+      'nome',
+      'sobrenome',
+      'email',
+      'password',
+      'cpf',
+      'tel',
+      'cep',
+      'endereco',
+      'numero',
+      'bairro',
+      'cidade',
+      'estado'];
 
     try {
       if (markRequired(required)) throw new Error('Preencha os campos obrigatórios');
@@ -206,21 +204,8 @@ if (formShipping) {
       const shippingType = selectedShipping.value;
       const shippingValue = Number(shipOption?.dataset?.cost || 0);
       const shippingLabel = shipOption?.dataset?.label || shippingType;
-      
-      if (DEMO_CHECKOUT) {
-        saveDemoAuth();
-        createDemoOrderId();
-        localStorage.setItem('checkout_shipping', JSON.stringify({
-          shipping_tipo: shippingType,
-          shipping_label: shippingLabel,
-          shipping_valor: shippingValue
-        }));
-        notify.success('Pedido demonstrativo criado. Falta só escolher a simulação do pagamento.');
-        window.goToStep?.(3, true);
-        return;
-      }
 
-      if (!localStorage.getItem('token_client')) {
+      if (!localStorage.getItem('token')) {
         const auth = await clientService.login({
           email: value('email'),
           password: value('password')
@@ -250,40 +235,48 @@ if (formShipping) {
       }
     }
   });
-} 
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (DEMO_CHECKOUT) {
-    fillDemoFields();
-    localStorage.removeItem('order_id');
+
+  const token = localStorage.getItem('token');
+  const orderId = localStorage.getItem('order_id');
+
+  console.log("token:", token);
+
+  if (!token) {
     return;
   }
 
-  const token = localStorage.getItem('token_client');
-  const orderId = localStorage.getItem('order_id');
-
-  if (!token) return;
-
   try {
+
     await clientService.me();
 
     if (orderId) {
       try {
         const order = await orderService.get(orderId);
+
         if (order?.status === 'pending') {
           goToStep(3, true);
           return;
         }
+
         localStorage.removeItem('order_id');
+
       } catch (error) {
-        console.warn('Pedido salvo não localizado:', error);
+        console.warn("Pedido salvo não localizado:", error);
       }
     }
 
     goToStep(2, true);
+
   } catch (error) {
-    localStorage.removeItem('token_client');
-    localStorage.removeItem('refresh_token_client');
-    console.warn('Sessão do cliente expirada:', error);
+
+    localStorage.removeItem("token_client");
+    localStorage.removeItem("refresh_token_client");
+
+    console.warn("Sessão do cliente expirada:", error);
+
   }
+
 });

@@ -226,9 +226,20 @@ class OrderService
         $sql = "
             SELECT 
                 c.nome as client_name,
-                p.*
+                p.*,
+                pay.method as payment_method,
+                pay.status as payment_status
             FROM orders p
             inner join clients c on c.id = p.client_id
+
+            LEFT JOIN (
+                SELECT order_id, MAX(id) AS payment_id
+                FROM payments
+                GROUP BY order_id
+            ) lp ON lp.order_id = p.id
+
+            LEFT JOIN payments pay
+                ON pay.id = lp.payment_id
             $whereSql
             ORDER BY $orderBy $orderDir
             LIMIT :limit OFFSET :offset
@@ -469,5 +480,105 @@ class OrderService
         ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function syncPaymentStatus(
+        int $orderId,
+        string $paymentStatus
+    ) {
+
+        $db = Database::connect();
+
+
+        switch ($paymentStatus) {
+
+            case 'approved':
+
+                $stmt = $db->prepare("
+                UPDATE orders
+                SET
+                    payment_status = 'paid',
+                    status = 'paid',
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+
+                break;
+
+
+            case 'pending':
+
+                $stmt = $db->prepare("
+                UPDATE orders
+                SET
+                    payment_status = 'pending',
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+
+                break;
+
+
+            case 'cancelled':
+
+                $stmt = $db->prepare("
+                UPDATE orders
+                SET
+                    payment_status = 'cancelled',
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+
+                break;
+
+
+            case 'rejected':
+
+                $stmt = $db->prepare("
+                UPDATE orders
+                SET
+                    payment_status = 'rejected',
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+
+                break;
+
+
+            case 'refunded':
+
+                $stmt = $db->prepare("
+                UPDATE orders
+                SET
+                    payment_status = 'refunded',
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+
+                break;
+
+
+            case 'charged_back':
+
+                $stmt = $db->prepare("
+                UPDATE orders
+                SET
+                    payment_status = 'chargeback',
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+
+                break;
+
+
+            default:
+
+                return false;
+        }
+
+
+        return $stmt->execute([
+            $orderId
+        ]);
     }
 }

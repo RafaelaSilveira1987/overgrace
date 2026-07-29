@@ -1239,6 +1239,27 @@ select {
   letter-spacing: 0.12em;
 }
 
+.pix-qrcode {
+
+    width: 220px;
+    height: 220px;
+
+    object-fit: contain;
+
+    display: none;
+
+    margin: 20px auto;
+
+    border-radius: 12px;
+
+    background: #fff;
+
+    padding: 12px;
+
+    border: 1px solid #e5e7eb;
+
+}
+
 .copy-code {
   overflow-wrap: anywhere;
   padding: 14px;
@@ -1502,6 +1523,43 @@ select {
 
 .card-demo-box[hidden] {
   display: none;
+}
+
+
+.submit-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit-btn.loading {
+    pointer-events: none;
+}
+
+.submit-btn .btn-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+}
+
+.submit-btn.loading .btn-text {
+    visibility: hidden;
+}
+
+.submit-btn.loading .btn-spinner {
+    display: block;
+    position: absolute;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 720px) {

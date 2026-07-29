@@ -140,6 +140,33 @@ class PaymentService
     }
 
     /**
+     * Busca pagamento pelo pedido
+     */
+    public static function getbyOrder(int $order_id, int $client_id)
+    {
+        $db = Database::connect();
+
+        $stmt = $db->prepare("
+            SELECT p.*
+            FROM payments p
+            JOIN orders o ON o.id = p.order_id
+            WHERE p.order_id = ?
+            AND o.client_id = ?
+            LIMIT 1
+        ");
+
+        $stmt->execute([$order_id, $client_id]);
+
+        $payment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$payment) {
+            throw new Exception("Pagamento não encontrado");
+        }
+
+        return $payment;
+    }
+
+    /**
      * Atualiza status (webhook ou refresh manual)
      */
     public static function updateStatus(int $paymentId, int $userId)
@@ -214,170 +241,149 @@ class PaymentService
 
     public static function processWebhook(array $payload)
     {
-        // Aceita apenas notificações de pagamento
-        if (
-            empty($payload['type']) ||
-            $payload['type'] !== 'payment'
-        ) {
-            return;
-        }
+        //cria o registro do webhook para validações futuras
+        $webhookId = PaymentWebhookModel::create($payload);
 
-        $gatewayPaymentId = $payload['data']['id'] ?? null;
+        try {
 
-        if (!$gatewayPaymentId) {
-            return;
-        }
+            // Aceita apenas eventos de pagamento
+            if (
+                empty($payload['type']) ||
+                $payload['type'] !== 'payment'
+            ) {
 
-        // Consulta o pagamento diretamente no Mercado Pago
-        $mp = new MercadoPagoClient();
+                PaymentWebhookModel::processed($webhookId);
 
-        $gatewayPayment = $mp->getPayment($gatewayPaymentId);
+                return;
+            }
 
-        if (!$gatewayPayment) {
-            throw new Exception("Pagamento não localizado no Mercado Pago.");
-        }
 
-        // Procura o pagamento local
-        $payment = PaymentModel::findByGatewayPaymentId(
-            (string)$gatewayPayment['id']
-        );
+            $gatewayPaymentId =
+                $payload['data']['id'] ?? null;
 
-        if (!$payment) {
-            throw new Exception("Pagamento local não encontrado.");
-        }
 
-        $transactionData =
-            $gatewayPayment['point_of_interaction']['transaction_data'] ?? [];
+            if (!$gatewayPaymentId) {
 
-        // Atualiza todas as informações recebidas do gateway
-        PaymentModel::updateGateway(
-            $payment['id'],
-            [
+                PaymentWebhookModel::processed($webhookId);
 
-                'gateway_payment_id' => $gatewayPayment['id'],
+                return;
+            }
 
-                'status' => $gatewayPayment['status'],
 
-                'qr_code' =>
-                $transactionData['qr_code'] ?? null,
+            // Consulta pagamento oficial no Mercado Pago
+            $mp = new MercadoPagoClient();
 
-                'qr_code_base64' =>
-                $transactionData['qr_code_base64'] ?? null,
+            $gatewayPayment = $mp->getPayment(
+                $gatewayPaymentId
+            );
 
-                'pix_copy_paste' =>
-                $transactionData['qr_code'] ?? null,
+            if (!$gatewayPayment) {
 
-                'authorization_code' =>
-                $gatewayPayment['authorization_code'] ?? null,
+                throw new Exception(
+                    "Pagamento não localizado no Mercado Pago."
+                );
+            }
 
-                'expires_at' =>
-                $gatewayPayment['date_of_expiration'] ?? null,
 
-                'gateway_response' => $gatewayPayment
+            // Busca pagamento local
+            $payment = PaymentModel::findByGatewayPaymentId(
+                (string)$gatewayPayment['id']
+            );
 
-            ]
-        );
 
-        $db = Database::connect();
+            if (!$payment) {
 
-        switch ($gatewayPayment['status']) {
+                throw new Exception(
+                    "Pagamento local não encontrado."
+                );
+            }
 
-            case 'approved':
 
-                $stmt = $db->prepare("
-                UPDATE orders
-                SET
-                    payment_status = 'paid',
-                    status = 'paid',
-                    updated_at = NOW()
-                WHERE id = ?
-                ");
+            /*
+            * Atualiza status do pagamento
+            *
+            * Mercado Pago:
+            * approved
+            * pending
+            * rejected
+            * cancelled
+            * refunded
+            * charged_back
+            */
 
-                $stmt->execute([
-                    $payment['order_id']
-                ]);
+            $internalStatus = PaymentStatus::fromMercadoPago($gatewayPayment['status']);
 
-                break;
+            PaymentModel::updateStatus(
+                $payment['id'],
+                $internalStatus
+            );
 
-            case 'pending':
 
-                $stmt = $db->prepare("
-                UPDATE orders
-                SET
-                    payment_status = 'pending',
-                    updated_at = NOW()
-                WHERE id = ?
-                ");
 
-                $stmt->execute([
-                    $payment['order_id']
-                ]);
+            /*
+         * Atualiza informações extras do gateway
+         */
+            $transactionData =
+                $gatewayPayment['point_of_interaction']['transaction_data']
+                ?? [];
 
-                break;
 
-            case 'cancelled':
+            PaymentModel::updateGateway(
+                $payment['id'],
+                [
 
-                $stmt = $db->prepare("
-                UPDATE orders
-                SET
-                    payment_status = 'cancelled',
-                    updated_at = NOW()
-                WHERE id = ?
-                ");
+                    'gateway_payment_id' =>
+                    $gatewayPayment['id'],
 
-                $stmt->execute([
-                    $payment['order_id']
-                ]);
+                    'qr_code' =>
+                    $transactionData['qr_code'] ?? null,
 
-                break;
 
-            case 'rejected':
+                    'qr_code_base64' =>
+                    $transactionData['qr_code_base64'] ?? null,
 
-                $stmt = $db->prepare("
-                UPDATE orders
-                SET
-                    payment_status = 'rejected',
-                    updated_at = NOW()
-                WHERE id = ?
-                ");
 
-                $stmt->execute([
-                    $payment['order_id']
-                ]);
+                    'pix_copy_paste' =>
+                    $transactionData['qr_code'] ?? null,
 
-                break;
 
-            case 'refunded':
+                    'authorization_code' =>
+                    $gatewayPayment['authorization_code'] ?? null,
 
-                $stmt = $db->prepare("
-                UPDATE orders
-                SET
-                    payment_status = 'refunded',
-                    updated_at = NOW()
-                WHERE id = ?
-                ");
 
-                $stmt->execute([
-                    $payment['order_id']
-                ]);
+                    'expires_at' =>
+                    $gatewayPayment['date_of_expiration'] ?? null,
 
-                break;
 
-            case 'charged_back':
+                    'gateway_response' =>
+                    $gatewayPayment
 
-                $stmt = $db->prepare("
-                UPDATE orders
-                SET
-                    payment_status = 'chargeback',
-                    updated_at = NOW()
-                WHERE id = ?
-                ");
+                ]
+            );
 
-                $stmt->execute([
-                    $payment['order_id']
-                ]);
 
-                break;
+
+            /*
+         * Sincroniza pedido
+         */
+            OrderService::syncPaymentStatus(
+                $payment['order_id'],
+                $gatewayPayment['status']
+            );
+
+
+
+            // Marca webhook como processado
+            PaymentWebhookModel::processed(
+                $webhookId
+            );
+        } catch (Exception $e) {
+
+
+            // opcional:
+            // salvar erro no webhook futuramente
+
+            throw $e;
         }
     }
 }

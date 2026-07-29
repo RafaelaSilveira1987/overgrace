@@ -247,8 +247,6 @@ class PaymentModel
 
                 gateway_payment_id = :gateway_payment_id,
 
-                status = :status,
-
                 qr_code = :qr_code,
 
                 qr_code_base64 = :qr_code_base64,
@@ -270,8 +268,6 @@ class PaymentModel
         return $stmt->execute([
 
             ':gateway_payment_id' => $data['gateway_payment_id'],
-
-            ':status' => $data['status'],
 
             ':qr_code' => $data['qr_code'],
 
@@ -303,21 +299,23 @@ class PaymentModel
 
         $db = Database::connect();
 
+
         $stmt = $db->prepare("
 
-            UPDATE payments
+        UPDATE payments
 
-            SET
+        SET
 
-                status = ?,
+            status = ?,
 
-                paid_at = IF(?='paid', NOW(), paid_at),
+            paid_at = IF(? = 'paid', NOW(), paid_at),
 
-                updated_at = NOW()
+            updated_at = NOW()
 
-            WHERE id = ?
+        WHERE id = ?
 
         ");
+
 
         return $stmt->execute([
 
@@ -328,5 +326,115 @@ class PaymentModel
             $id
 
         ]);
+    }
+
+    public static function fromMercadoPago(string $status): string
+    {
+        return match ($status) {
+            'pending'            => 'pending',
+            'in_process'         => 'processing',
+            'authorized'         => 'authorized',
+            'approved'           => 'paid',
+            'rejected'           => 'failed',
+            'cancelled'          => 'cancelled',
+            'refunded'           => 'refunded',
+            'partially_refunded' => 'partially_refunded',
+
+            // O Mercado Pago pode retornar esses status
+            'charged_back'       => 'failed',
+            'expired'            => 'expired',
+
+            default              => 'pending',
+        };
+    }
+}
+
+
+class PaymentWebhookModel
+{
+
+    public static function create(array $payload)
+    {
+        $db = Database::connect();
+
+
+        $stmt = $db->prepare("
+            INSERT INTO payment_webhooks
+            (
+                gateway,
+                event_id,
+                event_type,
+                payload,
+                processed,
+                received_at
+            )
+            VALUES
+            (
+                ?,
+                ?,
+                ?,
+                ?,
+                'N',
+                NOW()
+            )
+        ");
+
+
+        $stmt->execute([
+
+            'mercadopago',
+
+            $payload['id'] ?? null,
+
+            $payload['type'] ?? null,
+
+            json_encode(
+                $payload,
+                JSON_UNESCAPED_UNICODE
+            )
+
+        ]);
+
+
+        return $db->lastInsertId();
+    }
+
+
+    public static function processed($id)
+    {
+        $db = Database::connect();
+
+        $stmt = $db->prepare("
+            UPDATE payment_webhooks
+            SET
+                processed = 'Y',
+                processed_at = NOW()
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$id]);
+    }
+}
+
+class PaymentStatus
+{
+    public static function fromMercadoPago(string $status): string
+    {
+        return match ($status) {
+            'pending'            => 'pending',
+            'in_process'         => 'processing',
+            'authorized'         => 'authorized',
+            'approved'           => 'paid',
+            'rejected'           => 'failed',
+            'cancelled'          => 'cancelled',
+            'refunded'           => 'refunded',
+            'partially_refunded' => 'partially_refunded',
+
+            // O Mercado Pago pode retornar esses status
+            'charged_back'       => 'failed',
+            'expired'            => 'expired',
+
+            default              => 'pending',
+        };
     }
 }

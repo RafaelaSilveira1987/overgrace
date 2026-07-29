@@ -2,75 +2,216 @@ import { notify } from '../../utils/notify.js';
 import { orderService } from '../../services/orderService.js';
 import { paymentService } from '../../services/paymentService.js';
 
+export async function criarPagamento(method = "pix") {
 
-async function criarPagamento(method = "pix") {
+  const btn = document.getElementById("btnPix");
+
+  startButtonLoading(btn);
 
   try {
 
-    const order_id = localStorage.getItem('order_id');
+    const order_id = localStorage.getItem("order_id");
 
-    // cria pedido
     const order = await orderService.get(order_id);
 
     const client_id = order.client_id;
 
-    // cria pagamento
     const payment = await paymentService.criar({
       order_id,
       client_id,
       method
     });
 
-    mostrarResultado(payment);
+    if (!payment.success) {
+      notify.error("Algo deu errado na geração do Pix, tente novamente mais tarde!");
+      return;
+    }
+
+    const orderPayment = await orderService.getPaymentOrder(order_id, {
+      client_id
+    });
+
+    mostrarResultado(
+      orderPayment.data.method ?? method,
+      orderPayment.data
+    );
 
   } catch (e) {
 
     notify.error(e.message);
 
+  } finally {
+
+    stopButtonLoading(btn);
+
   }
 
 }
 
+function mostrarResultado(method, payment) {
 
-function mostrarResultado(payment) {
+  pararPolling();
 
-  const checkoutLayout =
-    document.getElementById("checkoutLayout");
+  document.getElementById("checkoutLayout").style.display = "none";
+  document.getElementById("stepsBar").style.display = "none";
+  document.getElementById("confirmScreen").classList.add("active");
 
-  const stepsBar =
-    document.getElementById("stepsBar");
+  switch (method) {
 
-  const confirmScreen =
-    document.getElementById("confirmScreen");
+    case "pix":
+      console.log("caiu no mostrar resultado");
+      mostrarTelaPix(payment);
+      break;
 
-  checkoutLayout.style.display = "none";
-  stepsBar.style.display = "none";
+    case "boleto":
+      mostrarTelaBoleto(payment);
+      break;
 
-  confirmScreen.classList.add("active");
+    case "card":
+      mostrarTelaCartao(payment);
+      break;
 
-  document.getElementById("confirmOrderNum")
-    .textContent = "#OVG-" + payment.order_id;
+  }
 
-  document.getElementById("confirmTotal")
-    .textContent = formatBRL(payment.amount);
+}
+
+function esconderCards() {
+
+  document.getElementById("pixNextCard").hidden = true;
+  document.getElementById("boletoNextCard").hidden = true;
+  document.getElementById("analysisNextCard").hidden = true;
+
+}
+
+function preencherResultado(payment) {
+
+  esconderCards();
+
+
+  document.getElementById("confirmOrderNum").textContent =
+    "#OVG-" + payment.order_id;
+
+
+  document.getElementById("confirmTotal").textContent =
+    formatBRL(Number(payment.amount));
+
+
+  document.getElementById("confirmPaymentMethod").textContent =
+    (payment.method || "").toUpperCase();
+
+}
+
+function mostrarTelaPix(payment) {
+
+
+  preencherResultado(payment);
 
   switch (payment.status) {
-
-    case "approved":
-
-      telaAprovado(payment);
-
-      break;
 
     case "pending":
 
-      telaPix(payment);
+      console.log("caiu no status de pendente");
+
+      document.getElementById("confirmIcon").textContent = "⌛";
+
+      document.getElementById("confirmEyebrow").textContent =
+        "Pedido criado";
+
+
+      document.getElementById("confirmTitle").innerHTML =
+        "Aguardando <em>pagamento</em>";
+
+
+      document.getElementById("confirmSub").textContent =
+        "Seu pedido foi criado. Efetue o pagamento via PIX para iniciarmos a separação.";
+
+
+      // QR CODE
+      const qr = document.getElementById("pixQrCode");
+
+      if (payment.qr_code_base64) {
+
+        qr.src =
+          "data:image/png;base64," + payment.qr_code_base64;
+
+        qr.style.display = "block";
+
+      }
+
+
+      // copia e cola
+      document.getElementById("pixCode").textContent =
+        payment.pix_copy_paste || "";
+
+
+      document.getElementById("pixNextCard").hidden = false;
+
+
+      if (payment.id) {
+
+        iniciarPolling(payment.id);
+
+      }
+
 
       break;
 
-    case "rejected":
 
-      telaRecusado(payment);
+
+    case "paid":
+
+      document.getElementById("confirmIcon").textContent = "✓";
+
+      document.getElementById("confirmEyebrow").textContent =
+        "Pagamento aprovado";
+
+
+      document.getElementById("confirmTitle").innerHTML =
+        "Pedido <em>confirmado!</em>";
+
+
+      document.getElementById("confirmSub").textContent =
+        "Recebemos seu PIX e seu pedido já está sendo preparado.";
+
+
+      break;
+
+    case "approved":
+
+      document.getElementById("confirmIcon").textContent = "✓";
+
+      document.getElementById("confirmEyebrow").textContent =
+        "Pagamento aprovado";
+
+
+      document.getElementById("confirmTitle").innerHTML =
+        "Pedido <em>confirmado!</em>";
+
+
+      document.getElementById("confirmSub").textContent =
+        "Recebemos seu PIX e seu pedido já está sendo preparado.";
+
+
+      break;
+
+
+
+    case "rejected":
+    case "cancelled":
+
+      document.getElementById("confirmIcon").textContent = "✕";
+
+      document.getElementById("confirmEyebrow").textContent =
+        "Pagamento recusado";
+
+
+      document.getElementById("confirmTitle").innerHTML =
+        "<em>Pagamento recusado</em>";
+
+
+      document.getElementById("confirmSub").textContent =
+        "O pagamento PIX não foi confirmado.";
+
 
       break;
 
@@ -78,53 +219,150 @@ function mostrarResultado(payment) {
 
 }
 
-async function acompanharPagamento(id) {
+function mostrarTelaCartao(payment) {
 
-  const payment =
-    await paymentService.get(id);
+  preencherResultado(payment);
 
   switch (payment.status) {
 
     case "approved":
 
-      telaAprovado(payment);
+      document.getElementById("confirmIcon").textContent = "✓";
+      document.getElementById("confirmEyebrow").textContent = "Pagamento aprovado";
+      document.getElementById("confirmTitle").innerHTML = "Pedido <em>confirmado!</em>";
+      document.getElementById("confirmSub").textContent =
+        "Seu pagamento foi aprovado e seu pedido já está sendo preparado.";
 
-      return;
+      break;
+
+    case "in_process":
+
+      document.getElementById("confirmIcon").textContent = "⏳";
+      document.getElementById("confirmEyebrow").textContent = "Pagamento em análise";
+      document.getElementById("confirmTitle").innerHTML = "Pagamento <em>em análise</em>";
+      document.getElementById("confirmSub").textContent =
+        "Estamos aguardando a confirmação da operadora do cartão.";
+
+      document.getElementById("analysisNextCard").hidden = false;
+
+      if (payment.id) {
+        iniciarPolling(payment.id);
+      }
+
+      break;
 
     case "rejected":
 
-      telaRecusado(payment);
+      document.getElementById("confirmIcon").textContent = "✕";
+      document.getElementById("confirmEyebrow").textContent = "Pagamento recusado";
+      document.getElementById("confirmTitle").innerHTML = "<em>Pagamento recusado</em>";
+      document.getElementById("confirmSub").textContent =
+        "A operadora recusou a transação. Tente outro cartão ou outro meio de pagamento.";
 
-      return;
+      break;
 
   }
 
 }
 
-let paymentInterval;
+function mostrarTelaBoleto(payment) {
 
-function iniciarPolling(id) {
+  preencherResultado(payment);
+
+  switch (payment.status) {
+
+    case "pending":
+
+      document.getElementById("confirmIcon").textContent = "🧾";
+      document.getElementById("confirmEyebrow").textContent = "Boleto gerado";
+      document.getElementById("confirmTitle").innerHTML = "Aguardando <em>pagamento</em>";
+      document.getElementById("confirmSub").textContent =
+        "Seu boleto foi gerado. Após a compensação iniciaremos a preparação do pedido.";
+
+      document.getElementById("boletoCode").textContent =
+        payment.boleto_code || "";
+
+      document.getElementById("boletoDueDate").textContent =
+        payment.boleto_due_date || "--/--/----";
+
+      document.getElementById("boletoNextCard").hidden = false;
+
+      if (payment.id) {
+        iniciarPolling(payment.id);
+      }
+
+      break;
+
+    case "approved":
+
+      document.getElementById("confirmIcon").textContent = "✓";
+      document.getElementById("confirmEyebrow").textContent = "Pagamento aprovado";
+      document.getElementById("confirmTitle").innerHTML = "Pedido <em>confirmado!</em>";
+      document.getElementById("confirmSub").textContent =
+        "O boleto foi compensado e seu pedido já está sendo preparado.";
+
+      break;
+
+    case "rejected":
+
+      document.getElementById("confirmIcon").textContent = "✕";
+      document.getElementById("confirmEyebrow").textContent = "Pagamento recusado";
+      document.getElementById("confirmTitle").innerHTML = "<em>Pagamento recusado</em>";
+      document.getElementById("confirmSub").textContent =
+        "O boleto foi cancelado ou não pôde ser processado.";
+
+      break;
+
+  }
+
+}
+
+let paymentInterval = null;
+
+function iniciarPolling(paymentId) {
 
   clearInterval(paymentInterval);
 
   paymentInterval = setInterval(async () => {
 
-    const payment =
-      await paymentService.get(id);
+    try {
 
-    if (payment.status == "approved") {
+      const payment = await paymentService.consultar(paymentId);
 
-      clearInterval(paymentInterval);
+      switch (payment.data.status) {
 
-      telaAprovado(payment);
+        // Continua aguardando
+        case "pending":
+        case "in_process":
+          return;
 
-    }
+        // Finalizou
+        case "paid":
+        case "approved":
+        case "rejected":
+        case "cancelled":
+        case "refunded":
+        case "charged_back":
 
-    if (payment.status == "rejected") {
+          clearInterval(paymentInterval);
+          paymentInterval = null;
 
-      clearInterval(paymentInterval);
+          mostrarResultado(payment.data.method, payment.data);
 
-      telaRecusado(payment);
+          return;
+
+        // Qualquer outro status desconhecido
+        default:
+
+          console.warn("Status de pagamento desconhecido:", payment.data.status);
+
+          return;
+
+      }
+
+    } catch (e) {
+
+      console.error("Erro ao consultar pagamento:", e);
 
     }
 
@@ -132,9 +370,49 @@ function iniciarPolling(id) {
 
 }
 
-export async function confirmarPedido() {
-  await criarPagamento("pix");
+function pararPolling() {
+
+  clearInterval(paymentInterval);
+  paymentInterval = null;
+
 }
+
+function voltarCheckoutDemo() {
+
+  pararPolling();
+
+  document.getElementById("confirmScreen").classList.remove("active");
+
+  document.getElementById("checkoutLayout").style.display = "";
+  document.getElementById("stepsBar").style.display = "";
+
+}
+
+
+function startButtonLoading(button) {
+
+  button.classList.add("loading");
+  button.disabled = true;
+
+  document.querySelectorAll("button").forEach(btn => {
+    if (btn !== button) {
+      btn.disabled = true;
+    }
+  });
+
+}
+
+function stopButtonLoading(button) {
+
+  button.classList.remove("loading");
+
+  document.querySelectorAll("button").forEach(btn => {
+    btn.disabled = false;
+  });
+
+}
+
+
 
 /* Máscaras */
 export function maskCPF(el) {
@@ -291,3 +569,5 @@ export function selectPayTab(id, btn) {
   const panel = document.getElementById('pay-' + id);
   if (panel) panel.classList.add('active');
 }
+
+

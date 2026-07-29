@@ -8,7 +8,7 @@ export const paymentService = {
             client_id,
             method
         });
-    },
+    }, 
 
     consultar(id) {
         return api.get(`/payments/${id}`);

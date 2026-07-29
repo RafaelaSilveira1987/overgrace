@@ -140,6 +140,8 @@ export async function carregarCarrinho() {
   try {
     const cart = await carrinhoService.get();
     renderCart(cart);
+
+    console.log("parou aqui");
   } catch (error) {
     console.warn('Carrinho real não carregou. Exibindo carrinho demonstrativo:', error);
     renderCart(getDemoCart());

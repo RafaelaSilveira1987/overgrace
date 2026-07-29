@@ -5,8 +5,6 @@ import { orderService } from '../../services/orderService.js';
 
 const BASE_IMG = "/overgrace/frontend/uploads/products/";
 
-
-
 try {
     const user = await authService.getUser();
 
@@ -72,20 +70,20 @@ try {
                         </div>
 
                         <div class="order-total">
-                            ${Number(order.total_amount).toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                })}
+                                ${Number(order.total_amount).toLocaleString("pt-BR", {
+                                    style: "currency",
+                                    currency: "BRL"
+                                })}
                         </div>
 
                         <span class="status-pill ${order.status}">
                             ${{
-                        pending: "Pendente",
-                        processing: "Em preparação",
-                        shipped: "Em trânsito",
-                        delivered: "Entregue",
-                        cancelled: "Cancelado"
-                    }[order.status] ?? order.status}
+                                pending: "Pendente",
+                                processing: "Em preparação",
+                                shipped: "Em trânsito",
+                                delivered: "Entregue",
+                                cancelled: "Cancelado"
+                            }[order.status] ?? order.status}
                         </span>
 
                         <div class="order-chevron">></div>
@@ -116,9 +114,9 @@ try {
 
                                             <p class="od-price">
                                                 ${Number(item.subtotal).toLocaleString("pt-BR", {
-                                                    style: "currency",
-                                                    currency: "BRL"
-                                                })}
+            style: "currency",
+            currency: "BRL"
+        })}
                                             </p>
 
                                         </div>
@@ -145,6 +143,21 @@ try {
                                     <button class="od-action-btn" onclick="viewInvoice(${order.id})">
                                         Ver nota fiscal
                                     </button>
+
+                                    ${
+                                        order.payment_method == "pix" &&
+                                        order.payment_status == "pending" 
+                                        ?
+                                        `
+                                        <button
+                                            class="od-action-btn btn-pix"
+                                            data-id="${order.id}">
+                                            Mostrar QR Code Pix
+                                        </button>
+                                        ` 
+                                        : ""
+                                    }
+
                                 </div>
 
                             </div>
@@ -157,9 +170,9 @@ try {
                                     <span class="l">Subtotal</span>
                                     <span class="v">
                                         ${Number(order.subtotal).toLocaleString("pt-BR", {
-                                            style: "currency",
-                                            currency: "BRL"
-                                        })}
+            style: "currency",
+            currency: "BRL"
+        })}
                                     </span>
                                 </div>
 
@@ -168,9 +181,9 @@ try {
                                         <span class="l">Desconto</span>
                                         <span class="v">
                                             - ${Number(order.discount).toLocaleString("pt-BR", {
-                                                    style: "currency",
-                                                    currency: "BRL"
-                                                })}
+            style: "currency",
+            currency: "BRL"
+        })}
                                                                     </span>
                                                                 </div>
                                                             ` : ""}
@@ -179,11 +192,11 @@ try {
                                     <span class="l">Frete</span>
                                     <span class="v">
                                         ${Number(order.shipping) === 0
-                                        ? "Grátis"
-                                        : Number(order.shipping).toLocaleString("pt-BR", {
-                                            style: "currency",
-                                            currency: "BRL"
-                                        })}
+            ? "Grátis"
+            : Number(order.shipping).toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            })}
                                     </span>
                                 </div>
 
@@ -191,11 +204,11 @@ try {
                                     <span class="l">Status do pagamento</span>
                                     <span class="v">
                                         ${{
-                                            pending: "Pendente",
-                                            paid: "Pago",
-                                            refunded: "Estornado",
-                                            canceled: "Cancelado"
-                                        }[order.payment_status] ?? order.payment_status}
+            pending: "Pendente",
+            paid: "Pago",
+            refunded: "Estornado",
+            canceled: "Cancelado"
+        }[order.payment_status] ?? order.payment_status}
                                     </span>
                                 </div>
 
@@ -203,12 +216,18 @@ try {
                                     <span class="l">Total</span>
                                     <span class="v">
                                         ${Number(order.total_amount).toLocaleString("pt-BR", {
-                                            style: "currency",
-                                            currency: "BRL"
-                                        })}
+            style: "currency",
+            currency: "BRL"
+        })}
                                     </span>
                                 </div>
 
+                            </div>
+
+                            <div class="pix-detail" id="pix-${order.id}">
+                                <div class="pix-loading">
+                                    Carregando...
+                                </div>
                             </div>
 
                         </div>
@@ -219,6 +238,15 @@ try {
 
     listaPedidos.innerHTML = html;
 
+    document.querySelectorAll(".btn-pix").forEach(btn => {
+        btn.addEventListener("click", () => {
+            togglePix(btn.dataset.id);
+        });
+    });
+
+
+
+
 
 } catch (err) {
     authService.logout();
@@ -226,3 +254,56 @@ try {
 
     console.error(err);
 }
+
+async function togglePix(orderId) {
+
+    const container = document.getElementById(`pix-${orderId}`);
+
+    container.classList.toggle("open");
+
+    if (container.dataset.loaded) {
+        return;
+    }
+
+    const user = await authService.getUser();
+
+    const payment = await orderService.getPaymentOrder(orderId, {
+        client_id: user.id
+    });
+
+    const pix = payment.data;
+
+    container.innerHTML = `
+        <div class="pix-box">
+
+            <div class="pix-info">
+                <span><strong>Valor:</strong> R$ ${Number(pix.amount).toFixed(2)}</span>
+                <span><strong>Status:</strong> ${pix.status}</span>
+            </div>
+
+            <img
+                class="pix-qrcode"
+                src="data:image/png;base64,${pix.qr_code_base64}"
+                alt="QR Code Pix"
+            />
+
+            <textarea
+                class="pix-copy"
+                readonly>${pix.pix_copy_paste}</textarea>
+
+            <div class="pix-actions">
+                <button onclick="copiarPix('${pix.pix_copy_paste}')">
+                    Copiar código
+                </button>
+
+                <button onclick="checkPix(${orderId})">
+                    Atualizar
+                </button>
+            </div>
+
+        </div>
+        `;
+
+    container.dataset.loaded = "true";
+}
+

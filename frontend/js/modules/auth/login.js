@@ -18,11 +18,11 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
     const senha = document.getElementById('password').value;
     const mode = getLoginMode();
 
-    try {
+    try { 
 
         const response = mode === 'admin'
             ? await authService.loginAdmin(email, senha)
-            : await authService.login(email, senha);
+            : await authService.login(email, senha); 
 
         localStorage.removeItem('token');
         localStorage.removeItem('role');

@@ -121,12 +121,12 @@
                                 <div class="field">
                                     <label for="cpf">CPF</label>
                                     <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                                       autocomplete="off" />
+                                        autocomplete="off" />
                                 </div>
                                 <div class="field">
                                     <label for="tel">Telefone</label>
                                     <input type="text" id="tel" placeholder="(00) 00000-0000" maxlength="15"
-                                       autocomplete="tel" />
+                                        autocomplete="tel" />
                                 </div>
                             </div>
 
@@ -140,7 +140,7 @@
                                 <a href="https://buscacepinter.correios.com.br" target="_blank" rel="noopener"
                                     class="helper-link">Não sei meu CEP</a>
                             </div>
- 
+
                             <div class="form-row cep-row">
                                 <div class="field">
                                     <label for="cep">CEP</label>
@@ -302,7 +302,7 @@
                         <div class="mp-warning" id="mpPaymentStatus">
                             Modo demonstração ativo: dá para navegar, simular pedido e ver os próximos estados do
                             pagamento.
-                        </div>
+                        </div> 
 
                         <div class="payment-tabs" role="tablist" aria-label="Métodos de pagamento">
                             <button type="button" class="pay-tab active" data-method="pix">PIX</button>
@@ -321,9 +321,11 @@
 
                             <button type="button" class="submit-btn" id="btnPix">
                                 Gerar PIX <span class="arrow">→</span>
+
+                                <span class="btn-spinner"></span>
                             </button>
                             <button type="button" class="back-step-btn voltarPedido">← Voltar</button>
-                        </div>  
+                        </div>
 
                         <div class="pay-panel" id="pay-boleto">
                             <div class="payment-method-card">
@@ -539,7 +541,10 @@
 
             <div class="payment-next-card" id="pixNextCard" hidden>
                 <h2>PIX copia e cola</h2>
-                <div class="fake-qr" aria-label="QR Code demonstrativo">OVG</div>
+                <img
+                    id="pixQrCode"
+                    class="pix-qrcode"
+                    alt="QR Code PIX" />
                 <p class="copy-code" id="pixCode">
                     00020126580014BR.GOV.BCB.PIX0136overgrace-demo-checkout5204000053039865802BR5920OVERGRACE
                     DEMO6009SAO PAULO62070503***6304ABCD</p>
