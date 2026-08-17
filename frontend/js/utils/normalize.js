@@ -92,19 +92,30 @@ export function dataUtil(valor = null, tipo = 'format', formato = 'Y-m-d') {
 // 💰 VALOR UTIL
 // ==============================
 export function valorUtil(valor, tipo = 'format') {
-    if (valor === null || valor === undefined || valor === '') return '0,00';
-
-    let num = valor;
-
-    if (typeof valor === 'string') {
-        num = valor
-            .replace(/\./g, '')   // remove milhar
-            .replace(',', '.');  // vírgula → ponto
+    if (valor === null || valor === undefined || valor === '') {
+        return tipo === 'number' ? 0 : '0,00';
     }
 
-    num = parseFloat(num);
+    let num;
 
-    if (isNaN(num)) return '0,00';
+    if (typeof valor === 'number') {
+        num = valor;
+    } else {
+        let raw = String(valor).trim().replace(/\s/g, '').replace(/^R\$/i, '');
+
+        // Formato brasileiro: 1.234,56 / 1234,56
+        if (raw.includes(',')) {
+            raw = raw.replace(/\./g, '').replace(',', '.');
+            num = Number(raw);
+        } else {
+            // Formato de API/SQL: 1234.56. O ponto aqui é decimal, não milhar.
+            num = Number(raw);
+        }
+    }
+
+    if (!Number.isFinite(num)) {
+        return tipo === 'number' ? 0 : '0,00';
+    }
 
     if (tipo === 'format') {
         return num.toLocaleString('pt-BR', {

@@ -90,3 +90,5 @@ body {
 .order-mini-row:last-child {
   border-bottom: none;
 }
+
+.client-edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.client-edit-grid label{font-size:11px;color:var(--ink-3);display:flex;flex-direction:column;gap:5px}.client-edit-grid input{border:1px solid var(--border-2);border-radius:4px;padding:8px 9px;font:inherit;color:var(--ink);background:var(--surface)}.client-edit-grid input:disabled{background:var(--bg);color:var(--ink-2)}.tag-new,.tag-regular{background:var(--bg);color:var(--ink-2)}

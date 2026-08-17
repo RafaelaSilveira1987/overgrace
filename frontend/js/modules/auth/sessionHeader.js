@@ -1,4 +1,4 @@
-import { authService } from "../../services/authService.js?v=7";
+import { authService } from "../../services/authService.js?v=12";
 
 const loginLink = document.getElementById("loginLink");
 const accountLink = document.getElementById("accountLink");
@@ -35,11 +35,8 @@ function setHeader(user) {
 }
 
 async function hydrateHeader() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token_client");
   const role = localStorage.getItem("role");
-
-  console.log("olha o token ai: ", token);
-  console.log("olha o role ai: ", role);
 
   if (!token || role !== "client") {
     resetHeader();
@@ -59,7 +56,8 @@ if (logoutButton) {
   logoutButton.addEventListener("click", () => {
     authService.logout();
     resetHeader();
-    window.location.href = "/overgrace/";
+    const base = window.APP_BASE_PATH || "";
+    window.location.href = `${base}/`;
   });
 }
 

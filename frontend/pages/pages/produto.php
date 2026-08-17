@@ -8,7 +8,7 @@
     <link rel="icon" href="/overgrace/frontend/assets/favicon.ico" />
 
     <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/produto.css" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css?v=22" />
 </head>
 
 <body>
@@ -184,7 +184,7 @@
     <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
     <script type="module" src="frontend/js/modules/cart/formVitrine.js"></script>
     <script src="frontend/js/modules/cart/utils.js"></script>
-    <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+    <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=2"></script>
     <script type="module" src="frontend/js/modules/product/relacionedtrack.js"></script>
 
 

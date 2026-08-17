@@ -10,8 +10,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
+  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/estoque.css">
+  <link rel="stylesheet" href="/overgrace/frontend/css/backend-pix-compat.css">
 </head>
 
 <body>
@@ -55,8 +56,8 @@
           </div>
         </div>
 
-        <!-- ── ALERTA ──────────────────────────────────────────── -->
-        <div class="stock-alert">
+        <!-- ── ALERTA (exibido somente quando a API confirmar estoque baixo) ── -->
+        <div class="stock-alert" id="stockLowAlert" hidden>
           <svg
             width="16"
             height="16"
@@ -67,8 +68,7 @@
             <path d="M8 2L1.5 13.5h13L8 2z" />
             <path d="M8 7v3M8 12v.5" />
           </svg>
-          <span><strong>3 itens</strong> com estoque abaixo do mínimo recomendado (10
-            unidades). Ação necessária.</span>
+          <span id="stockLowAlertText"></span>
         </div>
 
         <!-- ── KPIs ────────────────────────────────────────────── -->
@@ -81,12 +81,12 @@
           <div class="stat-mini">
             <div class="stat-mini-label">Unidades em estoque</div>
             <div class="stat-mini-val"><span id="qt_stock">0</span></div>
-            <div class="stat-mini-sub">Valor estimado R$ 0,00</div>
+            <div class="stat-mini-sub"><span id="qt_reservado">0</span> unidades reservadas temporariamente</div>
           </div>
           <div class="stat-mini">
             <div class="stat-mini-label">Estoque baixo</div>
             <div class="stat-mini-val" style="color: var(--amber)"><span id="qt_baixo">0</span></div>
-            <div class="stat-mini-sub">Abaixo de 0 unidades</div>
+            <div class="stat-mini-sub">Abaixo do mínimo configurado</div>
           </div>
           <div class="stat-mini">
             <div class="stat-mini-label">Esgotados</div>
@@ -148,8 +148,9 @@
                 <th>Tamanho</th>
                 <th>Categoria</th>
                 <th>Mínimo</th>
-                <th>Estoque atual</th>
-                <th>Última entrada</th>
+                <th>Físico</th>
+                <th>Reservado</th>
+                <th>Disponível</th>
                 <th>Situação</th>
                 <th style="width: 90px">Ação</th>
               </tr>
@@ -180,106 +181,7 @@
               </button>
             </div>
             <div class="card-body" style="padding: 0 20px">
-              <div class="mov-row">
-                <div class="mov-icon entrada">
-                  <svg
-                    width="12"
-                    height="12"
-                    fill="none"
-                    viewBox="0 0 12 12"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M6 1v10M1 6h10" />
-                  </svg>
-                </div>
-                <div class="mov-desc">
-                  <div class="mov-title">Entrada — Kit Camisa + Boné (P)</div>
-                  <div class="mov-meta">
-                    24/04/2025 · 14:02 · Reposição manual · Admin
-                  </div>
-                </div>
-                <div class="mov-qty entrada">+20</div>
-              </div>
-              <div class="mov-row">
-                <div class="mov-icon saida">
-                  <svg
-                    width="12"
-                    height="12"
-                    fill="none"
-                    viewBox="0 0 12 12"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M1 6h10" />
-                  </svg>
-                </div>
-                <div class="mov-desc">
-                  <div class="mov-title">
-                    Saída — Camisa Linho Off-White (M) × 1
-                  </div>
-                  <div class="mov-meta">24/04/2025 · 11:18 · Pedido #10093</div>
-                </div>
-                <div class="mov-qty saida">−1</div>
-              </div>
-              <div class="mov-row">
-                <div class="mov-icon saida">
-                  <svg
-                    width="12"
-                    height="12"
-                    fill="none"
-                    viewBox="0 0 12 12"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M1 6h10" />
-                  </svg>
-                </div>
-                <div class="mov-desc">
-                  <div class="mov-title">Saída — Kit Camisa + Boné (M) × 1</div>
-                  <div class="mov-meta">24/04/2025 · 14:32 · Pedido #10094</div>
-                </div>
-                <div class="mov-qty saida">−1</div>
-              </div>
-              <div class="mov-row">
-                <div class="mov-icon ajuste">
-                  <svg
-                    width="12"
-                    height="12"
-                    fill="none"
-                    viewBox="0 0 12 12"
-                    stroke="currentColor"
-                    stroke-width="1.5">
-                    <path d="M2 6h8M8 4l2 2-2 2" />
-                  </svg>
-                </div>
-                <div class="mov-desc">
-                  <div class="mov-title">Ajuste — Camisa Oversized Cáqui (G)</div>
-                  <div class="mov-meta">
-                    23/04/2025 · 09:30 · Correção de inventário · Admin
-                  </div>
-                </div>
-                <div class="mov-qty saida">−3</div>
-              </div>
-              <div class="mov-row">
-                <div class="mov-icon entrada">
-                  <svg
-                    width="12"
-                    height="12"
-                    fill="none"
-                    viewBox="0 0 12 12"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M6 1v10M1 6h10" />
-                  </svg>
-                </div>
-                <div class="mov-desc">
-                  <div class="mov-title">
-                    Entrada — Boné Estruturado Bege (Único)
-                  </div>
-                  <div class="mov-meta">
-                    22/04/2025 · 16:00 · Reposição de fornecedor
-                  </div>
-                </div>
-                <div class="mov-qty entrada">+30</div>
-              </div>
+              <div id="stockMovements"><div style="padding:20px;color:#999">Carregando movimentações...</div></div>
             </div>
           </div>
         </div>
@@ -450,7 +352,7 @@
   </form>
 
   <script src="frontend/js/modules/stock/utils.js"></script>
-  <script type="module" src="frontend/js/modules/stock/lista.js"></script>
+  <script type="module" src="frontend/js/modules/stock/lista.js?v=2"></script>
   <script type="module" src="frontend/js/modules/stock/form.js"></script>
 
 </body>

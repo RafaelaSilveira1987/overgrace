@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="frontend/pages/style.css" />
+    <link rel="stylesheet" href="frontend/pages/style.css?v=22" />
 </head>
 
 <body>
@@ -198,73 +198,7 @@
         </div>
 
         <div class="products-grid" id="featureGrid">
-            <div class="product-card">
-                <div class="product-img-wrap">
-                    <img src="frontend/pages/assets/img1.png" alt=" Camisa Linho Off-White" />
-                    <span class="product-badge">Novo</span>
-                </div>
-
-                <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-                <div class="product-info">
-                    <p class="product-name">Camisa Linho Off-White</p>
-                    <p class="product-variant">P · M · G · GG</p>
-                    <p class="product-price">R$ 189,00</p>
-                </div>
-
-            </div>
-
-            <div class="product-card">
-                <div class="product-img-wrap">
-                    <img src="frontend/pages/assets/img2.png" alt="Camisa Oversized Cáqui" />
-                    <span class="product-badge">-20%</span>
-                </div>
-
-                <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-                <div class="product-info">
-                    <p class="product-name">Camisa Oversized Cáqui</p>
-                    <p class="product-variant">P · M · G · GG</p>
-                    <p class="product-price">
-                        <span class="old">R$ 219,00</span>
-                        <span class="sale">R$ 175,00</span>
-                    </p>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-img-wrap">
-                    <img src="frontend/pages/assets/bn1.png" alt=" Boné Aba Curva Preto" />
-                    <span class="product-badge">-20%</span>
-                </div>
-
-                <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-                <div class="product-info">
-                    <p class="product-name">Boné Aba Curva Preto</p>
-                    <!-- <p class="product-variant">P · M · G · GG</p> -->
-                    <p class="product-price">
-                        <!-- <span class="old">R$ 99,00</span> -->
-                        <span class="sale">R$ 79,00</span>
-                    </p>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-img-wrap">
-                    <img src="frontend/pages/assets/img6.png" alt="Camisa Oversized Cáqui" />
-                    <span class="product-badge">Lançamento</span>
-                </div>
-
-                <button class="product-quick-add">+ Adicionar ao carrinho</button>
-
-                <div class="product-info">
-                    <p class="product-name">Boné Estruturado Bege</p>
-                    <!-- <p class="product-variant">P · M · G · GG · GGG</p> -->
-                    <p class="product-price">
-                        <span class="old">R$ 159,00</span>
-                        <span class="sale">R$ 119,00</span>
-                    </p>
-                </div>
-            </div>
+            <p>Carregando destaques...</p>
         </div>
 
     </section>
@@ -325,8 +259,12 @@
         </div>
 
     </footer>
+    <script>
+        window.APP_BASE_PATH = <?= json_encode($appBasePath ?? '', JSON_UNESCAPED_SLASHES) ?>;
+    </script>
+    <script type="module" src="frontend/js/modules/product/homeFeatured.js?v=2"></script>
     <script type="module" src="frontend/js/modules/cart/qtyCart.js?v=2"></script>
-    <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+    <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=2"></script>
     <script type="module" src="frontend/js/modules/layouts/mobileMenu.js"></script>
 
     <script type="module" src="/overgrace/frontend/js/modules/site-content/public-site-content.js"></script>

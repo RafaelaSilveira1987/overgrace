@@ -1,3 +1,6 @@
+<?php
+$mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
+?>
 <!doctype html>
 <html lang="pt-BR">
 
@@ -12,17 +15,34 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css?v=22" />
     <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/checkout.css" />
 
     <!-- SDK de pagamento seguro. Configure a chave pública do provedor no ambiente correto. -->
     <script>
-        window.OVERGRACE_MP_PUBLIC_KEY = '';
-        window.OVERGRACE_MP_LOCALE = 'pt-BR';
-        // Enquanto o backend de pagamento/pedido não existir, deixe true para navegar por todas as telas.
-        window.OVERGRACE_DEMO_CHECKOUT = true;
+    window.OVERGRACE_MP_PUBLIC_KEY = <?= json_encode($mpPublicKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+    window.OVERGRACE_MP_LOCALE = 'pt-BR';
+    // Produção: nunca permita avanço ou pagamento simulado.
+    window.OVERGRACE_DEMO_CHECKOUT = false;
     </script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+<style id="pix-only-backend-compatibility">
+  .pay-tab[data-method="boleto"],
+  .pay-tab[data-method="cartao"],
+  #pay-boleto,
+  #pay-cartao,
+  #btnBoleto { display: none !important; }
+  .pix-backend-note {
+    margin: 0 0 16px;
+    padding: 12px 14px;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 10px;
+    background: rgba(255,255,255,.7);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+</style>
 </head>
 
 <body>
@@ -32,7 +52,7 @@
 
     <header class="checkout-header">
         <div class="checkout-header-inner">
-            <a href="carrinho" class="header-back">← Voltar ao carrinho</a>
+            <a href="carrinho" class="header-back" id="checkoutHeaderBack">← Voltar ao carrinho</a>
             <a href="loja" class="checkout-logo">OverGrace</a>
             <div class="header-secure">🔒 Ambiente seguro</div>
         </div>
@@ -249,7 +269,7 @@
                             <h3 class="mini-title shipping-title">Forma de entrega</h3>
 
                             <div class="shipping-options">
-                                <label class="ship-option selected btnFrete" data-cost="0" data-label="Retirada">
+                                <label class="ship-option btnFrete" data-cost="0" data-label="Retirada">
                                     <input type="radio" name="ship" value="gratis" />
                                     <span class="ship-radio"></span>
                                     <span class="ship-info">
@@ -260,7 +280,7 @@
                                 </label>
 
                                 <label class="ship-option btnFrete" data-cost="12.50" data-label="Pac">
-                                    <input type="radio" name="ship" value="price" checked />
+                                    <input type="radio" name="ship" value="price" />
                                     <span class="ship-radio"></span>
                                     <span class="ship-info">
                                         <strong>PAC — Entrega Econômica</strong>
@@ -300,14 +320,13 @@
                         </div>
 
                         <div class="mp-warning" id="mpPaymentStatus">
-                            Modo demonstração ativo: dá para navegar, simular pedido e ver os próximos estados do
-                            pagamento.
-                        </div> 
+                            PIX disponível para concluir seu pedido. Boleto e cartão serão habilitados após a integração completa.
+                        </div>
 
                         <div class="payment-tabs" role="tablist" aria-label="Métodos de pagamento">
                             <button type="button" class="pay-tab active" data-method="pix">PIX</button>
                             <button type="button" class="pay-tab" data-method="boleto">Boleto</button>
-                            <button type="button" class="pay-tab" data-method="cartao">Cartão</button>
+                            <button type="button" class="pay-tab" data-method="cartao" id="tabCartao">Cartão</button>
                         </div>
 
                         <div class="pay-panel active" id="pay-pix">
@@ -337,11 +356,12 @@
                                 </div>
                             </div>
                             <div class="demo-payment-box">
-                                <p class="demo-title">Prévia demonstrativa</p>
-                                <p>Simule boleto gerado, vencimento e linha digitável.</p>
+                                <p class="demo-title">Pagamento por boleto</p>
+                                <p>O boleto usa os dados e o endereço informados no checkout. A compensação pode levar até 3 dias úteis.</p>
                             </div>
-                            <button type="button" class="submit-btn" onclick="confirmarPedido('boleto', 'pending')">
-                                Gerar boleto demonstrativo <span class="arrow">→</span>
+                            <button type="button" class="submit-btn" id="btnBoleto">
+                                Gerar boleto <span class="arrow">→</span>
+                                <span class="btn-spinner"></span>
                             </button>
                             <button type="button" class="back-step-btn voltarPedido">← Voltar</button>
                         </div>
@@ -449,22 +469,9 @@
                                     <code>/overgrace/api/payments/card</code>.
                                 </div>
 
-                                <div class="demo-payment-box card-demo-box">
-                                    <p class="demo-title">Prévia demonstrativa</p>
-                                    <p>Enquanto não existe endpoint real, esses botões simulam os possíveis retornos da
-                                        operadora de pagamento.</p>
-                                    <div class="demo-card-grid">
-                                        <button type="button"
-                                            onclick="confirmarPedido('cartao', 'approved')">Aprovado</button>
-                                        <button type="button" onclick="confirmarPedido('cartao', 'pending')">Em
-                                            análise</button>
-                                        <button type="button"
-                                            onclick="confirmarPedido('cartao', 'rejected')">Recusado</button>
-                                    </div>
-                                </div>
 
                                 <button type="submit" class="submit-btn" id="form-checkout__submit">
-                                    Simular pagamento no cartão <span class="arrow">→</span>
+                                    Pagar com cartão <span class="arrow">→</span>
                                 </button>
                                 <button type="button" class="back-step-btn voltarPedido">←
                                     Voltar</button>
@@ -520,8 +527,7 @@
             <p class="checkout-eyebrow" id="confirmEyebrow">Pedido criado</p>
             <h1 class="confirm-title" id="confirmTitle">Pedido <em>confirmado!</em></h1>
             <p class="confirm-sub" id="confirmSub">
-                O visual já está pronto. Quando o endpoint real estiver ligado, essa tela aparece após pagamento
-                aprovado ou pedido criado.
+                Acompanhe abaixo o status do seu pagamento.
             </p>
 
             <div class="result-card" id="resultCard">
@@ -541,25 +547,20 @@
 
             <div class="payment-next-card" id="pixNextCard" hidden>
                 <h2>PIX copia e cola</h2>
-                <img
-                    id="pixQrCode"
-                    class="pix-qrcode"
-                    alt="QR Code PIX" />
+                <img id="pixQrCode" class="pix-qrcode" alt="QR Code PIX" />
                 <p class="copy-code" id="pixCode">
-                    00020126580014BR.GOV.BCB.PIX0136overgrace-demo-checkout5204000053039865802BR5920OVERGRACE
-                    DEMO6009SAO PAULO62070503***6304ABCD</p>
-                <button type="button" class="outline-action" onclick="copyPix(event)">Copiar código PIX</button>
-                <button type="button" class="submit-btn compact" onclick="simularStatus('approved')">Simular PIX
-                    pago</button>
+</p>
+                <button type="button" class="outline-action" id="btnCopyPix">Copiar código PIX</button>
             </div>
 
             <div class="payment-next-card" id="boletoNextCard" hidden>
                 <h2>Boleto gerado</h2>
                 <p>Vencimento demonstrativo: <strong id="boletoDueDate">--/--/----</strong></p>
-                <p class="copy-code" id="boletoCode">23790.00009 00000.000000 00000.000000 1 00000000000000</p>
-                <button type="button" class="outline-action" onclick="copyBoleto(event)">Copiar linha digitável</button>
-                <button type="button" class="submit-btn compact" onclick="simularStatus('approved')">Simular boleto
-                    compensado</button>
+                <p class="copy-code" id="boletoCode"></p>
+                <div class="confirm-actions boleto-actions">
+                    <button type="button" class="outline-action" id="btnCopyBoleto">Copiar linha digitável</button>
+                    <a class="confirm-cta" id="btnOpenBoleto" href="#" target="_blank" rel="noopener" hidden>Abrir boleto →</a>
+                </div>
             </div>
 
             <div class="payment-next-card" id="analysisNextCard" hidden>
@@ -567,14 +568,11 @@
                 <p>Essa é a tela para cartão pendente. Geralmente o pedido fica aguardando confirmação da operadora de
                     pagamento.
                 </p>
-                <button type="button" class="submit-btn compact" onclick="simularStatus('approved')">Simular
-                    aprovação</button>
-                <button type="button" class="outline-action" onclick="simularStatus('rejected')">Simular recusa</button>
+
             </div>
 
             <div class="confirm-actions">
-                <button type="button" class="outline-action" onclick="voltarCheckoutDemo()">← Voltar ao
-                    checkout</button>
+                <button type="button" class="outline-action" id="btnBackCheckout">← Voltar ao checkout</button>
                 <a href="loja" class="confirm-cta">Continuar comprando →</a>
             </div>
         </section>
@@ -593,10 +591,28 @@
     </footer>
 
     <script type="module" src="frontend/js/utils/notify.js"></script>
-    <script type="module" src="frontend/js/modules/checkout/utils.js"></script>
-    <script type="module" src="frontend/js/modules/client/register.js"></script>
-    <script type="module" src="frontend/js/modules/checkout/list.js"></script>
-    <script type="module" src="frontend/js/modules/checkout/payment.js"></script>
+    <script type="module" src="frontend/js/modules/checkout/utils.js?v=16"></script>
+    <script type="module" src="frontend/js/modules/client/register.js?v=7"></script>
+    <script type="module" src="frontend/js/modules/checkout/list.js?v=4"></script>
+    <script type="module" src="frontend/js/modules/checkout/payment.js?v=23"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const back = document.getElementById('checkoutHeaderBack');
+    const orderId = localStorage.getItem('order_id');
+    if (back && orderId) {
+        const base = window.APP_BASE_PATH || '';
+        back.href = `${base}/minha-conta?order=${encodeURIComponent(orderId)}`;
+        back.textContent = '← Voltar ao pedido';
+
+        window.addEventListener('checkout:stale-order', function () {
+            back.href = `${base}/carrinho`;
+            back.textContent = '← Voltar ao carrinho';
+        }, { once: true });
+    }
+});
+</script>
+
 </body>
 
 </html>

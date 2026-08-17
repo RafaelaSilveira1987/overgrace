@@ -126,3 +126,28 @@ export async function removerCupom(id) {
         notify.error('Erro ao remover cupom');
     }
 }
+
+// Ajusta o formulário conforme o tipo do cupom.
+const couponTypeField = document.getElementById('couponType');
+const couponValueField = document.getElementById('couponValue');
+function syncCouponValueField() {
+    if (!couponTypeField || !couponValueField) return;
+    const type = couponTypeField.value;
+    const group = couponValueField.closest('.form-group');
+    const label = group?.querySelector('label');
+    if (type === 'frete') {
+        couponValueField.value = '0';
+        couponValueField.disabled = true;
+        couponValueField.required = false;
+        if (label) label.textContent = 'Valor';
+    } else {
+        couponValueField.disabled = false;
+        couponValueField.required = true;
+        couponValueField.min = '0.01';
+        couponValueField.max = type === 'percentual' ? '100' : '';
+        couponValueField.step = '0.01';
+        if (label) label.textContent = type === 'percentual' ? 'Percentual (%)' : 'Valor (R$)';
+    }
+}
+couponTypeField?.addEventListener('change', syncCouponValueField);
+syncCouponValueField();

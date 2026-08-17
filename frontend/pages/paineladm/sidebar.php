@@ -45,7 +45,7 @@
                         <rect x="11" y="2" width="3" height="12" rx="1" />
                     </svg>
                     Estoque
-                    <span class="nav-badge" id="badge-estoque">3</span>
+                    <span class="nav-badge" id="badge-estoque" hidden></span>
                 </a>
             </div>
 
@@ -86,7 +86,6 @@
                     </svg>
                     Conteúdo do site
                 </a>
-
 
                 <a class="nav-item" href="configuration" data-page="configuracoes">
                     <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5">
@@ -135,7 +134,7 @@
                 Sair
             </button>
         </div>
-        ...
+
     </aside>
 
     <script type="module" src="frontend/js/modules/admin/sidebar.js"></script>
@@ -155,7 +154,7 @@
 
             const response =
                 await fetch(
-                    '/overgrace/api/me', {
+                    '/overgrace/api/admin/me', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -195,7 +194,7 @@
         document.getElementById(
                 'sidebarUserRole'
             ).textContent =
-            user.role || 'Admin';
+            user.cargo || 'Admin';
 
         const avatar =
             document.getElementById(
@@ -210,7 +209,7 @@
             'AD';
 
         if (
-            user.role === 'superadmin'
+            String(user.cargo || '').toLowerCase() === 'superadmin'
         ) {
 
             document.getElementById(
