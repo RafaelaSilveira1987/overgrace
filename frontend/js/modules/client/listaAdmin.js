@@ -5,176 +5,37 @@ import { getInitials } from "../../utils/inicials.js";
 
 let currentPage = 1;
 const limit = 10;
-
-export async function carregarClientes() {
-  try {
-    const descricao = document.getElementById("filter-descricao").value;
-    const perfil = document.getElementById("filter-perfil").value;
-    const order = document.getElementById("filter-order").value;
-    const [order_by, order_dir] = order.split(":");
-
-    const res = await clientService.listar({
-      descricao: descricao,
-      perfil: perfil,
-      order_by: order_by,
-      order_dir: order_dir,
-      page: currentPage,
-      limit: limit,
-    });
-
-    const container = document.getElementById("lista-clientes");
-    container.innerHTML = "";
-    let html = "";
-
-    res.data.forEach((client) => {
-
-      html += `
-
-              <tr>
-                <td>
-                  <div class="customer-cell">
-                    <div class="customer-avatar">${getInitials(client.nome)}</div>
-                    <div>
-                      <div class="customer-name">${client.nome}</div>
-                      <div class="customer-email">${client.email}</div>
-                    </div>
-                  </div>
-                </td>
-                <td style="font-size: 12px; color: var(--ink-3)">Jan 2024</td>
-                <td>${client.pedidos}</td>
-                <td style="font-weight: 500">R$ ${client.valor_gasto}</td>
-                <td style="font-size: 12px; color: var(--ink-3)">${dataUtil(client.ultimo_pedido, 'format', 'd/m/Y')}</td>
-                <td><span class="customer-tag tag-vip">VIP</span></td>
-                <td>
-                  <button
-                    class="detail-btn"
-                    onclick="
-                    openClient(
-                      'AB',
-                      'Ana Beatriz Souza',
-                      'ana.beatriz@gmail.com',
-                      'Jan 2024',
-                      '12',
-                      'R$ 2.184',
-                      'VIP',
-                    )
-                  ">
-                    Ver perfil
-                  </button>
-                </td>
-              </tr>
-            `;
-    });
-
-    container.innerHTML = html;
-
-
-    document.getElementById("qt_clients").innerHTML = res.totals.qt_clients;
-
-    function getBadgeClass(badge) {
-      const mapa = {
-        "Em alta": "badge-em-alta",
-        Novo: "badge-novo",
-        "Edição Limitada": "badge-limitada",
-        Promoção: "badge-promo",
-        Esgotando: "badge-esgotando",
-      };
-      return mapa[badge] || "badge-default";
-    }
-
-    renderPagination(res.pagination);
-
-    document.querySelector(".table-footer span").innerText =
-      `Mostrando ${res.data.length} de ${res.pagination.total} produtos`;
-
-    if (!res.data || res.data.length === 0) {
-      container.innerHTML = `
-        <tr>
-          <td colspan="10" style="text-align:center; padding: 30px; color: #999;">
-            Nenhum produto encontrado
-          </td>
-        </tr>
-      `;
-      return;
-    }
-
-  } catch (e) {
-    console.error(e);
-
-    const container = document.getElementById("lista-clientes");
-
-    container.innerHTML = `
-    <tr>
-      <td colspan="10" style="text-align:center; padding: 30px; color: #999;">
-        Nenhum cliente encontrado
-      </td>
-    </tr>
-  `;
-  }
+let lastFilters = {};
+const esc = (v='') => String(v ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function tagClass(perfil='') { return perfil === 'VIP' ? 'tag-vip' : perfil === 'Novo' ? 'tag-new' : 'tag-regular'; }
+function getFilters(){
+  const [order_by,order_dir]=(document.getElementById('filter-order')?.value || 'created_at:DESC').split(':');
+  return {descricao:document.getElementById('filter-descricao')?.value.trim()||'', perfil:document.getElementById('filter-perfil')?.value||'', order_by, order_dir, page:currentPage, limit};
 }
-
-function renderPagination(pagination) {
-  const wrapper = document.querySelector(".pagination");
-
-  const { page, pages } = pagination;
-
-  let html = "";
-
-  // botão anterior
-  if (page > 1) {
-    html += `<button class="page-btn" data-page="${page - 1}">←</button>`;
-  }
-
-  for (let i = 1; i <= pages; i++) {
-    html += `
-      <button class="page-btn ${i === page ? "active" : ""}" data-page="${i}">
-        ${i}
-      </button>
-    `;
-  }
-
-  // botão próximo
-  if (page < pages) {
-    html += `<button class="page-btn" data-page="${page + 1}">→</button>`;
-  }
-
-  wrapper.innerHTML = html;
+export async function carregarClientes(){
+  const container=document.getElementById('lista-clientes');
+  try{
+    lastFilters=getFilters(); const res=await clientService.listar(lastFilters); const rows=Array.isArray(res.data)?res.data:[];
+    container.innerHTML=rows.length?rows.map(client=>{
+      const nome=[client.nome,client.sobrenome].filter(Boolean).join(' ');
+      return `<tr>
+        <td><div class="customer-cell"><div class="customer-avatar">${esc(getInitials(nome))}</div><div><div class="customer-name">${esc(nome)}</div><div class="customer-email">${esc(client.email)}</div></div></div></td>
+        <td style="font-size:12px;color:var(--ink-3)">${dataUtil(client.created_at,'format','d/m/Y')||'—'}</td>
+        <td>${Number(client.pedidos||0)}</td>
+        <td style="font-weight:500">R$ ${valorUtil(client.valor_gasto)}</td>
+        <td style="font-size:12px;color:var(--ink-3)">${dataUtil(client.ultimo_pedido,'format','d/m/Y')||'—'}</td>
+        <td><span class="customer-tag ${tagClass(client.perfil)}">${esc(client.perfil||'Regular')}</span></td>
+        <td><button class="detail-btn js-client-detail" data-id="${client.id}">Ver perfil</button></td>
+      </tr>`;
+    }).join(''):`<tr><td colspan="7" style="text-align:center;padding:30px;color:#999">Nenhum cliente encontrado</td></tr>`;
+    document.getElementById('qt_clients').textContent=res.totals?.qt_clients??0;
+    document.querySelector('.table-footer span').textContent=`Mostrando ${rows.length} de ${res.pagination?.total??0} clientes`;
+    renderPagination(res.pagination||{page:1,pages:1});
+  }catch(e){console.error(e);container.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:30px;color:#999">Erro ao carregar clientes</td></tr>`;}
 }
-
-const carregarComDebounce = debounce(() => {
-  currentPage = 1;
-  carregarClientes();
-}, 500);
-
-document.getElementById("filter-descricao").addEventListener("input", carregarComDebounce);
-document.getElementById("filter-perfil").addEventListener("change", carregarComDebounce);
-document.getElementById("filter-order").addEventListener("change", carregarComDebounce);
-
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".btn-deletar");
-
-  if (btn) {
-    const id = btn.dataset.id;
-    removerProduto(id);
-  }
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("add-carrinho")) {
-    const id = e.target.dataset.id;
-    adicionarAoCarrinho(id);
-  }
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("page-btn")) {
-    const page = parseInt(e.target.dataset.page);
-
-    if (!isNaN(page)) {
-      currentPage = page;
-      carregarClientes();
-    }
-  }
-});
-
-carregarClientes();
+function renderPagination({page=1,pages=1}){const w=document.querySelector('.pagination');if(!w)return;let h=page>1?`<button class="page-btn" data-page="${page-1}">←</button>`:'';for(let i=1;i<=pages;i++)h+=`<button class="page-btn ${i===page?'active':''}" data-page="${i}">${i}</button>`;if(page<pages)h+=`<button class="page-btn" data-page="${page+1}">→</button>`;w.innerHTML=h;}
+async function exportCsv(){const r=await clientService.listar({...lastFilters,page:1,limit:1000});const rows=[['Nome','E-mail','Telefone','CPF','Cadastro','Pedidos','Total gasto','Perfil']];(r.data||[]).forEach(c=>rows.push([[c.nome,c.sobrenome].filter(Boolean).join(' '),c.email||'',c.telefone||'',c.cpf||'',dataUtil(c.created_at,'format','d/m/Y'),c.pedidos||0,Number(c.valor_gasto||0).toFixed(2),c.perfil||'']));const csv=rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';')).join('\n');const b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='clientes.csv';a.click();URL.revokeObjectURL(a.href);}
+const reload=debounce(()=>{currentPage=1;carregarClientes();},350);
+document.getElementById('filter-descricao')?.addEventListener('input',reload);document.getElementById('filter-perfil')?.addEventListener('change',reload);document.getElementById('filter-order')?.addEventListener('change',reload);document.getElementById('btnExportClients')?.addEventListener('click',exportCsv);
+document.addEventListener('click',e=>{const p=e.target.closest('.page-btn')?.dataset.page;if(p){currentPage=Number(p);carregarClientes();}});
+window.addEventListener('client-updated',carregarClientes);carregarClientes();

@@ -168,3 +168,69 @@
     color: #76695e;
     font-size: 14px;
 }
+
+
+/* Abas por seção: evita uma única página extensa com todos os blocos abertos */
+.cms-tabs-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin-bottom: 18px;
+    padding: 8px 0 10px;
+    background: #f7f7f6;
+}
+
+.cms-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 2px 8px;
+    scrollbar-width: thin;
+}
+
+.cms-tab {
+    flex: 0 0 auto;
+    border: 1px solid #ddd6cb;
+    border-radius: 999px;
+    background: #fff;
+    color: #6e6258;
+    padding: 9px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.cms-tab:hover {
+    border-color: #aa9988;
+    color: #302921;
+}
+
+.cms-tab.active {
+    background: #26211d;
+    border-color: #26211d;
+    color: #fff;
+}
+
+.cms-tab-panel[hidden] {
+    display: none !important;
+}
+
+.cms-tab-panel.active .cms-card {
+    margin-bottom: 0;
+}
+
+.cms-tab-panels {
+    min-height: 320px;
+}
+
+@media (max-width: 820px) {
+    .cms-tabs-wrap {
+        top: 0;
+    }
+
+    .cms-tab {
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+}

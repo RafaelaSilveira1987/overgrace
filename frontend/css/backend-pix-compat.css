@@ -1,0 +1,5 @@
+
+/* Compatibility layer: original backend with PIX integration only. */
+#btnAddAddress, #addressModal,
+#btnSaveOrderStatus, #paymentReviewFilterBtn,
+#stockMovements, #stockLowAlert { display: none !important; }

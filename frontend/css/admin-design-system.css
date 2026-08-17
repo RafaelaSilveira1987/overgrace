@@ -1,0 +1,194 @@
+/* OverGrace Admin — Design System visual */
+:root {
+  --og-admin-bg: #eee8e1;
+  --og-admin-paper: #fffdf9;
+  --og-admin-ink: #221e1b;
+  --og-admin-muted: #756b63;
+  --og-admin-line: #ddd3c9;
+  --og-admin-accent: #8d4938;
+  --og-admin-sidebar: #221f1d;
+  --og-admin-sidebar-soft: #2e2926;
+  --og-admin-green: #3f6552;
+  --og-admin-danger: #9a4444;
+  --og-admin-radius: 12px;
+  --og-admin-shadow: 0 14px 34px rgba(42, 32, 25, .08);
+}
+
+body, .main { background: var(--og-admin-bg) !important; }
+.main { min-height: 100vh; }
+.page-content { padding: 32px 34px 54px !important; }
+.page-header { margin-bottom: 28px !important; }
+.page-header h1 {
+  font-size: 31px !important;
+  letter-spacing: -.035em;
+  color: var(--og-admin-ink);
+}
+.page-header p { color: var(--og-admin-muted) !important; }
+
+/* Sidebar visualmente mais forte */
+.sidebar {
+  width: 244px !important;
+  background: linear-gradient(180deg, var(--og-admin-sidebar), #181615) !important;
+  border-right: 1px solid rgba(255,255,255,.06);
+  box-shadow: 12px 0 35px rgba(22,17,14,.08);
+}
+.sidebar-logo {
+  padding: 25px 20px !important;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.sidebar-logo, .sidebar-logo * { color: #f4eee7 !important; }
+.nav-section-title {
+  color: rgba(255,255,255,.42) !important;
+  font-size: 9px !important;
+  letter-spacing: .17em !important;
+  text-transform: uppercase;
+  padding: 20px 20px 7px !important;
+}
+.nav-item {
+  margin: 2px 10px !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  color: rgba(255,255,255,.73) !important;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.nav-item:hover {
+  background: rgba(255,255,255,.07) !important;
+  color: #fff !important;
+  transform: translateX(2px);
+}
+.nav-item.active {
+  background: #f3ece4 !important;
+  color: var(--og-admin-ink) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.13);
+}
+
+/* Topbar */
+.topbar {
+  height: 66px !important;
+  background: rgba(255,253,249,.92) !important;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--og-admin-line) !important;
+  box-shadow: 0 5px 20px rgba(42,32,25,.04);
+}
+.icon-btn, .topbar button {
+  border-radius: 9px !important;
+}
+.notif-dot { background: var(--og-admin-accent) !important; }
+
+/* Cards */
+.card, .kpi, .table-wrap, .integration-card, .drawer, .modal-card,
+.stat-card, .panel-card, .content-card {
+  background: var(--og-admin-paper) !important;
+  border: 1px solid var(--og-admin-line) !important;
+  border-radius: var(--og-admin-radius) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.8) inset !important;
+}
+.card, .kpi, .stat-card { transition: transform .22s ease, box-shadow .22s ease; }
+.card:hover, .kpi:hover, .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--og-admin-shadow) !important;
+}
+.kpi { padding: 20px !important; }
+.kpi .value, .kpi-value { font-size: 29px !important; letter-spacing: -.035em; }
+
+/* Botões */
+.btn {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  letter-spacing: .01em;
+}
+.btn-primary, .btn-dark {
+  background: var(--og-admin-ink) !important;
+  color: #fff !important;
+  border-color: var(--og-admin-ink) !important;
+}
+.btn-primary:hover, .btn-dark:hover {
+  background: var(--og-admin-accent) !important;
+  border-color: var(--og-admin-accent) !important;
+  transform: translateY(-1px);
+}
+.btn-outline, .btn-light, .btn-ghost {
+  background: #fffaf5 !important;
+  border-color: #cfc3b8 !important;
+  color: var(--og-admin-ink) !important;
+}
+.btn-outline:hover, .btn-light:hover, .btn-ghost:hover { background: #eee5dc !important; }
+.btn-danger { background: var(--og-admin-danger) !important; color: #fff !important; }
+.btn-sm { min-height: 32px !important; padding: 6px 11px !important; font-size: 12px !important; }
+
+/* Inputs */
+input, select, textarea {
+  border: 1px solid var(--og-admin-line) !important;
+  border-radius: 8px !important;
+  background: #fffdf9 !important;
+  min-height: 42px;
+}
+textarea { min-height: 110px; }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--og-admin-accent) !important;
+  box-shadow: 0 0 0 3px rgba(141,73,56,.12) !important;
+}
+label { color: #514941; font-weight: 600; }
+.form-hint, .hint, small { color: var(--og-admin-muted); }
+
+/* Tabelas */
+.table-wrap { overflow: hidden; }
+table { border-collapse: separate !important; border-spacing: 0 !important; }
+table thead th {
+  background: #f3ece5 !important;
+  color: #675d55 !important;
+  font-size: 10px !important;
+  letter-spacing: .11em !important;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--og-admin-line) !important;
+  padding-top: 13px !important;
+  padding-bottom: 13px !important;
+}
+table tbody td {
+  border-bottom-color: #eee7df !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+table tbody tr:hover { background: #faf5ef !important; }
+
+/* Barras e filtros */
+.og-toolbar, .filters, .filter-bar, .toolbar {
+  background: rgba(255,253,249,.62) !important;
+  border: 1px solid var(--og-admin-line) !important;
+  padding: 12px !important;
+  border-radius: 11px !important;
+  box-shadow: 0 8px 25px rgba(42,32,25,.035);
+}
+
+/* Badges */
+.badge, .status, [class*="status-"] {
+  border-radius: 999px !important;
+  padding: 6px 10px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.status-paid, .status-approved, .status-delivered { background: #dce9df !important; color: #315842 !important; }
+.status-pending, .status-processing { background: #efe4cf !important; color: #74592d !important; }
+.status-expired, .status-canceled, .status-failed { background: #edd8d6 !important; color: #8b3e3e !important; }
+.status-payment_review, .status-review { background: #e2dbef !important; color: #5d497d !important; }
+
+/* Modais */
+.modal, .drawer-overlay { backdrop-filter: blur(5px); }
+.modal-card, .drawer { box-shadow: 0 24px 80px rgba(30,22,17,.22) !important; }
+
+@media (max-width: 1000px) {
+  .page-content { padding: 24px 20px 44px !important; }
+  .sidebar { width: 220px !important; }
+}
+@media (max-width: 720px) {
+  .sidebar { position: fixed !important; transform: translateX(-100%); z-index: 1000; }
+  .main { width: 100% !important; margin-left: 0 !important; }
+  .page-content { padding: 18px 14px 36px !important; }
+  .page-header-actions { width: 100%; display: flex; flex-wrap: wrap; gap: 8px; }
+  .page-header-actions .btn { flex: 1; }
+  .table-wrap { overflow-x: auto; }
+}

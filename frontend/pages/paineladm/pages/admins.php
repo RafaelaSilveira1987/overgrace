@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administradores — OverGrace</title>
 
-    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css">
+    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22">
     <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/admins.css">
 </head>
 

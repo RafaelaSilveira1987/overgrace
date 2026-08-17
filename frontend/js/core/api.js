@@ -1,4 +1,4 @@
-import { request } from './http.js';
+import { request } from './http.js?v=11';
 import { BASE_URL } from './config.js';
 
 export const api = {

@@ -1384,21 +1384,25 @@ body.menu-open .mobile-menu-backdrop {
 }
 
 .pix-actions button:first-child{
-    background:#00a650;
-    color:#fff;
+    background:#1f1c19;
+    color:#f6f0e7;
+    border:1px solid #1f1c19;
 }
 
 .pix-actions button:first-child:hover{
-    background:#008d44;
+    background:#34302c;
+    border-color:#34302c;
 }
 
 .pix-actions button:last-child{
-    background:#1976d2;
-    color:#fff;
+    background:transparent;
+    color:#1f1c19;
+    border:1px solid #8b837b;
 }
 
 .pix-actions button:last-child:hover{
-    background:#125ca5;
+    background:#ece5dc;
+    border-color:#1f1c19;
 }
 
 .pix-info{
@@ -1458,3 +1462,269 @@ body.menu-open .mobile-menu-backdrop {
   }
 }
 
+
+/* Pedido com reserva/pagamento expirado */
+.status-pill.expirado {
+  background: rgba(139, 58, 42, 0.10);
+  color: #8b3a2a;
+}
+.status-pill.expirado::before {
+  background: #8b3a2a;
+}
+.status-pill.revisao {
+  background: rgba(139, 100, 42, 0.12);
+  color: #8b642a;
+}
+.status-pill.revisao::before {
+  background: #8b642a;
+}
+.order-expired-alert {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(139, 58, 42, 0.28);
+  background: rgba(139, 58, 42, 0.055);
+  color: #5f2d23;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.order-expired-alert strong {
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.order-expired-alert a {
+  width: fit-content;
+  margin-top: 3px;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.order-payment-failed {
+  border-color: rgba(139, 100, 42, 0.30);
+  background: rgba(139, 100, 42, 0.06);
+  color: #6f5124;
+}
+
+/* ===== Conta v4: filtros e estados ===== */
+.order-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 30px 0 18px;
+}
+.order-filter {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.24);
+  color: var(--text-muted);
+  padding: 10px 15px;
+  border-radius: 999px;
+  font: 400 10px/1 "Jost", sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .2s ease;
+}
+.order-filter:hover,
+.order-filter.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+.order-card[hidden] { display: none !important; }
+.order-row {
+  transition: background .2s ease, transform .2s ease;
+}
+.order-row:hover { background: rgba(255,255,255,.32); }
+.order-expired-alert {
+  margin: 0 0 24px;
+  padding: 16px 18px;
+  border: 1px solid rgba(153,64,44,.22);
+  background: rgba(153,64,44,.06);
+  display: grid;
+  gap: 5px;
+}
+.order-expired-alert strong { font-family: "Playfair Display", serif; font-size: 16px; }
+.order-expired-alert span { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
+.order-expired-alert a { color: var(--text); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; margin-top: 5px; }
+.orders-empty-state {
+  padding: 48px 24px;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+}
+.orders-empty-state strong { font-family: "Playfair Display", serif; font-size: 22px; }
+.orders-empty-state span { color: var(--text-muted); font-size: 13px; }
+.orders-empty-state a { margin-top: 10px; color: var(--text); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; }
+@media (max-width: 760px) {
+  .order-filters { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .order-filter { white-space: nowrap; }
+}
+
+/* Endereços reais do cliente */
+.address-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.address-loading,
+.address-error {
+  grid-column: 1 / -1;
+  padding: 30px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.add-address-card {
+  background: transparent;
+  font-family: inherit;
+  color: inherit;
+}
+
+.add-address-card small {
+  max-width: 250px;
+  text-align: center;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.address-modal[hidden] {
+  display: none;
+}
+
+.address-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.address-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 23, 20, .55);
+}
+
+.address-modal-card {
+  position: relative;
+  z-index: 1;
+  width: min(680px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: var(--bg, #f3eee7);
+  border: 1px solid var(--border-strong);
+  padding: 38px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.22);
+}
+
+.address-modal-card h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 32px;
+  margin: 0 0 6px;
+}
+
+.address-modal-sub {
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+
+.address-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: 0;
+  background: transparent;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.address-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.address-form-grid label {
+  display: grid;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.address-form-grid label.full {
+  grid-column: 1 / -1;
+}
+
+.address-form-grid input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,.35);
+  padding: 0 14px;
+  font: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.address-default-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.address-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.addr-modal-cancel {
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: 10px;
+}
+
+body.address-modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .address-panel-head {
+    flex-direction: column;
+  }
+  .address-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .address-form-grid label.full {
+    grid-column: auto;
+  }
+  .address-modal-card {
+    padding: 28px 20px;
+  }
+  .address-modal-actions {
+    flex-direction: column-reverse;
+  }
+  .address-modal-actions > * {
+    width: 100%;
+  }
+}

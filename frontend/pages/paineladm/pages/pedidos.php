@@ -10,9 +10,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
+  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/pedidos.css">
 
+  <link rel="stylesheet" href="/overgrace/frontend/css/backend-pix-compat.css">
 </head>
 
 <body>
@@ -35,11 +36,18 @@
         <div class="page-header">
           <div class="page-header-left">
             <h1>Pedidos</h1>
-            <p>94 pedidos em abril · 7 aguardando ação</p>
+            <p id="ordersSubtitle">Carregando pedidos...</p>
           </div>
           <div class="page-header-actions">
-            <button class="btn btn-outline">Exportar</button>
+            <button class="btn btn-outline" id="btnExportOrders" type="button">Exportar CSV</button>
+            <button class="btn btn-outline" id="btnExportOrdersPdf" type="button">Exportar PDF</button>
           </div>
+        </div>
+
+        <div id="paymentReviewAlert" class="payment-review-alert" hidden>
+          <strong>Pagamentos que exigem revisão</strong>
+          <span id="paymentReviewAlertText"></span>
+          <button type="button" id="paymentReviewFilterBtn">Ver pedidos</button>
         </div>
 
         <!-- KPIs de status -->
@@ -81,13 +89,17 @@
             <option value="">Todos os status</option>
             <option value="paid">Pago</option>
             <option value="pending">Pendente</option>
-            <option value="envied">Enviado</option>
+            <option value="processing">Em preparação</option>
+            <option value="shipped">Enviado</option>
+            <option value="delivered">Entregue</option>
             <option value="canceled">Cancelado</option>
+            <option value="expired">Expirado</option>
+            <option value="payment_review">Revisão de pagamento</option>
           </select>
           <select class="filter-select" id="filter-order">
-            <option>Mais recentes</option>
-            <option>Mais antigos</option>
-            <option>Maior valor</option>
+            <option value="created_at:DESC">Mais recentes</option>
+            <option value="created_at:ASC">Mais antigos</option>
+            <option value="total_amount:DESC">Maior valor</option>
           </select>
         </div>
 
@@ -111,15 +123,8 @@
             </tbody>
           </table>
           <div class="table-footer">
-            <span>Mostrando 7 de 94 pedidos</span>
-            <div class="pagination">
-              <button class="page-btn active">1</button>
-              <button class="page-btn">2</button>
-              <button class="page-btn">3</button>
-              <button class="page-btn">…</button>
-              <button class="page-btn">14</button>
-              <button class="page-btn">→</button>
-            </div>
+            <span>Carregando...</span>
+            <div class="pagination"></div>
           </div>
         </div>
       </div>
@@ -140,91 +145,42 @@
       <div class="modal-body" style="overflow-y: auto; flex: 1">
 
         <form id="formOrder">
-
           <div class="order-detail-section">
             <h3>Status do pedido</h3>
             <select class="status-select" id="orderStatusSelect">
-              <option value="pago">Pago</option>
-              <option value="pendente">Pendente</option>
-              <option value="enviado" selected>Enviado</option>
-              <option value="cancelado">Cancelado</option>
+              <option value="pending">Pendente</option>
+              <option value="paid" disabled>Pago (confirmado pelo Mercado Pago)</option>
+              <option value="processing">Em preparação</option>
+              <option value="shipped">Enviado</option>
+              <option value="delivered">Entregue</option>
+              <option value="canceled">Cancelado</option>
+              <option value="expired" disabled>Expirado</option>
+              <option value="payment_review" disabled>Revisão de pagamento</option>
             </select>
           </div>
-
-          <div class="order-detail-section">
-            <h3>Itens do pedido</h3>
-            <div id="orderItemsList">
-              <div class="order-item-line">
-                <img
-                  class="order-item-img"
-                  src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=80&q=70"
-                  alt="" />
-                <div class="order-item-name">
-                  Kit Camisa + Boné<br /><span
-                    style="
-                      font-size: 11px;
-                      color: var(--ink-3);
-                      font-weight: 400;
-                    ">Tamanho M</span>
-                </div>
-                <span class="order-item-qty">× 1</span>
-                <span class="order-item-price">R$ 259,00</span>
-              </div>
-            </div>
-          </div>
-
+          <div class="order-detail-section"><h3>Itens do pedido</h3><div id="orderItemsList"></div></div>
           <div class="order-detail-section">
             <h3>Resumo financeiro</h3>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Subtotal</span><span>R$ 259,00</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Frete</span><span style="color: var(--green)">Grátis</span>
-            </div>
-            <div class="order-detail-row" style="font-weight: 500">
-              <span class="order-detail-label">Total</span><span>R$ 259,00</span>
-            </div>
+            <div class="order-detail-row"><span class="order-detail-label">Subtotal</span><span id="detailSubtotal">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Desconto</span><span id="detailDiscount">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Frete</span><span id="detailShipping">—</span></div>
+            <div class="order-detail-row" style="font-weight:500"><span class="order-detail-label">Total</span><span id="detailTotal">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Pagamento</span><span id="detailPayment">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Data</span><span id="detailCreated">—</span></div>
           </div>
-
           <div class="order-detail-section">
             <h3>Cliente</h3>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Nome</span><span id="detailClientName">Ana Beatriz Souza</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">E-mail</span><span>ana.beatriz@gmail.com</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Telefone</span><span>(11) 98888-0000</span>
-            </div>
+            <div class="order-detail-row"><span class="order-detail-label">Nome</span><span id="detailClientName">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">E-mail</span><span id="detailClientEmail">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Telefone</span><span id="detailClientPhone">—</span></div>
           </div>
-
           <div class="order-detail-section">
             <h3>Endereço de entrega</h3>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Rua</span><span>Av. Paulista, 1000 — Apto 42</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Bairro</span><span>Bela Vista</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Cidade/UF</span><span>São Paulo — SP</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">CEP</span><span>01310-100</span>
-            </div>
+            <div class="order-detail-row"><span class="order-detail-label">Endereço</span><span id="detailAddress">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Bairro</span><span id="detailDistrict">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">Cidade/UF</span><span id="detailCity">—</span></div>
+            <div class="order-detail-row"><span class="order-detail-label">CEP</span><span id="detailCep">—</span></div>
           </div>
-
-          <div class="order-detail-section">
-            <h3>Rastreamento</h3>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Transportadora</span><span>Correios PAC</span>
-            </div>
-            <div class="order-detail-row">
-              <span class="order-detail-label">Código</span><span style="font-family: var(--mono); font-size: 12px">BR1234567890BR</span>
-            </div>
-          </div>
-
         </form>
 
       </div>
@@ -233,14 +189,13 @@
           Fechar
         </button>
         <div style="display: flex; gap: 8px">
-          <button class="btn btn-outline">Imprimir</button>
-          <button class="btn btn-primary">Salvar status</button>
+          <button class="btn btn-primary" id="btnSaveOrderStatus" type="button">Salvar status</button>
         </div>
       </div>
     </div>
   </div>
-  <script type="module" src="frontend/js/modules/order/listaAdmin.js"></script>
-  <script type="module" src="frontend/js/modules/order/formAdmin.js"></script>
+  <script type="module" src="frontend/js/modules/order/listaAdmin.js?v=4"></script>
+  <script type="module" src="frontend/js/modules/order/formAdmin.js?v=3"></script>
 </body>
 
 </html>

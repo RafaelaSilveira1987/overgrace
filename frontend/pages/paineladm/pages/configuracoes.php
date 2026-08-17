@@ -11,7 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap"
     rel="stylesheet" />
 
-  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
+  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/configuracao.css" />
   <link rel="stylesheet" href="/overgrace/frontend/css/utils.css">
 </head>
@@ -300,7 +300,7 @@
             <div class="card-header">
               <div class="card-header-text">
                 <h3>Métodos de pagamento</h3>
-                <p>Ative ou desative formas de pagamento aceitas</p>
+                <p>O backend atual possui integração ativa somente com PIX via Mercado Pago</p>
               </div>
             </div>
             <div class="card-body">
@@ -311,7 +311,7 @@
                     Visa, Mastercard, Elo — parcelamento em até 6x sem juros
                   </p>
                 </div>
-                <label class="toggle"><input type="checkbox" checked onchange="markDirty()" /><span
+                <label class="toggle"><input id="payment_credit_card_enabled" type="checkbox" disabled /><span
                     class="toggle-slider"></span></label>
               </div>
               <div class="toggle-row">
@@ -319,7 +319,7 @@
                   <h4>Pix</h4>
                   <p>Pagamento instantâneo com 5% de desconto</p>
                 </div>
-                <label class="toggle"><input type="checkbox" checked onchange="markDirty()" /><span
+                <label class="toggle"><input id="payment_pix_enabled" type="checkbox" checked disabled /><span
                     class="toggle-slider"></span></label>
               </div>
               <div class="toggle-row">
@@ -327,7 +327,7 @@
                   <h4>Boleto bancário</h4>
                   <p>Prazo de 3 dias úteis para compensação</p>
                 </div>
-                <label class="toggle"><input type="checkbox" onchange="markDirty()" /><span
+                <label class="toggle"><input id="payment_boleto_enabled" type="checkbox" disabled /><span
                     class="toggle-slider"></span></label>
               </div>
               <div class="toggle-row">
@@ -335,7 +335,7 @@
                   <h4>Cartão de débito</h4>
                   <p>Débito à vista</p>
                 </div>
-                <label class="toggle"><input type="checkbox" onchange="markDirty()" /><span
+                <label class="toggle" title="Ainda não integrado"><input id="payment_debit_card_enabled" type="checkbox" disabled /><span
                     class="toggle-slider"></span></label>
               </div>
             </div>
@@ -352,19 +352,19 @@
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label">Máximo de parcelas sem juros</label>
-                  <select class="form-input" onchange="markDirty()">
-                    <option>3x</option>
-                    <option>6x</option>
-                    <option selected>6x</option>
-                    <option>12x</option>
+                  <select id="payment_max_installments" class="form-input" disabled>
+                    <option value="3">3x</option>
+                    <option value="6">6x</option>
+                    <option value="12">12x</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Valor mínimo da parcela</label>
                   <input
                     type="text"
-                    class="form-input"
-                    value="R$ 50,00"
+                    id="payment_min_installment"
+                    class="form-input" disabled
+                    value="50,00"
                     oninput="markDirty()" />
                 </div>
               </div>
@@ -591,48 +591,39 @@
 
   <script>
     let dirty = false;
-
     function markDirty() {
-      if (!dirty) {
-        dirty = true;
-        document.getElementById("saveBanner").classList.add("show");
-      }
+      dirty = true;
+      document.getElementById('saveBanner')?.classList.add('show');
     }
-
-    function saveChanges() {
+    function showSaved(message = 'Preferência visual atualizada nesta tela') {
       dirty = false;
-      const banner = document.getElementById("saveBanner");
-      banner.textContent = "✓ Alterações salvas";
-      setTimeout(() => {
-        banner.classList.remove("show");
-        setTimeout(() => {
-          banner.innerHTML =
-            'Alterações não salvas <button onclick="saveChanges()">Salvar agora</button>';
-        }, 400);
-      }, 2000);
+      const banner = document.getElementById('saveBanner');
+      if (!banner) return;
+      banner.textContent = message;
+      banner.classList.add('show');
+      setTimeout(() => banner.classList.remove('show'), 1800);
     }
-
+    function saveChanges() {
+      const active = document.querySelector('.tab-panel.active')?.id;
+      if (active === 'tab-pagamento') {
+        showSaved('PIX é definido pelo backend e permanece ativo');
+        return;
+      }
+      showSaved();
+    }
     function cancelChanges() {
       dirty = false;
-      document.getElementById("saveBanner").classList.remove("show");
+      document.getElementById('saveBanner')?.classList.remove('show');
     }
-
     function switchTab(btn, tabId) {
-      document
-        .querySelectorAll(".tab-btn")
-        .forEach((b) => b.classList.remove("active"));
-      document
-        .querySelectorAll(".tab-panel")
-        .forEach((p) => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("tab-" + tabId).classList.add("active");
+      document.querySelectorAll('.tab-btn').forEach((item) => item.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach((item) => item.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + tabId)?.classList.add('active');
     }
-
     function selectColor(el) {
-      document
-        .querySelectorAll(".color-swatch")
-        .forEach((s) => s.classList.remove("selected"));
-      el.classList.add("selected");
+      document.querySelectorAll('.color-swatch').forEach((item) => item.classList.remove('selected'));
+      el.classList.add('selected');
       markDirty();
     }
   </script>

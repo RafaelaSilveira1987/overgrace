@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
+  <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
   <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/cupons.css" />
   <link rel="stylesheet" href="/overgrace/frontend/css/utils.css">
 
@@ -134,25 +134,31 @@
             <div class="form-group">
               <label>Valor</label>
               <input 
-                type="number" 
+                type="number"
                 id="couponValue"
+                min="0.01"
+                step="0.01"
                 placeholder="0,00">
             </div>
   
             <div class="form-group">
               <label>Compra mínima</label>
               <input 
-                type="number" 
+                type="number"
                 id="couponMin"
+                min="0"
+                step="0.01"
                 placeholder="0,00">
             </div>
   
             <div class="form-group">
               <label>Limite de uso</label>
               <input 
-                type="number" 
+                type="number"
                 id="couponLimit"
-                placeholder="0,00">
+                min="1"
+                step="1"
+                placeholder="Sem limite">
             </div>
   
             <div class="form-group">
@@ -181,7 +187,7 @@
 
   <script src="frontend/js/modules/coupon/utils.js"></script>
   <script type="module" src="frontend/js/modules/coupon/lista.js"></script>
-  <script type="module" src="frontend/js/modules/coupon/form.js"></script>
+  <script type="module" src="frontend/js/modules/coupon/form.js?v=2"></script>
 
 </body>
 

@@ -10,8 +10,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages-css/dashboard.css">
+    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/dashboard.css">
 
 </head>
 
@@ -35,7 +35,7 @@
                 <div class="page-header">
                     <div class="page-header-left">
                         <h1>Dashboard</h1>
-                        <p>Resumo de hoje, 24 de abril de 2025</p>
+                        <p id="dashboard-period-label">Resumo do período atual</p>
                     </div>
                     <div class="page-header-actions">
                         <button class="btn btn-outline">
@@ -44,7 +44,7 @@
                                 <rect x="1" y="2" width="12" height="11" rx="1.5" />
                                 <path d="M4 1v2M10 1v2M1 6h12" />
                             </svg>
-                            Abril 2025
+                            Período atual
                         </button>
                         <button class="btn btn-outline">Exportar</button>
                     </div>
@@ -61,7 +61,7 @@
                             Faturamento (mês)
                         </div>
                         <div class="kpi-value" id="kpi-totals"></div>
-                        <span class="kpi-delta up">↑ 12,4% vs mês anterior</span>
+                        <span class="kpi-delta">Dados do período selecionado</span>
                     </div>
                     <div class="kpi">
                         <div class="kpi-label">
@@ -74,7 +74,7 @@
                             Pedidos (mês)
                         </div>
                         <div class="kpi-value" id="kpi-qty-totals"></div>
-                        <span class="kpi-delta up">↑ 8,1% vs mês anterior</span>
+                        <span class="kpi-delta">Dados do período selecionado</span>
                     </div>
                     <div class="kpi">
                         <div class="kpi-label">
@@ -86,7 +86,7 @@
                             Novos clientes
                         </div>
                         <div class="kpi-value">0</div>
-                        <span class="kpi-delta down">↓ 0,00% vs mês anterior</span>
+                        <span class="kpi-delta">Dados do período selecionado</span>
                     </div>
                     <div class="kpi">
                         <div class="kpi-label">
@@ -98,7 +98,7 @@
                             Ticket médio
                         </div>
                         <div class="kpi-value" id="kpi-ticket"></div>
-                        <span class="kpi-delta up">↑ 4,7% vs mês anterior</span>
+                        <span class="kpi-delta">Dados do período selecionado</span>
                     </div>
                 </div>
 
@@ -267,36 +267,8 @@
                     </div>
                     <div class="card-body" style="padding: 0">
                         <div class="recent-orders" style="padding: 0 18px" id="pedidos-recentes">
-                            <div class="recent-order-row">
-                                <span class="recent-order-num">#10094</span>
-                                <span class="recent-order-client">Ana Beatriz Souza</span>
-                                <span class="status-pill status-enviado">Enviado</span>
-                                <span class="recent-order-val">R$ 259,00</span>
-                            </div>
-                            <div class="recent-order-row">
-                                <span class="recent-order-num">#10093</span>
-                                <span class="recent-order-client">Carlos Henrique M.</span>
-                                <span class="status-pill status-pago">Pago</span>
-                                <span class="recent-order-val">R$ 189,00</span>
-                            </div>
-                            <div class="recent-order-row">
-                                <span class="recent-order-num">#10092</span>
-                                <span class="recent-order-client">Fernanda Oliveira</span>
-                                <span class="status-pill status-pendente">Pendente</span>
-                                <span class="recent-order-val">R$ 318,00</span>
-                            </div>
-                            <div class="recent-order-row">
-                                <span class="recent-order-num">#10091</span>
-                                <span class="recent-order-client">Rafael Teixeira</span>
-                                <span class="status-pill status-pago">Pago</span>
-                                <span class="recent-order-val">R$ 99,00</span>
-                            </div>
-                            <div class="recent-order-row">
-                                <span class="recent-order-num">#10090</span>
-                                <span class="recent-order-client">Juliana Ferreira</span>
-                                <span class="status-pill status-cancelado">Cancelado</span>
-                                <span class="recent-order-val">R$ 175,00</span>
-                            </div>
+                            <div class="empty-state">Carregando pedidos...</div>
+                        </div>
                         </div>
                     </div>
                 </div>
