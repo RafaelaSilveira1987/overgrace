@@ -3,7 +3,7 @@
 require_once 'api/config/database.php';
 
 class PaymentModel
-{
+{ 
     /**
      * Cria um pagamento
      */

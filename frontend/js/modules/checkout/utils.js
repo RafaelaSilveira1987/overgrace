@@ -2,13 +2,11 @@ import { notify } from '../../utils/notify.js';
 import { orderService } from '../../services/orderService.js';
 import { paymentService } from '../../services/paymentService.js';
 
-export async function criarPagamento(method = "pix") {
+export async function criarPagamento(event, method = "pix") {
 
-  const btn = document.getElementById("btnPix");
+  startButtonLoading(event);
 
-  startButtonLoading(btn);
-
-  try {
+  try { 
 
     const order_id = localStorage.getItem("order_id");
 
@@ -42,7 +40,7 @@ export async function criarPagamento(method = "pix") {
 
   } finally {
 
-    stopButtonLoading(btn);
+    stopButtonLoading(event);
 
   }
 
@@ -389,7 +387,9 @@ function voltarCheckoutDemo() {
 }
 
 
-function startButtonLoading(button) {
+export function startButtonLoading(event) {
+
+  const button = event.currentTarget;
 
   button.classList.add("loading");
   button.disabled = true;
@@ -402,7 +402,9 @@ function startButtonLoading(button) {
 
 }
 
-function stopButtonLoading(button) {
+export function stopButtonLoading(event) {
+
+  const button = event.currentTarget;
 
   button.classList.remove("loading");
 
@@ -411,8 +413,6 @@ function stopButtonLoading(button) {
   });
 
 }
-
-
 
 /* Máscaras */
 export function maskCPF(el) {

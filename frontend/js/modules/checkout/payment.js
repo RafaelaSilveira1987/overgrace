@@ -284,10 +284,21 @@ function initCardForm() {
     }
   });
 }
-
+ 
 document.addEventListener('DOMContentLoaded', initCardForm);
 
-document.getElementById('btnPix')?.addEventListener('click', () => { criarPagamento('pix'); });
+document.getElementById('btnPix')?.addEventListener('click', (event) => {
+  criarPagamento(event, 'pix');
+});
+
+document.getElementById('btnGerarBoleto')?.addEventListener('click', (event) => {
+  criarPagamento(event, 'boleto');
+});
+
+document.getElementById('btnCartao')?.addEventListener('click', (event) => {
+  criarPagamento(event, 'credit_card');
+});
+
 
 document.querySelectorAll('.btnFrete').forEach(btn => {
   btn.addEventListener('click', function () {

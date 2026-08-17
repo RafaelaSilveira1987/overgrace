@@ -11,8 +11,9 @@ class PaymentController
     /**
      * Cria um pagamento PIX
      */
+    /*
     public function create()
-    {
+    { 
         try {
 
             $user = AuthMiddleware::handle();
@@ -29,6 +30,61 @@ class PaymentController
             $payment = PaymentService::createPix(
                 (int) $body['order_id'], (int) $body['client_id']
             );
+
+            Response::json([
+                'success' => true,
+                'data' => $payment
+            ]);
+        } catch (Exception $e) {
+
+            Response::json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }*/
+
+    public function create()
+    {
+        try {
+
+            $user = AuthMiddleware::handle();
+
+            $body = json_decode(file_get_contents('php://input'), true);
+
+            if (empty($body['order_id'])) {
+                Response::json([
+                    'success' => false,
+                    'message' => 'Pedido não informado.'
+                ], 400);
+
+                return;
+            }
+
+            $method = strtolower($body['method'] ?? 'pix');
+
+            $payment = match ($method) {
+
+                'pix' => PaymentService::createPix(
+                    (int) $body['order_id'],
+                    (int) $body['client_id']
+                ),
+
+                'credit_card' => PaymentService::createCreditCard(
+                    (int) $body['order_id'],
+                    (int) $body['client_id'],
+                    $body
+                ),
+
+                'boleto' => PaymentService::createBoleto(
+                    (int) $body['order_id'],
+                    (int) $body['client_id']
+                ),
+
+                default => throw new Exception(
+                    "Método de pagamento inválido."
+                )
+            };
 
             Response::json([
                 'success' => true,

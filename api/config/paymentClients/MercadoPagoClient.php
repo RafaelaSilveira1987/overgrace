@@ -20,7 +20,7 @@ class MercadoPagoClient
     /**
      * Cria pagamento PIX
      */
-    public function createPix(array $payload)
+    public function createPayment(array $payload)
     {
         return $this->request(
             "POST",

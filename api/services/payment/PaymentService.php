@@ -13,7 +13,7 @@ require_once 'api/services/payment/PaymentModel.php'; // <- seu arquivo atual de
 class PaymentService
 {
 
-    /**
+    /** 
      * Cria pagamento PIX via Mercado Pago
      */
     public static function createPix(int $orderId, int $userId)
@@ -54,7 +54,7 @@ class PaymentService
             $mp = new MercadoPagoClient();
 
             // 4. Criar pagamento no gateway
-            $mpResponse = $mp->createPix([
+            $mpResponse = $mp->createPayment([
                 "transaction_amount" => (float)$order['total_amount'],
                 "description" => "Pedido #{$order['id']}",
                 "payment_method_id" => "pix",
@@ -111,6 +111,405 @@ class PaymentService
             throw $e;
         }
     }
+
+    /** 
+     * Cria pagamento Cartão de crédito via Mercado Pago
+     */
+    public static function createCreditCard(
+        int $orderId,
+        int $userId,
+        array $data
+    ) {
+        $db = Database::connect();
+
+        try {
+
+            $db->beginTransaction();
+
+            // 1. Validar dados do cartão
+
+            if (empty($data['token'])) {
+                throw new Exception("Token do cartão não informado.");
+            }
+
+            if (empty($data['payment_method_id'])) {
+                throw new Exception("Bandeira do cartão não informada.");
+            }
+
+            $installments = (int) ($data['installments'] ?? 1);
+
+            if ($installments < 1) {
+                throw new Exception("Quantidade de parcelas inválida.");
+            }
+
+            // 2. Buscar pedido
+
+            $order = OrderService::get($orderId, $userId);
+
+            if (!$order) {
+                throw new Exception("Pedido não encontrado");
+            }
+
+            if ((float)$order['total_amount'] <= 0) {
+                throw new Exception("Pedido inválido");
+            }
+
+            // 3. Buscar cliente
+
+            $stmt = $db->prepare("
+            SELECT *
+            FROM clients
+            WHERE id = ?
+            LIMIT 1
+            ");
+
+            $stmt->execute([$userId]);
+
+            $client = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$client) {
+                throw new Exception("Cliente não encontrado");
+            }
+
+            if (empty($client['email'])) {
+                throw new Exception("Cliente não possui e-mail.");
+            }
+
+            // 4. Mercado Pago
+
+            $mp = new MercadoPagoClient();
+
+            $payload = [
+
+                "transaction_amount" =>
+                (float)$order['total_amount'],
+
+                "description" =>
+                "Pedido #{$order['id']}",
+
+                "token" =>
+                $data['token'],
+
+                "installments" =>
+                $installments,
+
+                "payment_method_id" =>
+                $data['payment_method_id'],
+
+                "payer" => [
+
+                    "email" =>
+                    $client['email'],
+
+                    "identification" => [
+
+                        "type" => "CPF",
+
+                        "number" =>
+                        preg_replace(
+                            '/\D/',
+                            '',
+                            $client['cpf']
+                        )
+                    ]
+                ]
+            ];
+
+            if (!empty($data['issuer_id'])) {
+                $payload['issuer_id'] = (int)$data['issuer_id'];
+            }
+
+            $mpResponse = $mp->createPayment($payload);
+
+            if (!$mpResponse || empty($mpResponse['id'])) {
+                throw new Exception(
+                    "Erro ao criar pagamento no Mercado Pago"
+                );
+            }
+
+            // 5. Persistir pagamento
+
+            $paymentId = PaymentModel::create([
+
+                'order_id' => $order['id'],
+
+                'gateway' => 'mercadopago',
+
+                'gateway_payment_id' => $mpResponse['id'],
+
+                'gateway_customer_id' => null,
+
+                'method' => 'credit_card',
+
+                'status' => $mpResponse['status'] ?? 'pending',
+
+                'amount' => (float)$order['total_amount'],
+
+                'net_amount' => (float)(
+                    $mpResponse['transaction_amount'] ??
+                    $order['total_amount']
+                ),
+
+                'currency' => 'BRL',
+
+                'installments' => $installments,
+
+                'qr_code' => null,
+
+                'qr_code_base64' => null,
+
+                'pix_copy_paste' => null,
+
+                'gateway_response' => $mpResponse
+            ]);
+
+            $db->commit();
+
+            // 6. Resposta
+
+            return [
+
+                'payment_id' => $paymentId,
+
+                'order_id' => $order['id'],
+
+                'status' => $mpResponse['status'] ?? null,
+
+                'status_detail' => $mpResponse['status_detail'] ?? null,
+
+                'amount' => (float)$order['total_amount'],
+
+                'installments' => $installments,
+
+                'payment_method_id' =>
+                $mpResponse['payment_method_id'] ??
+                    $data['payment_method_id']
+
+            ];
+        } catch (Exception $e) {
+
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+
+            throw $e;
+        }
+    }
+
+    /** 
+     * Cria pagamento boleto via Mercado Pago
+     */
+    public static function createBoleto(
+        int $orderId,
+        int $userId
+    ) {
+        $db = Database::connect();
+
+        try {
+
+            $db->beginTransaction();
+
+            // 1. Buscar pedido
+
+            $order = OrderService::get($orderId, $userId);
+
+            if (!$order) {
+                throw new Exception("Pedido não encontrado");
+            }
+
+            if ((float)$order['total_amount'] <= 0) {
+                throw new Exception("Pedido inválido");
+            }
+
+            // 2. Buscar cliente
+
+            $stmt = $db->prepare("
+            SELECT *
+            FROM clients c
+            inner join clients_address ca on ca.client_id = c.id
+            WHERE c.id = ?
+            LIMIT 1
+            ");
+
+            $stmt->execute([$userId]);
+
+            $client = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$client) {
+                throw new Exception("Cliente não encontrado");
+            }
+
+            // 3. Validar dados necessários
+
+            $required = [
+                'email',
+                'cpf',
+                'nome',
+                'sobrenome',
+                'endereco',
+                'numero',
+                'cep',
+                'bairro',
+                'cidade',
+                'estado'
+            ];
+
+            foreach ($required as $field) {
+
+                if (empty($client[$field])) {
+                    throw new Exception(
+                        "Cliente não possui o campo obrigatório: {$field}"
+                    );
+                }
+            }
+
+            // 4. Mercado Pago 
+
+            $mp = new MercadoPagoClient();
+
+            $mpResponse = $mp->createPayment([
+
+                "transaction_amount" =>
+                (float)$order['total_amount'],
+
+                "description" =>
+                "Pedido #{$order['id']}",
+
+                "payment_method_id" =>
+                "bolbradesco",
+
+                "payer" => [
+
+                    "email" =>
+                    $client['email'],
+
+                    "first_name" =>
+                    $client['nome'],
+
+                    "last_name" =>
+                    $client['sobrenome'],
+
+                    "identification" => [
+
+                        "type" => "CPF",
+
+                        "number" =>
+                        preg_replace(
+                            '/\D/',
+                            '',
+                            $client['cpf']
+                        )
+                    ],
+
+                    "address" => [
+
+                        "zip_code" =>
+                        preg_replace(
+                            '/\D/',
+                            '',
+                            $client['cep']
+                        ),
+
+                        "street_name" =>
+                        $client['endereco'],
+
+                        "street_number" =>
+                        $client['numero'],
+
+                        "neighborhood" =>
+                        $client['bairro'],
+
+                        "city" =>
+                        $client['cidade'],
+
+                        "federal_unit" =>
+                        strtoupper($client['estado'])
+                    ]
+                ]
+            ]);
+
+            if (!$mpResponse || empty($mpResponse['id'])) {
+                throw new Exception(
+                    "Erro ao criar boleto no Mercado Pago"
+                );
+            }
+
+            // 5. Persistir
+
+            $paymentId = PaymentModel::create([
+
+                'order_id' => $order['id'],
+
+                'gateway' => 'mercadopago',
+
+                'gateway_payment_id' =>
+                $mpResponse['id'],
+
+                'gateway_customer_id' => null,
+
+                'method' => 'boleto',
+
+                'status' =>
+                $mpResponse['status'] ?? 'pending',
+
+                'amount' =>
+                (float)$order['total_amount'],
+
+                'net_amount' =>
+                (float)$order['total_amount'],
+
+                'currency' => 'BRL',
+
+                'installments' => 1,
+
+                'qr_code' => null,
+
+                'qr_code_base64' => null,
+
+                'pix_copy_paste' => null,
+
+                'gateway_response' => $mpResponse
+            ]);
+
+            $db->commit();
+
+            return [
+
+                'payment_id' => $paymentId,
+
+                'order_id' => $order['id'],
+
+                'status' =>
+                $mpResponse['status'] ?? null,
+
+                'status_detail' =>
+                $mpResponse['status_detail'] ?? null,
+
+                'amount' =>
+                (float)$order['total_amount'],
+
+                'boleto_url' =>
+                $mpResponse['transaction_details']['external_resource_url'] ?? null,
+
+                'barcode' =>
+                $mpResponse['barcode']
+                    ?? null,
+
+                'expiration_date' =>
+                $mpResponse['date_of_expiration']
+                    ?? null
+            ];
+        } catch (Exception $e) {
+
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+
+            throw $e;
+        }
+    }
+
+
 
     /**
      * Busca pagamento

@@ -6,7 +6,7 @@ export const paymentService = {
         return api.post('/payments', {
             order_id,
             client_id,
-            method
+            method 
         });
     }, 
 

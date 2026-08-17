@@ -336,12 +336,9 @@
                                         separação.</p>
                                 </div>
                             </div>
-                            <div class="demo-payment-box">
-                                <p class="demo-title">Prévia demonstrativa</p>
-                                <p>Simule boleto gerado, vencimento e linha digitável.</p>
-                            </div>
-                            <button type="button" class="submit-btn" onclick="confirmarPedido('boleto', 'pending')">
-                                Gerar boleto demonstrativo <span class="arrow">→</span>
+
+                            <button type="button" class="submit-btn" id="btnGerarBoleto">
+                                Gerar boleto <span class="arrow">→</span>
                             </button>
                             <button type="button" class="back-step-btn voltarPedido">← Voltar</button>
                         </div>
@@ -449,22 +446,8 @@
                                     <code>/overgrace/api/payments/card</code>.
                                 </div>
 
-                                <div class="demo-payment-box card-demo-box">
-                                    <p class="demo-title">Prévia demonstrativa</p>
-                                    <p>Enquanto não existe endpoint real, esses botões simulam os possíveis retornos da
-                                        operadora de pagamento.</p>
-                                    <div class="demo-card-grid">
-                                        <button type="button"
-                                            onclick="confirmarPedido('cartao', 'approved')">Aprovado</button>
-                                        <button type="button" onclick="confirmarPedido('cartao', 'pending')">Em
-                                            análise</button>
-                                        <button type="button"
-                                            onclick="confirmarPedido('cartao', 'rejected')">Recusado</button>
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="submit-btn" id="form-checkout__submit">
-                                    Simular pagamento no cartão <span class="arrow">→</span>
+                                <button type="submit" class="submit-btn" id="btnCartao">
+                                    Efetuar pagamento <span class="arrow">→</span>
                                 </button>
                                 <button type="button" class="back-step-btn voltarPedido">←
                                     Voltar</button>
@@ -590,7 +573,7 @@
             <a href="carrinho">Carrinho</a>
             <a href="lista">Loja</a>
         </div>
-    </footer>
+    </footer> 
 
     <script type="module" src="frontend/js/utils/notify.js"></script>
     <script type="module" src="frontend/js/modules/checkout/utils.js"></script>
