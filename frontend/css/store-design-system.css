@@ -1,0 +1,222 @@
+/* OverGrace — Design System visível e consistente */
+:root {
+  --og-cream: #f1ebe3;
+  --og-cream-soft: #f8f4ef;
+  --og-paper: #fffdf9;
+  --og-ink: #1f1b18;
+  --og-ink-soft: #3a332e;
+  --og-muted: #756c64;
+  --og-line: #d9cfc4;
+  --og-accent: #8d4938;
+  --og-accent-soft: #ead8cf;
+  --og-green: #3e6250;
+  --og-danger: #9a3f3f;
+  --og-radius: 10px;
+  --og-shadow-sm: 0 8px 22px rgba(33, 26, 21, .07);
+  --og-shadow-md: 0 18px 50px rgba(33, 26, 21, .12);
+  --og-focus: 0 0 0 3px rgba(141, 73, 56, .14);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--og-cream);
+  color: var(--og-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header mais sofisticado */
+header, .site-header {
+  background: rgba(248, 244, 239, .94) !important;
+  border-bottom: 1px solid rgba(31, 27, 24, .12) !important;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 5px 22px rgba(31, 27, 24, .045);
+}
+.header-inner { min-height: 76px; }
+.logo, .footer-logo {
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+nav a, .header-right a {
+  position: relative;
+  font-size: 12px;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -7px;
+  height: 1px;
+  background: var(--og-ink);
+  transition: right .25s ease;
+}
+nav a:hover::after { right: 0; }
+
+/* Hierarquia das seções */
+.section-header { margin-bottom: 28px !important; }
+.section-title {
+  font-size: clamp(30px, 4vw, 46px) !important;
+  line-height: 1;
+  letter-spacing: -.025em;
+}
+.section-link {
+  padding-bottom: 5px;
+  border-bottom: 1px solid currentColor;
+  font-size: 11px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+/* Cards de categoria e produto */
+.category-card, .product-card {
+  border-radius: var(--og-radius);
+  overflow: hidden;
+}
+.category-card {
+  box-shadow: var(--og-shadow-sm);
+}
+.category-card img { transition: transform .55s ease, filter .4s ease; }
+.category-card:hover img { transform: scale(1.035); filter: contrast(1.02); }
+
+.products-grid {
+  gap: 30px 20px !important;
+}
+.product-card {
+  background: rgba(255, 253, 249, .58);
+  border: 1px solid var(--og-line);
+  box-shadow: 0 1px 0 rgba(255,255,255,.7) inset;
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--og-shadow-md);
+  border-color: #c4b7ab;
+}
+.product-img-wrap {
+  border-radius: 0 !important;
+  background: #ddd4cb !important;
+}
+.product-info {
+  padding: 18px 18px 20px !important;
+}
+.product-name {
+  font-size: 21px !important;
+  line-height: 1.06 !important;
+}
+.product-price {
+  font-size: 18px !important;
+  margin-top: 2px !important;
+}
+.product-quick-add {
+  border-radius: 7px !important;
+  min-height: 46px;
+  background: var(--og-ink) !important;
+  color: var(--og-paper) !important;
+}
+.product-quick-add:hover:not(:disabled) {
+  background: var(--og-accent) !important;
+  border-color: var(--og-accent) !important;
+  color: #fff !important;
+}
+
+/* Botões */
+button, .btn, .btn-primary, .btn-secondary, .checkout-btn, .buy-btn,
+.password-btn, .login-btn, .fav-add-btn {
+  border-radius: 8px !important;
+  min-height: 44px;
+  font-weight: 500;
+}
+.btn-primary, .checkout-btn, .buy-btn, .password-btn, .login-btn {
+  background: var(--og-ink) !important;
+  color: var(--og-paper) !important;
+  border: 1px solid var(--og-ink) !important;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.btn-primary:hover, .checkout-btn:hover, .buy-btn:hover,
+.password-btn:hover, .login-btn:hover {
+  background: var(--og-accent) !important;
+  border-color: var(--og-accent) !important;
+  transform: translateY(-1px);
+}
+.btn-secondary, .btn-outline {
+  background: transparent !important;
+  color: var(--og-ink) !important;
+  border: 1px solid var(--og-ink) !important;
+}
+.btn-secondary:hover, .btn-outline:hover {
+  background: var(--og-ink) !important;
+  color: var(--og-paper) !important;
+}
+
+/* Formulários */
+input, select, textarea {
+  border: 1px solid var(--og-line) !important;
+  background: rgba(255,255,255,.62) !important;
+  color: var(--og-ink) !important;
+  border-radius: 8px !important;
+  min-height: 44px;
+}
+textarea { min-height: 110px; }
+input:hover, select:hover, textarea:hover { border-color: #b9aa9d !important; }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--og-accent) !important;
+  background: var(--og-paper) !important;
+  box-shadow: var(--og-focus) !important;
+}
+
+/* Carrinho, checkout e conta */
+.cart-item, .order-card, .address-card, .checkout-card, .summary-card,
+.account-card, .profile-card {
+  background: rgba(255,253,249,.72) !important;
+  border: 1px solid var(--og-line) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--og-shadow-sm);
+}
+.order-card, .address-card { transition: transform .2s ease, box-shadow .2s ease; }
+.order-card:hover, .address-card:hover { transform: translateY(-2px); box-shadow: var(--og-shadow-md); }
+
+/* Status */
+.status-badge, [class*="status-"] {
+  border-radius: 999px !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+}
+.status-paid, .status-delivered, .status-approved { background: #dce9df !important; color: #315842 !important; }
+.status-pending, .status-processing { background: #efe4cf !important; color: #74592d !important; }
+.status-expired, .status-canceled, .status-failed { background: #edd8d6 !important; color: #8b3e3e !important; }
+.status-review, .status-payment_review { background: #dfd9ed !important; color: #57457b !important; }
+
+/* Banner editorial */
+.editorial-banner {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-left: 60px;
+  margin-right: 60px;
+  box-shadow: var(--og-shadow-md);
+}
+
+/* Rodapé */
+footer {
+  border-top: 1px solid rgba(255,255,255,.15);
+}
+
+@media (max-width: 900px) {
+  .header-inner { min-height: 64px; }
+  .products-section { padding-left: 24px !important; padding-right: 24px !important; }
+  .editorial-banner { margin-left: 24px; margin-right: 24px; }
+}
+
+@media (max-width: 680px) {
+  .products-section { padding-left: 16px !important; padding-right: 16px !important; }
+  .products-grid { grid-template-columns: 1fr !important; }
+  .editorial-banner { margin-left: 16px; margin-right: 16px; }
+  .product-card { border-radius: 10px; }
+  .product-info { padding: 16px !important; }
+  .section-title { font-size: 34px !important; }
+}

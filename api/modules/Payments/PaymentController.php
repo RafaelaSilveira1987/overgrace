@@ -78,7 +78,7 @@ class PaymentController
 
                 'boleto' => PaymentService::createBoleto(
                     (int) $body['order_id'],
-                    (int) $body['client_id']
+                    (int) $body['client_id'] 
                 ),
 
                 default => throw new Exception(

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil — OverGrace </title>
     <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/perfil.css">
-    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css">
+    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22">
 </head>
 
 <body>
@@ -164,7 +164,7 @@
 
             const response =
                 await fetch(
-                    '/overgrace/api/me', {
+                    '/overgrace/api/admin/me', {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }
@@ -187,7 +187,7 @@
             fillProfile(user);
 
             // Armazenar role para controle de UI se necessário
-            localStorage.setItem("userRole", user.role);
+            localStorage.setItem("userRole", user.cargo || 'admin');
 
         } catch (error) {
 
@@ -214,7 +214,7 @@
         document.getElementById(
                 "perfilCargo"
             ).textContent =
-            user.role || 'admin';
+            user.cargo || 'Admin';
 
         const avatar =
             document.getElementById(
@@ -263,7 +263,7 @@
 
                     const response =
                         await fetch(
-                            '/overgrace/api/change-password', {
+                            '/overgrace/api/admin/change-password', {
                                 method: 'POST',
 
                                 headers: {

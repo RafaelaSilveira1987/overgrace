@@ -1,4 +1,4 @@
-import { registerClient } from '../../services/authService.js?v=3';
+import { registerClient } from '../../services/authService.js?v=10';
 import { notify } from '../../utils/notify.js';
 
 const form = document.getElementById('formCadastro');
@@ -31,7 +31,7 @@ form.addEventListener('submit', async (e) => {
         notify.success('Cadastro realizado com sucesso');
 
         setTimeout(() => {
-            window.location.href = '/overgrace/login';
+            window.location.href = `${window.location.pathname.includes('/overgrace-main') ? '/overgrace-main' : window.location.pathname.includes('/overgrace') ? '/overgrace' : ''}/login`;
         }, 600);
     } catch (err) {
         notify.error(err.message || 'Nao foi possivel realizar o cadastro');

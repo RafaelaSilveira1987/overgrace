@@ -7,7 +7,7 @@
     <title>Produtos | OverGrace</title>
 
     <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/loja.css" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css?v=22" />
 </head>
 
 <body>
@@ -143,7 +143,7 @@
 
         <script type="module" src="frontend/js/modules/product/listaVitrine.js"></script>
         <script type="module" src="frontend/js/modules/cart/qtyCart.js"></script>
-        <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=1"></script>
+        <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=2"></script>
         <script type="module" src="/overgrace/frontend/js/modules/site-content/public-site-content.js"></script>
 
         <script>

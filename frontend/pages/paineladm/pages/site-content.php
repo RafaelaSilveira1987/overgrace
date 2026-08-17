@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
     <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/site-content.css" />
     <link rel="stylesheet" href="/overgrace/frontend/css/utils.css" />
 </head>
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <script type="module" src="/overgrace/frontend/js/modules/site-content/admin.js"></script>
+    <script type="module" src="/overgrace/frontend/js/modules/site-content/admin.js?v=2"></script>
 </body>
 
 </html>

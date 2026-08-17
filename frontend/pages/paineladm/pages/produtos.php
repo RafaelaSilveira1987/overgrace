@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/paineladm.css?v=22" />
     <link rel="stylesheet" href="/overgrace/frontend/pages/paineladm/pages/pages-css/produtos.css" />
     <link rel="stylesheet" href="/overgrace/frontend/css/utils.css">
 </head>

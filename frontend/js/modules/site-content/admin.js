@@ -142,38 +142,67 @@ function renderSection(sectionKey, fields) {
 
 function renderSections(rows) {
     const grouped = groupRows(rows);
-    const renderedSections = new Set();
+    const preferredOrder = PAGE_GROUPS.flatMap(group => group.sections);
+    const unknown = Object.keys(grouped).filter(sectionKey => !preferredOrder.includes(sectionKey));
+    const sectionKeys = [...preferredOrder, ...unknown].filter(sectionKey => grouped[sectionKey]);
 
-    const html = PAGE_GROUPS.map(group => {
-        const sectionsHtml = group.sections
-            .filter(sectionKey => grouped[sectionKey])
-            .map(sectionKey => {
-                renderedSections.add(sectionKey);
-                return renderSection(sectionKey, grouped[sectionKey]);
-            })
-            .join('');
+    if (!sectionKeys.length) {
+        container.innerHTML = '<div class="cms-loading">Nenhum conteúdo configurado.</div>';
+        return;
+    }
 
-        if (!sectionsHtml) return '';
+    const tabs = sectionKeys.map((sectionKey, index) => `
+        <button
+            type="button"
+            class="cms-tab ${index === 0 ? 'active' : ''}"
+            data-cms-tab="${escapeHtml(sectionKey)}"
+            aria-selected="${index === 0 ? 'true' : 'false'}"
+        >
+            ${escapeHtml(SECTION_LABELS[sectionKey] || sectionKey)}
+        </button>
+    `).join('');
 
-        return `
-            <div class="cms-page-group">
-                <div class="cms-page-group-title">
-                    <span>Ordem da página</span>
-                    <h2>${escapeHtml(group.title)}</h2>
-                    <p>${escapeHtml(group.description)}</p>
-                </div>
-                ${sectionsHtml}
+    const panels = sectionKeys.map((sectionKey, index) => `
+        <div
+            class="cms-tab-panel ${index === 0 ? 'active' : ''}"
+            data-cms-panel="${escapeHtml(sectionKey)}"
+            ${index === 0 ? '' : 'hidden'}
+        >
+            ${renderSection(sectionKey, grouped[sectionKey])}
+        </div>
+    `).join('');
+
+    container.innerHTML = `
+        <div class="cms-tabs-wrap">
+            <div class="cms-tabs" role="tablist" aria-label="Seções editáveis do site">
+                ${tabs}
             </div>
-        `;
-    }).join('');
-
-    const unknownSectionsHtml = Object.entries(grouped)
-        .filter(([sectionKey]) => !renderedSections.has(sectionKey))
-        .map(([sectionKey, fields]) => renderSection(sectionKey, fields))
-        .join('');
-
-    container.innerHTML = html + unknownSectionsHtml;
+        </div>
+        <div class="cms-tab-panels">
+            ${panels}
+        </div>
+    `;
 }
+
+function activateSectionTab(sectionKey) {
+    container.querySelectorAll('[data-cms-tab]').forEach(button => {
+        const active = button.dataset.cmsTab === sectionKey;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    container.querySelectorAll('[data-cms-panel]').forEach(panel => {
+        const active = panel.dataset.cmsPanel === sectionKey;
+        panel.classList.toggle('active', active);
+        panel.hidden = !active;
+    });
+}
+
+container.addEventListener('click', event => {
+    const button = event.target.closest('[data-cms-tab]');
+    if (!button) return;
+    activateSectionTab(button.dataset.cmsTab);
+});
 
 async function loadContent() {
     try {

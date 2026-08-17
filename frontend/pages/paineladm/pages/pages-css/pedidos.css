@@ -108,3 +108,24 @@ body {
   outline: none;
   width: 100%;
 }
+
+
+.payment-review-alert {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1px solid #c68a2e;
+  background: #fff8e8;
+  color: #5f4319;
+  font-size: 13px;
+}
+.payment-review-alert[hidden] { display: none; }
+.payment-review-alert span { flex: 1; }
+.payment-review-alert button {
+  border: 1px solid currentColor;
+  background: transparent;
+  padding: 8px 12px;
+  cursor: pointer;
+}

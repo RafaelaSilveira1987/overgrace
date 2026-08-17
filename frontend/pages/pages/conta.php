@@ -11,10 +11,11 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/conta.css">
+    <link rel="stylesheet" href="/overgrace/frontend/pages/style.css?v=22" />
+    <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/conta.css?v=4">
 
 
+  <link rel="stylesheet" href="/overgrace/frontend/css/backend-pix-compat.css">
 </head>
 
 <body>
@@ -84,31 +85,27 @@
         <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-avatar">
-                <div class="avatar-circle">MA</div>
-                <p class="sidebar-name">Mariana Alves</p>
-                <p class="sidebar-email">mariana@email.com.br</p>
+                <div class="avatar-circle">--</div>
+                <p class="sidebar-name">Carregando...</p>
+                <p class="sidebar-email"></p>
             </div>
 
             <nav class="sidebar-nav">
                 <button class="snav-item active" onclick="switchPanel('pedidos', this)">
-                    <span class="snav-icon">?</span> Meus pedidos
-                    <span class="snav-badge">4</span>
+                    <span class="snav-icon" aria-hidden="true">▦</span> Meus pedidos
+                    <span class="snav-badge" id="sidebarOrdersCount" hidden>0</span>
                 </button>
                 <button class="snav-item" onclick="switchPanel('perfil', this)">
-                    <span class="snav-icon">?</span> Meu perfil
+                    <span class="snav-icon" aria-hidden="true">○</span> Meu perfil
                 </button>
                 <button class="snav-item" onclick="switchPanel('enderecos', this)">
-                    <span class="snav-icon">?</span> Endereços
-                </button>
-                <button class="snav-item" onclick="switchPanel('favoritos', this)">
-                    <span class="snav-icon">?</span> Favoritos
-                    <span class="snav-badge">3</span>
+                    <span class="snav-icon" aria-hidden="true">⌂</span> Endereços
                 </button>
             </nav>
 
             <div class="sidebar-logout">
                 <button class="logout-btn" onclick="confirmLogout()">
-                    ? Sair da conta
+                    <span aria-hidden="true">↪</span> Sair da conta
                 </button>
             </div>
         </aside>
@@ -133,6 +130,13 @@
                         <div class="sum-card-val valor_investido">R$ 0,00</div>
                         <div class="sum-card-label">Total investido</div>
                     </div>
+                </div>
+
+                <div class="order-filters" id="orderFilters" aria-label="Filtrar pedidos">
+                    <button type="button" class="order-filter active" data-filter="all">Todos</button>
+                    <button type="button" class="order-filter" data-filter="active">Em andamento</button>
+                    <button type="button" class="order-filter" data-filter="delivered">Concluídos</button>
+                    <button type="button" class="order-filter" data-filter="expired">Expirados</button>
                 </div>
 
                 <div class="orders-list">
@@ -590,46 +594,61 @@
 
             <!-- --- PAINEL: ENDEREÇOS --- -->
             <div class="panel" id="panel-enderecos">
-                <h1 class="panel-title">Meus <em>Endereços</em></h1>
-                <p class="panel-sub">Gerencie os endereços de entrega salvos.</p>
-
-                <div class="addresses-grid">
-                    <div class="address-card default">
-                        <span class="addr-default-badge">Padrão</span>
-                        <p class="addr-name">Mariana Alves</p>
-                        <p class="addr-line">
-                            Rua das Flores, 120 ◆ Apto 42<br />
-                            Jardim das Ac�cias ◆ Muriaé/MG<br />
-                            CEP: 36880-000
-                        </p>
-                        <div class="addr-actions">
-                            <button class="addr-btn">Editar</button>
-                            <span class="addr-btn-sep">◆</span>
-                            <button class="addr-btn danger">Remover</button>
-                        </div>
+                <div class="address-panel-head">
+                    <div>
+                        <h1 class="panel-title">Meus <em>Endereços</em></h1>
+                        <p class="panel-sub">Gerencie os endereços usados no checkout e no boleto.</p>
                     </div>
-
-                    <div class="address-card">
-                        <p class="addr-name">Trabalho</p>
-                        <p class="addr-line">
-                            Avenida Brasil, 540 ◆ Sala 302<br />
-                            Centro ◆ Muriaé/MG<br />
-                            CEP: 36880-100
-                        </p>
-                        <div class="addr-actions">
-                            <button class="addr-btn">Editar</button>
-                            <span class="addr-btn-sep">◆</span>
-                            <button class="addr-btn">Tornar padrão</button>
-                            <span class="addr-btn-sep">◆</span>
-                            <button class="addr-btn danger">Remover</button>
-                        </div>
-                    </div>
-
-                    <div class="add-address-card" onclick="switchPanel('enderecos', null, true)">
-                        <span class="add-icon">+</span>
-                        <span class="add-label">Adicionar endereço</span>
-                    </div>
+                    <button type="button" class="save-btn" id="btnAddAddress">Adicionar endereço</button>
                 </div>
+
+                <div class="addresses-grid" id="addressesGrid">
+                    <div class="address-loading">Carregando endereços...</div>
+                </div>
+            </div>
+
+            <div class="address-modal" id="addressModal" hidden>
+                <div class="address-modal-backdrop" data-close-address-modal></div>
+                <section class="address-modal-card" role="dialog" aria-modal="true" aria-labelledby="addressModalTitle">
+                    <button type="button" class="address-modal-close" data-close-address-modal aria-label="Fechar">×</button>
+                    <h2 id="addressModalTitle">Adicionar endereço</h2>
+                    <p class="address-modal-sub">Os campos marcados são obrigatórios para gerar boleto e calcular a entrega.</p>
+
+                    <form id="addressForm">
+                        <input type="hidden" id="addressId" />
+                        <div class="address-form-grid">
+                            <label class="full">CEP
+                                <input type="text" id="addressCep" maxlength="9" required placeholder="00000-000" />
+                            </label>
+                            <label class="full">Endereço
+                                <input type="text" id="addressStreet" required placeholder="Rua ou avenida" />
+                            </label>
+                            <label>Número
+                                <input type="text" id="addressNumber" required placeholder="123" />
+                            </label>
+                            <label>Complemento
+                                <input type="text" id="addressComplement" placeholder="Apto, bloco..." />
+                            </label>
+                            <label class="full">Bairro
+                                <input type="text" id="addressDistrict" required />
+                            </label>
+                            <label>Cidade
+                                <input type="text" id="addressCity" required />
+                            </label>
+                            <label>Estado
+                                <input type="text" id="addressState" maxlength="2" required placeholder="MG" />
+                            </label>
+                        </div>
+                        <label class="address-default-check">
+                            <input type="checkbox" id="addressDefault" />
+                            Usar como endereço principal
+                        </label>
+                        <div class="address-modal-actions">
+                            <button type="button" class="addr-modal-cancel" data-close-address-modal>Cancelar</button>
+                            <button type="submit" class="save-btn" id="btnSaveAddress">Salvar endereço</button>
+                        </div>
+                    </form>
+                </section>
             </div>
 
             <!-- --- PAINEL: FAVORITOS --- -->
@@ -817,7 +836,7 @@
     </footer>
 
     <script src="frontend/js/modules/account/utils.js"></script>
-    <script type="module" src="frontend/js/modules/account/listDataAccount.js"></script>
+    <script type="module" src="frontend/js/modules/account/listDataAccount.js?v=7"></script>
 
 </body>
 
