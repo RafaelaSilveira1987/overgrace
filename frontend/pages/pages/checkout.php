@@ -20,29 +20,13 @@ $mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
 
     <!-- SDK de pagamento seguro. Configure a chave pública do provedor no ambiente correto. -->
     <script>
-    window.OVERGRACE_MP_PUBLIC_KEY = <?= json_encode($mpPublicKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
-    window.OVERGRACE_MP_LOCALE = 'pt-BR';
-    // Produção: nunca permita avanço ou pagamento simulado.
-    window.OVERGRACE_DEMO_CHECKOUT = false;
+        window.OVERGRACE_MP_PUBLIC_KEY = <?= json_encode($mpPublicKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+        window.OVERGRACE_MP_LOCALE = 'pt-BR';
+        // Produção: nunca permita avanço ou pagamento simulado.
+        window.OVERGRACE_DEMO_CHECKOUT = false;
     </script>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
 
-<style id="pix-only-backend-compatibility">
-  .pay-tab[data-method="boleto"],
-  .pay-tab[data-method="cartao"],
-  #pay-boleto,
-  #pay-cartao,
-  #btnBoleto { display: none !important; }
-  .pix-backend-note {
-    margin: 0 0 16px;
-    padding: 12px 14px;
-    border: 1px solid rgba(0,0,0,.12);
-    border-radius: 10px;
-    background: rgba(255,255,255,.7);
-    font-size: 13px;
-    line-height: 1.45;
-  }
-</style>
 </head>
 
 <body>
@@ -404,22 +388,21 @@ $mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
                                 <div class="form-row single">
                                     <div class="field card-field">
                                         <label for="form-checkout__cardNumber">Número do cartão</label>
-                                        <div id="form-checkout__cardNumber" class="mp-secure-field"
-                                            data-demo-placeholder="0000 0000 0000 0000"></div>
-                                        <small class="field-hint-inline">Campo seguro</small>
+                                        <input id="form-checkout__cardNumber" class="mp-secure-field"
+                                            data-demo-placeholder="0000 0000 0000 0000">
                                     </div>
                                 </div>
 
                                 <div class="form-row thirds">
                                     <div class="field card-field">
                                         <label for="form-checkout__expirationDate">Validade</label>
-                                        <div id="form-checkout__expirationDate" class="mp-secure-field"
-                                            data-demo-placeholder="MM/AA"></div>
+                                        <input id="form-checkout__expirationDate" class="mp-secure-field"
+                                            data-demo-placeholder="MM/AA">
                                     </div>
                                     <div class="field card-field">
                                         <label for="form-checkout__securityCode">CVV</label>
-                                        <div id="form-checkout__securityCode" class="mp-secure-field"
-                                            data-demo-placeholder="123"></div>
+                                        <input id="form-checkout__securityCode" class="mp-secure-field"
+                                            data-demo-placeholder="123">
                                     </div>
                                     <div class="field">
                                         <label for="form-checkout__installments">Parcelas</label>
@@ -470,7 +453,7 @@ $mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
                                 </div>
 
 
-                                <button type="submit" class="submit-btn" id="form-checkout__submit">
+                                <button type="submit" class="submit-btn" id="btnCartao">
                                     Pagar com cartão <span class="arrow">→</span>
                                 </button>
                                 <button type="button" class="back-step-btn voltarPedido">←
@@ -549,7 +532,7 @@ $mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
                 <h2>PIX copia e cola</h2>
                 <img id="pixQrCode" class="pix-qrcode" alt="QR Code PIX" />
                 <p class="copy-code" id="pixCode">
-</p>
+                </p>
                 <button type="button" class="outline-action" id="btnCopyPix">Copiar código PIX</button>
             </div>
 
@@ -589,29 +572,31 @@ $mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
             <a href="lista">Loja</a>
         </div>
     </footer>
-
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script type="module" src="frontend/js/utils/notify.js"></script>
     <script type="module" src="frontend/js/modules/checkout/utils.js?v=16"></script>
     <script type="module" src="frontend/js/modules/client/register.js?v=7"></script>
     <script type="module" src="frontend/js/modules/checkout/list.js?v=4"></script>
     <script type="module" src="frontend/js/modules/checkout/payment.js?v=23"></script>
- 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const back = document.getElementById('checkoutHeaderBack');
-    const orderId = localStorage.getItem('order_id');
-    if (back && orderId) {
-        const base = window.APP_BASE_PATH || '';
-        back.href = `minha-conta?order=${encodeURIComponent(orderId)}`;
-        back.textContent = '← Voltar ao pedido';
 
-        window.addEventListener('checkout:stale-order', function () {
-            back.href = `carrinho`;
-            back.textContent = '← Voltar ao carrinho';
-        }, { once: true });
-    }
-});
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const back = document.getElementById('checkoutHeaderBack');
+            const orderId = localStorage.getItem('order_id');
+            if (back && orderId) {
+                const base = window.APP_BASE_PATH || '';
+                back.href = `minha-conta?order=${encodeURIComponent(orderId)}`;
+                back.textContent = '← Voltar ao pedido';
+
+                window.addEventListener('checkout:stale-order', function() {
+                    back.href = `carrinho`;
+                    back.textContent = '← Voltar ao carrinho';
+                }, {
+                    once: true
+                });
+            }
+        });
+    </script>
 
 </body>
 

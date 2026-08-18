@@ -221,6 +221,9 @@ class PaymentService
 
             $mpResponse = $mp->createPayment($payload);
 
+
+            //var_dump($mpResponse);
+
             if (!$mpResponse || empty($mpResponse['id'])) {
                 throw new Exception(
                     "Erro ao criar pagamento no Mercado Pago"
@@ -228,6 +231,8 @@ class PaymentService
             }
 
             // 5. Persistir pagamento
+
+            $status = PaymentStatus::fromMercadoPago($mpResponse['status']);
 
             $paymentId = PaymentModel::create([
 
@@ -241,7 +246,7 @@ class PaymentService
 
                 'method' => 'credit_card',
 
-                'status' => $mpResponse['status'] ?? 'pending',
+                'status' => $status ?? 'pending',
 
                 'amount' => (float)$order['total_amount'],
 
@@ -259,6 +264,8 @@ class PaymentService
                 'qr_code_base64' => null,
 
                 'pix_copy_paste' => null,
+
+                'authorization_code' => $mpResponse['authorization_code'],
 
                 'gateway_response' => $mpResponse
             ]);
@@ -319,6 +326,10 @@ class PaymentService
 
             if ((float)$order['total_amount'] <= 0) {
                 throw new Exception("Pedido inválido");
+            }
+
+            if ((float)$order['total_amount'] <= 20) {
+                throw new Exception("Valor minimo do boleto é de R$ 20,00");
             }
 
             // 2. Buscar cliente
@@ -434,6 +445,7 @@ class PaymentService
                 );
             }
 
+            //var_dump($mpResponse);
             // 5. Persistir
 
             $paymentId = PaymentModel::create([
@@ -467,6 +479,15 @@ class PaymentService
                 'qr_code_base64' => null,
 
                 'pix_copy_paste' => null,
+
+                'boleto_url' => $mpResponse["transaction_details"]['external_resource_url'] ?? null,
+
+                'boleto_barcode' => $mpResponse['barcode']['content'] ?? null,
+
+                'expires_at' => date(
+                    'Y-m-d H:i:s',
+                    strtotime($mpResponse["date_of_expiration"])
+                ),
 
                 'gateway_response' => $mpResponse
             ]);
@@ -638,6 +659,10 @@ class PaymentService
         return true;
     }
 
+
+    /**
+     * Processa webhooks
+     */
     public static function processWebhook(array $payload)
     {
         //cria o registro do webhook para validações futuras

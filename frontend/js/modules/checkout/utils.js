@@ -2,11 +2,14 @@ import { notify } from '../../utils/notify.js';
 import { orderService } from '../../services/orderService.js';
 import { paymentService } from '../../services/paymentService.js';
 
+const MP = new MercadoPago('TEST-f896f208-2edd-43aa-b43e-67832020a878');
+
+
 export async function criarPagamento(event, method = "pix") {
 
   startButtonLoading(event);
 
-  try { 
+  try {
 
     const order_id = localStorage.getItem("order_id");
 
@@ -14,20 +17,50 @@ export async function criarPagamento(event, method = "pix") {
 
     const client_id = order.client_id;
 
-    const payment = await paymentService.criar({
+    let dadosPagamento = {
       order_id,
       client_id,
       method
-    });
+    };
+
+    if (method === 'credit_card') {
+
+      // Gera o token do cartão no Mercado Pago
+      const cardData = await gerarTokenCartao();
+
+      // Adiciona os dados do cartão tokenizado
+      dadosPagamento = {
+        ...dadosPagamento,
+
+        token: cardData.token,
+        installments: cardData.installments,
+        payment_method_id: cardData.payment_method_id,
+        issuer_id: cardData.issuer_id,
+
+        cardholder_name: cardData.cardholder_name,
+        cardholder_email: cardData.cardholder_email,
+
+        identification_type: cardData.identification_type,
+        identification_number: cardData.identification_number
+      };
+    }
+
+    console.log('Dados enviados para o backend:', dadosPagamento);
+
+    const payment = await paymentService.criar(dadosPagamento);
 
     if (!payment.success) {
-      notify.error("Algo deu errado na geração do Pix, tente novamente mais tarde!");
+      notify.error(
+        "Algo deu errado no pagamento, tente novamente mais tarde!"
+      );
       return;
     }
 
     const orderPayment = await orderService.getPaymentOrder(order_id, {
       client_id
     });
+
+    console.log(orderPayment);
 
     mostrarResultado(
       orderPayment.data.method ?? method,
@@ -36,6 +69,8 @@ export async function criarPagamento(event, method = "pix") {
 
   } catch (e) {
 
+    console.error(e);
+
     notify.error(e.message);
 
   } finally {
@@ -43,9 +78,109 @@ export async function criarPagamento(event, method = "pix") {
     stopButtonLoading(event);
 
   }
-
 }
- 
+
+async function gerarTokenCartao() {
+
+  const cardNumber = document
+    .getElementById('form-checkout__cardNumber')
+    .value
+    .replace(/\D/g, '');
+
+  const expirationDate = document
+    .getElementById('form-checkout__expirationDate')
+    .value
+    .trim();
+
+  const securityCode = document
+    .getElementById('form-checkout__securityCode')
+    .value
+    .trim();
+
+  const cardholderName = document
+    .getElementById('form-checkout__cardholderName')
+    .value
+    .trim();
+
+  const identificationNumber = document
+    .getElementById('form-checkout__identificationNumber')
+    .value
+    .replace(/\D/g, '');
+
+  if (!cardNumber) {
+    throw new Error('Informe o número do cartão.');
+  }
+
+  if (!expirationDate) {
+    throw new Error('Informe a validade do cartão.');
+  }
+
+  if (!securityCode) {
+    throw new Error('Informe o CVV.');
+  }
+
+  if (!cardholderName) {
+    throw new Error('Informe o nome do titular.');
+  }
+
+  const [month, year] = expirationDate.split('/');
+
+  if (!month || !year) {
+    throw new Error('Validade do cartão inválida.');
+  }
+
+  // Descobrir a bandeira
+  const paymentMethods = await MP.getPaymentMethods({
+    bin: cardNumber.substring(0, 6)
+  });
+
+  if (
+    !paymentMethods ||
+    !paymentMethods.results ||
+    !paymentMethods.results.length
+  ) {
+    throw new Error('Não foi possível identificar a bandeira do cartão.');
+  }
+
+  const paymentMethod = paymentMethods.results[0];
+
+  console.log('Payment method:', paymentMethod);
+
+  // Gerar token
+  const token = await MP.createCardToken({
+    cardNumber,
+    cardExpirationMonth: month,
+    cardExpirationYear: `20${year}`,
+    securityCode,
+    cardholderName,
+    identificationType: 'CPF',
+    identificationNumber
+  });
+
+  if (!token || !token.id) {
+    throw new Error('Não foi possível gerar o token do cartão.');
+  }
+
+  return {
+    token: token.id,
+
+    payment_method_id: paymentMethod.id,
+
+    cardholder_name: cardholderName,
+
+    identification_type: 'CPF',
+
+    identification_number: identificationNumber,
+
+    installments: Number(
+      document.getElementById('form-checkout__installments').value || 1
+    ),
+
+    issuer_id:
+      document.getElementById('form-checkout__issuer').value || null
+  };
+}
+
 function mostrarResultado(method, payment) {
 
   pararPolling();
@@ -223,7 +358,7 @@ function mostrarTelaCartao(payment) {
 
   switch (payment.status) {
 
-    case "approved":
+    case "paid":
 
       document.getElementById("confirmIcon").textContent = "✓";
       document.getElementById("confirmEyebrow").textContent = "Pagamento aprovado";
@@ -233,7 +368,7 @@ function mostrarTelaCartao(payment) {
 
       break;
 
-    case "in_process":
+    case "processing":
 
       document.getElementById("confirmIcon").textContent = "⏳";
       document.getElementById("confirmEyebrow").textContent = "Pagamento em análise";
@@ -249,7 +384,7 @@ function mostrarTelaCartao(payment) {
 
       break;
 
-    case "rejected":
+    case "failed":
 
       document.getElementById("confirmIcon").textContent = "✕";
       document.getElementById("confirmEyebrow").textContent = "Pagamento recusado";
@@ -278,10 +413,12 @@ function mostrarTelaBoleto(payment) {
         "Seu boleto foi gerado. Após a compensação iniciaremos a preparação do pedido.";
 
       document.getElementById("boletoCode").textContent =
-        payment.boleto_code || "";
+        payment.boleto_barcode || "";
 
       document.getElementById("boletoDueDate").textContent =
-        payment.boleto_due_date || "--/--/----";
+        payment.expires_at || "--/--/----";
+
+      document.getElementById("btnOpenBoleto").href = payment.boleto_url
 
       document.getElementById("boletoNextCard").hidden = false;
 

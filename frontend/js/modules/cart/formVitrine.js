@@ -58,7 +58,7 @@ function formatar(valor) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-}
+} 
 
 export async function carregarProduto() {
   try {
