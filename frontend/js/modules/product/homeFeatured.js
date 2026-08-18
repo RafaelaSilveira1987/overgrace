@@ -2,6 +2,7 @@ import { publicProdutoService } from '../../services/publicProdutoService.js';
 import { carrinhoService } from '../../services/cartService.js';
 import { contaItensCarrinho } from '../cart/qtyCart.js';
 import { notify } from '../../utils/notify.js';
+import { animateProductToCart } from '../../utils/cartFly.js?v=4';
 
 const grid = document.getElementById('featureGrid');
 
@@ -109,8 +110,19 @@ grid?.addEventListener('click', async (event) => {
     button.textContent = 'Adicionando...';
 
     await carrinhoService.adicionar(product.id, sizes[0].tamanho, 1);
-    await contaItensCarrinho();
-    notify.success('Produto adicionado ao carrinho!');
+
+    const imageSrc = card.querySelector('.product-img-wrap img')?.src || '';
+    const toast = notify.productAdded({
+      name: product.descricao || 'Produto adicionado ao carrinho!',
+      image: imageSrc,
+    });
+
+    await animateProductToCart({
+      toast,
+      imageSrc,
+      quantity: 1,
+      onArrival: contaItensCarrinho,
+    });
 
     button.textContent = 'Adicionado ✓';
     setTimeout(() => {

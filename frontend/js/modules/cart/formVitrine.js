@@ -2,6 +2,7 @@ import { carrinhoService } from "../../services/cartService.js";
 import { produtoService } from "../../services/productService.js";
 import { contaItensCarrinho } from "../../modules/cart/qtyCart.js";
 import { notify } from "../../utils/notify.js";
+import { animateProductToCart } from "../../utils/cartFly.js?v=4";
 import { marcarErro } from "../../utils/validateUI.js";
 import { alertConfirm } from "../../utils/alerts.js";
 import { dataUtil, valorUtil } from "../../utils/normalize.js";
@@ -25,8 +26,22 @@ document.getElementById("formProd").addEventListener("submit", async (e) => {
 
     await carrinhoService.adicionar(produto, tamanho, quantidade);
 
-    contaItensCarrinho();
-    notify.success("Produto adicionado ao carrinho!");
+    const imageSrc = document.getElementById("mainProductImage")?.src || "";
+    const productName =
+      document.getElementById("f-name")?.textContent?.trim() ||
+      "Produto adicionado ao carrinho!";
+
+    const toast = notify.productAdded({
+      name: productName,
+      image: imageSrc,
+    });
+
+    await animateProductToCart({
+      toast,
+      imageSrc,
+      quantity: quantidade,
+      onArrival: contaItensCarrinho,
+    });
   } catch (e) {
     console.error(e);
     notify.error(e.message || "Erro ao adicionar ao carrinho");
