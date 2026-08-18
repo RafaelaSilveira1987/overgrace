@@ -602,11 +602,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const orderId = localStorage.getItem('order_id');
     if (back && orderId) {
         const base = window.APP_BASE_PATH || '';
-        back.href = `${base}/minha-conta?order=${encodeURIComponent(orderId)}`;
+        back.href = `minha-conta?order=${encodeURIComponent(orderId)}`;
         back.textContent = '← Voltar ao pedido';
 
         window.addEventListener('checkout:stale-order', function () {
-            back.href = `${base}/carrinho`;
+            back.href = `carrinho`;
             back.textContent = '← Voltar ao carrinho';
         }, { once: true });
     }

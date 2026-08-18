@@ -236,10 +236,10 @@ if (formShipping) {
     }
   });
 }
- 
+  
 document.addEventListener('DOMContentLoaded', async () => {
  
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token_client');
   const orderId = localStorage.getItem('order_id');
 
   console.log("token:", token);

@@ -113,7 +113,7 @@ function renderCart(cart) {
   setText("summaryItemsCount", `${qtd} ${qtd === 1 ? "item" : "itens"}`);
 
   if (!container) return;
-
+ 
   if (!items.length) {
     container.innerHTML = `
       <div class="summary-empty">

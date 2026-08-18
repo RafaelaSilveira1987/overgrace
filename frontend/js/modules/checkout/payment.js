@@ -13,6 +13,7 @@ function hasOrder() {
   return Boolean(localStorage.getItem('order_id'));
 }
 
+/*
 document.addEventListener('DOMContentLoaded', () => {
   // O backend desta versão possui integração real somente com PIX.
   document.querySelectorAll('.pay-tab').forEach((tab) => {
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     panel.hidden = !enabled;
     panel.classList.toggle('active', enabled);
   });
-});
+});*/
 
 document.getElementById('btnPix')?.addEventListener('click', () => {
   if (!hasOrder()) {
@@ -53,7 +54,7 @@ document.querySelectorAll('.pay-tab').forEach((btn) => {
   btn.addEventListener('click', function () {
     if (this.dataset.method === 'pix') selectPayTab('pix', this);
   });
-});
+}); 
 
 const formRegister = document.getElementById('formRegister');
 formRegister?.querySelector('#cpf')?.addEventListener('input', (event) => maskCPF(event.target));
