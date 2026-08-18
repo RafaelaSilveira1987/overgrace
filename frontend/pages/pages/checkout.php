@@ -595,7 +595,7 @@ $mpPublicKey = $_ENV['MP_PUBLIC_KEY'] ?? getenv('MP_PUBLIC_KEY') ?: '';
     <script type="module" src="frontend/js/modules/client/register.js?v=7"></script>
     <script type="module" src="frontend/js/modules/checkout/list.js?v=4"></script>
     <script type="module" src="frontend/js/modules/checkout/payment.js?v=23"></script>
-
+ 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const back = document.getElementById('checkoutHeaderBack');

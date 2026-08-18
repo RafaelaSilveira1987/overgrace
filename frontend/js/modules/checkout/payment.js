@@ -8,7 +8,7 @@ import {
   maskCPF,
   fetchCEP
 } from './utils.js';
-
+ 
 function hasOrder() {
   return Boolean(localStorage.getItem('order_id'));
 }

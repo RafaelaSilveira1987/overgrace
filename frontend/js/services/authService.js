@@ -2,7 +2,9 @@ import { api } from '../core/api.js?v=11';
 
 function saveSession(response, defaultRole = 'client') {
   if (!response?.token) throw new Error('Token não retornado pelo servidor.');
+
   const role = response.role || defaultRole;
+  
   const isAdmin = role === 'admin';
   ['token','token_client','refresh_token','refresh_token_client','role'].forEach((key) => localStorage.removeItem(key));
   localStorage.setItem(isAdmin ? 'token' : 'token_client', response.token);

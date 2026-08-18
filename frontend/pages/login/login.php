@@ -42,7 +42,7 @@ $appBasePath = '/overgrace';
                 <?php endif; ?>
             </div>
         </form>
-    </div>
+    </div> 
     <script>
       window.LOGIN_MODE = <?= json_encode($loginMode) ?>;
       window.APP_BASE_PATH = <?= json_encode($appBasePath) ?>;

@@ -45,7 +45,7 @@ export async function criarPagamento(event, method = "pix") {
   }
 
 }
-
+ 
 function mostrarResultado(method, payment) {
 
   pararPolling();

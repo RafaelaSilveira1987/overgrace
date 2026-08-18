@@ -70,7 +70,7 @@ form?.addEventListener('submit', async (event) => {
             response = await authService.login(
                 email,
                 password
-            );
+            ); 
         }
 
         // Usa a role retornada pela API.

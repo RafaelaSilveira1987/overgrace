@@ -132,7 +132,7 @@ INSERT INTO `clients_address` (`id`, `client_id`, `tipo`, `cep`, `endereco`, `nu
 (4, 10, 'entrega', '36884-081', 'Rua Rui Barbosa', '143', 'Barra', '101', 'Muriaé', 'MG');
 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `coupons`
 --
