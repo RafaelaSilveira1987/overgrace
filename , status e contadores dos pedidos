@@ -1,0 +1,203 @@
+[1mdiff --git a/frontend/js/modules/account/listDataAccount.js b/frontend/js/modules/account/listDataAccount.js[m
+[1mindex 99d54de..8ddfb76 100644[m
+[1m--- a/frontend/js/modules/account/listDataAccount.js[m
+[1m+++ b/frontend/js/modules/account/listDataAccount.js[m
+[36m@@ -1,55 +1,211 @@[m
+[31m-import {[m
+[31m-    authService[m
+[31m-} from "/overgrace/frontend/js/services/authService.js?v=7";[m
+[31m-import { orderService } from '../../services/orderService.js';[m
+[32m+[m[32mimport { authService } from "/overgrace/frontend/js/services/authService.js?v=7";[m
+[32m+[m[32mimport { orderService } from "../../services/orderService.js";[m
+ [m
+ const BASE_IMG = "/overgrace/frontend/uploads/products/";[m
+ [m
+[31m-try {[m
+[31m-    const user = await authService.getUser();[m
+[32m+[m[32mconst ORDER_STATUS = {[m
+[32m+[m[32m  pending: {[m
+[32m+[m[32m    label: "Pendente",[m
+[32m+[m[32m    className: "pending",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  paid: {[m
+[32m+[m[32m    label: "Pagamento confirmado",[m
+[32m+[m[32m    className: "processing",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  approved: {[m
+[32m+[m[32m    label: "Pagamento aprovado",[m
+[32m+[m[32m    className: "processing",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  processing: {[m
+[32m+[m[32m    label: "Em preparação",[m
+[32m+[m[32m    className: "processing",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  in_process: {[m
+[32m+[m[32m    label: "Em preparação",[m
+[32m+[m[32m    className: "processing",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  shipped: {[m
+[32m+[m[32m    label: "Em trânsito",[m
+[32m+[m[32m    className: "shipped",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  in_transit: {[m
+[32m+[m[32m    label: "Em trânsito",[m
+[32m+[m[32m    className: "shipped",[m
+[32m+[m[32m    group: "active",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  delivered: {[m
+[32m+[m[32m    label: "Entregue",[m
+[32m+[m[32m    className: "delivered",[m
+[32m+[m[32m    group: "delivered",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  completed: {[m
+[32m+[m[32m    label: "Concluído",[m
+[32m+[m[32m    className: "delivered",[m
+[32m+[m[32m    group: "delivered",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  expired: {[m
+[32m+[m[32m    label: "Expirado",[m
+[32m+[m[32m    className: "expired",[m
+[32m+[m[32m    group: "expired",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  canceled: {[m
+[32m+[m[32m    label: "Cancelado",[m
+[32m+[m[32m    className: "cancelled",[m
+[32m+[m[32m    group: "canceled",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  cancelled: {[m
+[32m+[m[32m    label: "Cancelado",[m
+[32m+[m[32m    className: "cancelled",[m
+[32m+[m[32m    group: "canceled",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  refunded: {[m
+[32m+[m[32m    label: "Estornado",[m
+[32m+[m[32m    className: "cancelled",[m
+[32m+[m[32m    group: "canceled",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  failed: {[m
+[32m+[m[32m    label: "Falhou",[m
+[32m+[m[32m    className: "cancelled",[m
+[32m+[m[32m    group: "canceled",[m
+[32m+[m[32m  },[m
+[32m+[m
+[32m+[m[32m  rejected: {[m
+[32m+[m[32m    label: "Recusado",[m
+[32m+[m[32m    className: "cancelled",[m
+[32m+[m[32m    group: "canceled",[m
+[32m+[m[32m  },[m
+[32m+[m[32m};[m
+[32m+[m
+[32m+[m[32mfunction normalizeOrderStatus(status) {[m
+[32m+[m[32m  return String(status || "")[m
+[32m+[m[32m    .trim()[m
+[32m+[m[32m    .toLowerCase();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mfunction getOrderStatus(status) {[m
+[32m+[m[32m  const normalizedStatus = normalizeOrderStatus(status);[m
+ [m
+[31m-    if (user.role !== "client") {[m
+[31m-        window.location.href = "/overgrace/login";[m
+[32m+[m[32m  return ([m
+[32m+[m[32m    ORDER_STATUS[normalizedStatus] || {[m
+[32m+[m[32m      label: status || "Não informado",[m
+[32m+[m[32m      className: "pending",[m
+[32m+[m[32m      group: "active",[m
+     }[m
+[32m+[m[32m  );[m
+[32m+[m[32m}[m
+ [m
+[31m-    const fullName = user.name || user.email;[m
+[31m-    const nameParts = fullName.split(" ");[m
+[31m-[m
+[31m-    document.querySelector(".avatar-circle").textContent = initials(fullName);[m
+[31m-    document.querySelector(".sidebar-name").textContent = fullName;[m
+[31m-    document.querySelector(".sidebar-email").textContent = user.email;[m
+[31m-    document.getElementById("headerAccountName").textContent = `Ola, ${fullName.split(" ")[0]}`;[m
+[31m-    document.getElementById("inp-nome").value = nameParts[0] || "";[m
+[31m-    document.getElementById("inp-sobrenome").value = nameParts.slice(1).join(" ");[m
+[31m-    document.getElementById("inp-email").value = user.email;[m
+[31m-    document.getElementById("inp-cpf").value = formatCpf(user.cpf);[m
+[31m-    document.getElementById("inp-tel").value = formatPhone(user.telefone);[m
+[31m-[m
+[31m-    const orders = await orderService.listarPedidosCliente({[m
+[31m-        client_id: user.id[m
+[31m-    });[m
+[32m+[m[32mtry {[m
+[32m+[m[32m  const user = await authService.getUser();[m
+[32m+[m
+[32m+[m[32m  if (user.role !== "client") {[m
+[32m+[m[32m    window.location.href = "/overgrace/login";[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  const userName = String(user.nome || user.name || "").trim();[m
+[32m+[m
+[32m+[m[32m  const displayName = userName || "Cliente";[m
+[32m+[m[32m  const email = String(user.email || "").trim();[m
+[32m+[m
+[32m+[m[32m  const nameParts = displayName.split(/\s+/).filter(Boolean);[m
+[32m+[m
+[32m+[m[32m  const firstName = nameParts[0] || "Cliente";[m
+[32m+[m[32m  const lastName = nameParts.slice(1).join(" ");[m
+[32m+[m
+[32m+[m[32m  // Identificação visual[m
+[32m+[m[32m  document.querySelector(".avatar-circle").textContent = initials(displayName);[m
+[32m+[m
+[32m+[m[32m  document.querySelector(".sidebar-name").textContent = displayName;[m
+[32m+[m
+[32m+[m[32m  document.querySelector(".sidebar-email").textContent = email;[m
+[32m+[m
+[32m+[m[32m  document.getElementById("headerAccountName").textContent =[m
+[32m+[m[32m    `Olá, ${firstName}`;[m
+[32m+[m
+[32m+[m[32m  // Campos do perfil[m
+[32m+[m[32m  document.getElementById("inp-nome").value =[m
+[32m+[m[32m    firstName === "Cliente" ? "" : firstName;[m
+[32m+[m
+[32m+[m[32m  document.getElementById("inp-sobrenome").value = lastName;[m
+[32m+[m
+[32m+[m[32m  document.getElementById("inp-email").value = email;[m
+[32m+[m
+[32m+[m[32m  document.getElementById("inp-cpf").value = formatCpf(user.cpf);[m
+ [m
+[31m-    console.log("chegou aqui")[m
+[32m+[m[32m  document.getElementById("inp-tel").value = formatPhone(user.telefone);[m
+ [m
+[32m+[m[32m  const orders = await orderService.listarPedidosCliente({[m
+[32m+[m[32m    client_id: user.id,[m
+[32m+[m[32m  });[m
+ [m
+[31m-    const summary = document.getElementById("summary-cards");[m
+[31m-    summary.querySelector(".pedidos_realizados").innerHTML = orders.pagination.total;[m
+[31m-    summary.querySelector(".em_transito").innerHTML = orders.pagination.total;[m
+[32m+[m[32m  const orderList = Array.isArray(orders?.data) ? orders.data : [];[m
+ [m
+[31m-    const totalSubtotal = orders.data.reduce((total, order) => {[m
+[31m-        return total + Number(order.subtotal);[m
+[32m+[m[32m  const summary = document.getElementById("summary-cards");[m
+[32m+[m
+[32m+[m[32m  const totalOrders = Number(orders?.pagination?.total ?? orderList.length);[m
+[32m+[m
+[32m+[m[32m  const ordersInTransit = orderList.filter((order) => {[m
+[32m+[m[32m    const status = normalizeOrderStatus(order.status);[m
+[32m+[m
+[32m+[m[32m    return ["shipped", "in_transit"].includes(s

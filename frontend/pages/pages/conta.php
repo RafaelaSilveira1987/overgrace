@@ -12,15 +12,15 @@
         rel="stylesheet" />
 
     <link rel="stylesheet" href="/overgrace/frontend/pages/style.css?v=22" />
-    <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/conta.css?v=4">
+    <link rel="stylesheet" href="/overgrace/frontend/pages/pages/pages-css/conta.css?v=5">
 
 
-  <link rel="stylesheet" href="/overgrace/frontend/css/backend-pix-compat.css">
+    <link rel="stylesheet" href="/overgrace/frontend/css/backend-pix-compat.css">
 </head>
 
 <body>
     <div class="topbar">
-        Frete grátis acima de R$ 299 ◆ Parcele em até 6x
+        Parcele suas compras em até 6x
     </div>
 
     <header class="site-header">
@@ -93,7 +93,7 @@
             <nav class="sidebar-nav">
                 <button class="snav-item active" onclick="switchPanel('pedidos', this)">
                     <span class="snav-icon" aria-hidden="true">▦</span> Meus pedidos
-                    <span class="snav-badge" id="sidebarOrdersCount" hidden>0</span>
+                    <span class="snav-badge" id="sidebarOrdersCount" hidden></span>
                 </button>
                 <button class="snav-item" onclick="switchPanel('perfil', this)">
                     <span class="snav-icon" aria-hidden="true">○</span> Meu perfil
@@ -610,9 +610,11 @@
             <div class="address-modal" id="addressModal" hidden>
                 <div class="address-modal-backdrop" data-close-address-modal></div>
                 <section class="address-modal-card" role="dialog" aria-modal="true" aria-labelledby="addressModalTitle">
-                    <button type="button" class="address-modal-close" data-close-address-modal aria-label="Fechar">×</button>
+                    <button type="button" class="address-modal-close" data-close-address-modal
+                        aria-label="Fechar">×</button>
                     <h2 id="addressModalTitle">Adicionar endereço</h2>
-                    <p class="address-modal-sub">Os campos marcados são obrigatórios para gerar boleto e calcular a entrega.</p>
+                    <p class="address-modal-sub">Os campos marcados são obrigatórios para gerar boleto e calcular a
+                        entrega.</p>
 
                     <form id="addressForm">
                         <input type="hidden" id="addressId" />
@@ -832,11 +834,11 @@
                 <a href="#" target="_blank">Whatsapp</a>
             </div>
         </div>
- 
+
     </footer>
 
     <script src="frontend/js/modules/account/utils.js"></script>
-    <script type="module" src="frontend/js/modules/account/listDataAccount.js?v=7"></script>
+    <script type="module" src="frontend/js/modules/account/listDataAccount.js?v=8"></script>
 
 </body>
 
