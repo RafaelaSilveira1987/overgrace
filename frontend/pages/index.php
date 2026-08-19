@@ -11,12 +11,12 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="frontend/pages/style.css?v=22" />
+    <link rel="stylesheet" href="frontend/pages/style.css?v=23" />
 </head>
 
 <body>
     <!-- Topbar   -->
-    <div class="topbar">Frete grátis acima de R$ 299 - Parcele em até 6x</div>
+    <div class="topbar">Parcele suas compras em até 6x</div>
 
     <!-- Header -->
     <header>
@@ -260,9 +260,9 @@
 
     </footer>
     <script>
-        window.APP_BASE_PATH = <?= json_encode($appBasePath ?? '', JSON_UNESCAPED_SLASHES) ?>;
+    window.APP_BASE_PATH = <?= json_encode($appBasePath ?? '', JSON_UNESCAPED_SLASHES) ?>;
     </script>
-    <script type="module" src="frontend/js/modules/product/homeFeatured.js?v=2"></script>
+    <script type="module" src="frontend/js/modules/product/homeFeatured.js?v=3"></script>
     <script type="module" src="frontend/js/modules/cart/qtyCart.js?v=2"></script>
     <script type="module" src="frontend/js/modules/auth/sessionHeader.js?v=2"></script>
     <script type="module" src="frontend/js/modules/layouts/mobileMenu.js"></script>

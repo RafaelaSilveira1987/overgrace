@@ -5,7 +5,7 @@ let styleInjected = false;
 function injectStyles() {
   if (styleInjected) return;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.innerHTML = `
     .ac-toast-area {
         position: fixed;
@@ -142,6 +142,40 @@ function injectStyles() {
     .ac-toast.ac-info .ac-toast-progress-bar {
         background: #17a2b8;
     }
+
+        .ac-toast-product {
+        align-items: center;
+        min-width: 320px;
+    }
+
+    .ac-toast-product-image {
+        width: 54px;
+        height: 54px;
+        flex-shrink: 0;
+        object-fit: cover;
+        border-radius: 8px;
+        background: #f3ede4;
+        border: 1px solid rgba(33, 30, 26, 0.12);
+    }
+
+    .ac-toast-product {
+        align-items: center;
+        min-width: 320px;
+    }
+
+    .ac-toast-product .ac-toast-title {
+        color: #211e1a;
+        font-size: 13px;
+        letter-spacing: 0.03em;
+    }
+
+    .ac-toast-product .ac-toast-msg {
+        color: #6b6560;
+        max-width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
   `;
 
   document.head.appendChild(style);
@@ -151,11 +185,11 @@ function injectStyles() {
 function getToastArea() {
   injectStyles();
 
-  let area = document.querySelector('.ac-toast-area');
+  let area = document.querySelector(".ac-toast-area");
 
   if (!area) {
-    area = document.createElement('div');
-    area.className = 'ac-toast-area';
+    area = document.createElement("div");
+    area.className = "ac-toast-area";
     document.body.appendChild(area);
   }
 
@@ -166,32 +200,32 @@ function dismissToast(id) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  el.classList.remove('ac-show');
-  el.classList.add('ac-hide');
+  el.classList.remove("ac-show");
+  el.classList.add("ac-hide");
 
   setTimeout(() => el.remove(), 250);
 }
 
-function show(msg, type = 'info', duration = 4000) {
+function show(msg, type = "info", duration = 4000) {
   const area = getToastArea();
 
-  const id = 'toast-' + (++toastCount);
+  const id = "toast-" + ++toastCount;
 
   const icons = {
-    success: '✓',
-    error: '✕',
-    warning: '⚠',
-    info: 'ⓘ'
+    success: "✓",
+    error: "✕",
+    warning: "⚠",
+    info: "ⓘ",
   };
 
   const labelSub = {
-    success: 'Concluído com sucesso',
-    error: 'Erro ao executar ação',
-    warning: 'Atenção',
-    info: 'Informação'
+    success: "Concluído com sucesso",
+    error: "Erro ao executar ação",
+    warning: "Atenção",
+    info: "Informação",
   };
 
-  const el = document.createElement('div');
+  const el = document.createElement("div");
   el.className = `ac-toast ac-${type}`;
   el.id = id;
 
@@ -207,27 +241,118 @@ function show(msg, type = 'info', duration = 4000) {
     <button class="ac-toast-close">✕</button>
   `;
 
-  el.querySelector('.ac-toast-close').onclick = () => dismissToast(id);
+  el.querySelector(".ac-toast-close").onclick = () => dismissToast(id);
   el.onclick = () => dismissToast(id);
 
   area.appendChild(el);
 
   requestAnimationFrame(() => {
-    el.classList.add('ac-show');
+    el.classList.add("ac-show");
 
     const bar = document.getElementById(`bar-${id}`);
     if (bar) {
       bar.style.transition = `transform ${duration}ms linear`;
-      bar.style.transform = 'scaleX(0)';
+      bar.style.transform = "scaleX(0)";
     }
   });
 
   setTimeout(() => dismissToast(id), duration);
 }
 
+function showProductAdded(
+  { name = "Produto", image = "" } = {},
+  duration = 4500,
+) {
+  const area = getToastArea();
+  const id = "toast-" + ++toastCount;
+
+  const el = document.createElement("div");
+  el.className = "ac-toast ac-success ac-toast-product";
+  el.id = id;
+
+  el.innerHTML = `
+    ${
+      image
+        ? `<img class="ac-toast-product-image" alt="">`
+        : `<div class="ac-toast-icon">✓</div>`
+    }
+
+    <div class="ac-toast-content">
+      <div class="ac-toast-title">
+        Produto adicionado ao carrinho
+      </div>
+
+      <div class="ac-toast-msg ac-toast-product-name"></div>
+
+      <div class="ac-toast-progress">
+        <div
+          class="ac-toast-progress-bar"
+          id="bar-${id}">
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="ac-toast-close"
+      aria-label="Fechar">
+      ✕
+    </button>
+  `;
+
+  const productName = el.querySelector(".ac-toast-product-name");
+
+  if (productName) {
+    productName.textContent = String(name);
+  }
+
+  const productImage = el.querySelector(".ac-toast-product-image");
+
+  if (productImage) {
+    productImage.src = String(image);
+    productImage.alt = String(name);
+  }
+
+  const closeButton = el.querySelector(".ac-toast-close");
+
+  closeButton?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    dismissToast(id);
+  });
+
+  el.addEventListener("click", () => {
+    dismissToast(id);
+  });
+
+  area.appendChild(el);
+
+  requestAnimationFrame(() => {
+    el.classList.add("ac-show");
+
+    const bar = document.getElementById(`bar-${id}`);
+
+    if (bar) {
+      bar.style.transition = `transform ${duration}ms linear`;
+
+      bar.style.transform = "scaleX(0)";
+    }
+  });
+
+  window.setTimeout(() => {
+    dismissToast(id);
+  }, duration);
+
+  return el;
+}
+
 export const notify = {
-  success: (msg, duration) => show(msg, 'success', duration),
-  error: (msg, duration) => show(msg, 'error', duration),
-  warning: (msg, duration) => show(msg, 'warning', duration),
-  info: (msg, duration) => show(msg, 'info', duration),
+  success: (msg, duration) => show(msg, "success", duration),
+
+  error: (msg, duration) => show(msg, "error", duration),
+
+  warning: (msg, duration) => show(msg, "warning", duration),
+
+  info: (msg, duration) => show(msg, "info", duration),
+
+  productAdded: (product, duration) => showProductAdded(product, duration),
 };

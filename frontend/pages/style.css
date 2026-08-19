@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap");
-@import url("../css/store-design-system.css?v=2");
+@import url("../css/store-design-system.css?v=3");
 
 /* ============================================
    RESET
@@ -693,7 +693,10 @@ header {
   width: 100%;
   font-family: "Jost", sans-serif;
   font-weight: 400;
-  transition: background 0.25s ease, color 0.25s ease, opacity 0.25s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .product-quick-add:hover:not(:disabled) {
@@ -767,11 +770,11 @@ header {
 
 .sold-out-card .product-img {
   filter: grayscale(1);
-  opacity: .72;
+  opacity: 0.72;
 }
 
 .disabled-link {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /* ESGOTADO */
