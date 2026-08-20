@@ -439,9 +439,15 @@
                                 </div>
                             </div>
                             <div class="field">
+                                <label>Data de nascimento</label>
+                                <input type="text" value="12/03/1994" disabled id="inp-nasc" />
+                            </div>
+
+                            <div class="field">
                                 <label>E-mail</label>
                                 <input type="email" value="mariana@email.com.br" disabled id="inp-email" />
                             </div>
+
                             <div class="field-row">
                                 <div class="field">
                                     <label>CPF</label>
@@ -461,10 +467,6 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="field">
-                            <label>Data de nascimento</label>
-                            <input type="text" value="12/03/1994" disabled id="inp-nasc" />
-                        </div>
                     </div>
                 </div>
 
@@ -483,7 +485,7 @@
                             </div>
                             <div class="field">
                                 <label>Nova senha</label>
-                                <input type="password" placeholder="M�nimo 8 caracteres" disabled id="inp-senha-nova" />
+                                <input type="password" placeholder="Mínimo 8 caracteres" disabled id="inp-senha-nova" />
                             </div>
                             <div class="field">
                                 <label>Confirmar nova senha</label>
@@ -565,7 +567,7 @@
                     accent-color: var(--text);
                     cursor: pointer;
                   " />
-                                        Promo��es e ofertas especiais
+                                        Promoções e ofertas especiais
                                     </label>
                                     <label style="
                   display: flex;
@@ -581,7 +583,7 @@
                     accent-color: var(--text);
                     cursor: pointer;
                   " />
-                                        Atualiza��es sobre meus pedidos por WhatsApp
+                                        Atualizações sobre meus pedidos por WhatsApp
                                     </label>
                                 </div>
 
@@ -838,7 +840,7 @@
     </footer>
 
     <script src="frontend/js/modules/account/utils.js"></script>
-    <script type="module" src="frontend/js/modules/account/listDataAccount.js?v=8"></script>
+    <script type="module" src="frontend/js/modules/account/listDataAccount.js?v=12"></script>
 
 </body>
 

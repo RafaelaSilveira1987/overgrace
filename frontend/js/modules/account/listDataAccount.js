@@ -152,6 +152,14 @@ try {
 
   document.getElementById("inp-tel").value = formatPhone(user.telefone);
 
+  const birthInput = document.getElementById("inp-nasc");
+
+  if (birthInput) {
+    birthInput.value = normalizeDateForInput(
+      user.data_nascimento ?? user.dataNascimento ?? user.birth_date ?? "",
+    );
+  }
+
   const orders = await orderService.listarPedidosCliente({
     client_id: user.id,
   });
@@ -502,4 +510,40 @@ async function togglePix(orderId) {
         `;
 
   container.dataset.loaded = "true";
+}
+
+function normalizeDateForInput(value) {
+  if (!value) {
+    return "";
+  }
+
+  const rawValue = String(value).trim();
+
+  /*
+   * Formatos aceitos:
+   * 1994-03-12
+   * 1994-03-12 00:00:00
+   * 1994-03-12T00:00:00
+   */
+  const isoMatch = rawValue.match(
+    /^(\d{4})-(\d{2})-(\d{2})/
+  );
+
+  if (isoMatch) {
+    return `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}`;
+  }
+
+  /*
+   * Formato brasileiro:
+   * 12/03/1994
+   */
+  const brMatch = rawValue.match(
+    /^(\d{2})\/(\d{2})\/(\d{4})$/
+  );
+
+  if (brMatch) {
+    return `${brMatch[3]}-${brMatch[2]}-${brMatch[1]}`;
+  }
+
+  return "";
 }
